@@ -3,7 +3,10 @@
 
 # Features:
 
-- **Check smurfs, marked by the Ⓢ icon**
+- **Fixed the fatal change from the new patch**
+- **Added new civs**
+- **Tweaked balancing to account more for high winrate**
+- Check smurfs, marked by the Ⓢ icon
 - All information is available
 - Balance for 2, 3, or 4 teams
 - Override teams manually
