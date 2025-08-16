@@ -1,11 +1,8 @@
-![image](https://github.com/user-attachments/assets/7923c76e-e35d-4e9b-a8ed-c082c43cf6a4)
+<img width="1000" height="824" alt="image" src="https://github.com/user-attachments/assets/497b6f18-a386-418f-af1e-51ae4c297692" />
 
-
-# Features:
+### Features:
 
 - **Fixed the fatal change from the new patch**
-- **Added new civs**
-- **Tweaked balancing to account more for high winrate**
 - Check smurfs, marked by the Ⓢ icon
 - All information is available
 - Balance for 2, 3, or 4 teams
@@ -16,12 +13,12 @@
 - Join selected lobby in-game by clicking on it (works on Linux if supported by your configuration)
 - Instantly load a specific lobby by ID or player's name
 - Make names shorter
-- Fixed various flaws
+- Fixed various flaws and improved UI
 
-# Bugs:
+### Bugs:
 - Spectating is broken and therefore disabled
+- Potentially some crashes on Windows
 - Let me know if you encounter any crashes or bugs
-
 # TODO:
 - find bugs
 - add more features, completely fix spectating
