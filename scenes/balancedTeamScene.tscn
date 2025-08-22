@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bgwfed2up6fpo"]
+
+[node name="team" type="RichTextLabel"]
+size_flags_horizontal = 3
+theme_override_colors/default_color = Color(0, 0, 0, 0.705882)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_outline_size = 0
+theme_override_font_sizes/bold_font_size = 20
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+tab_size = 2
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false

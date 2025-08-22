@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://j73m5xlsseka"]
+
+[node name="P1_team" type="SpinBox"]
+max_value = 4.0

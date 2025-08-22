@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk7m3ij07isp3"]
+
+[ext_resource type="Texture2D" uid="uid://duyfvpvqcadha" path="res://img/icons8-search-64.png" id="1_7a1rt"]
+
+[sub_resource type="GDScript" id="GDScript_26hhf"]
+script/source = "extends Button
+"
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(64, 64)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+shortcut_feedback = false
+shortcut_in_tooltip = false
+text = "Find"
+icon = ExtResource("1_7a1rt")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+script = SubResource("GDScript_26hhf")

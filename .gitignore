@@ -1,0 +1,10 @@
+.godot/
+godot/
+.vscode/
+
+export_presets.cfg
+names.txt
+Scripts/test.gd
+Scripts/test.gd.uid
+scenes/test.gd.uid
+scenes/test.tscn

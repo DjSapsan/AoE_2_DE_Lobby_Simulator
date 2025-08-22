@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://51yh5cfuqhes"]
+
+[ext_resource type="FontFile" uid="uid://cdav63nqbesn2" path="res://fonts/Bion-Book.otf" id="1_e3aoj"]
+[ext_resource type="Texture2D" uid="uid://d2qavhcl5rx0c" path="res://img/brown-papyrus-paper.jpg" id="2_24n3k"]
+[ext_resource type="Script" uid="uid://bhm1wovfks5gc" path="res://Scripts/about.gd" id="2_g3a8s"]
+
+[sub_resource type="Theme" id="Theme_tos2f"]
+default_font = ExtResource("1_e3aoj")
+default_font_size = 24
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v0oq0"]
+texture = ExtResource("2_24n3k")
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -352.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_tos2f")
+script = ExtResource("2_g3a8s")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_v0oq0")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="version" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.49
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+text = "Version = %s
+
+Autor: DjSapsan
+
+Check new versions and [color=\"#1100F0\"] [url=https://github.com/DjSapsan/AoE-2-DE-Lobby-Simulator/releases]DOWNLOAD here[/url] [/color]"
+threaded = true
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "images sources:
+<a href=\"https://www.freepik.com/photos/brown-wallpaper\">Brown wallpaper photo created by rawpixel.com - www.freepik.com</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/mZGwqmXDKtH4/save\">Save</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/WES9yWocEh5g/search\">Search</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/8SmAkeI4DrPI/balance\">Balance</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/11538/reply-arrow\">Back Arrow</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/87979/down-button\">dropdown</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/U5n0qpPE377X/vision\">eye</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/NkOknz3NQAEr/an-encyclopedia-web-page-search-online-with-a-brief-details\">An encyclopedia web page search online with a brief details</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/52136/restart\">Update</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>
+<a href=\"https://www.flaticon.com/free-animated-icons/vision\" title=\"vision animated icons\">Vision animated icons created by Freepik - Flaticon</a>
+<a target=\"_blank\" href=\"https://icons8.com/icon/11220/people\">People</a> icon by <a target=\"_blank\" href=\"https://icons8.com\">Icons8</a>"
+threaded = true
+selection_enabled = true
+
+[connection signal="meta_clicked" from="Panel/MarginContainer/VBoxContainer/version" to="." method="_on_rich_text_label_meta_clicked"]

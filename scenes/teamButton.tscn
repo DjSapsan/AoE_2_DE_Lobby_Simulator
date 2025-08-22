@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddq52w1cykulq"]
+
+[ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="1_6sk8h"]
+[ext_resource type="Script" uid="uid://cd3u43k53e3c2" path="res://Scripts/teamButton.gd" id="2_b8bx5"]
+[ext_resource type="LabelSettings" uid="uid://chq866uvw2nc" path="res://styles/RegularLabelsStyle.tres" id="3_pav5o"]
+
+[node name="P_team" type="TextureButton"]
+keep_pressed_outside = true
+texture_normal = ExtResource("1_6sk8h")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_b8bx5")
+
+[node name="P_label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = ExtResource("3_pav5o")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+action_mode = 0
+button_mask = 3
+shortcut_feedback = false
+shortcut_in_tooltip = false
+flat = true
+
+[connection signal="gui_input" from="Button" to="." method="onClick"]

@@ -1,0 +1,72 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Lobby Simulator"
+config/description="See all opened lobbies from the AoE2 DE game.
+Connect to a lobby you want.
+Balance players in team games."
+config/version="1.97"
+run/main_scene="res://scenes/lobbySimulatorGUI.tscn"
+config/use_hidden_project_data_directory=false
+config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0.31, 0.08432, 0.0682, 1)
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/image="res://img/aoe.png"
+config/icon="uid://du1axs6mhpp46"
+config/windows_native_icon="res://img/aoe.ico"
+
+[autoload]
+
+Global="*res://Scripts/Global.gd"
+Storage="*res://Scripts/Storage.gd"
+Tables="*res://Scripts/Tables.gd"
+
+[display]
+
+window/size/viewport_width=1000
+window/size/viewport_height=800
+window/size/initial_position_type=4
+window/size/extend_to_title=true
+window/energy_saving/keep_screen_on=false
+window/subwindows/embed_subwindows=false
+window/per_pixel_transparency/allowed=true
+window/vsync/vsync_mode=0
+
+[input]
+
+ui_focus_next={
+"deadzone": 0.5,
+"events": []
+}
+ui_focus_prev={
+"deadzone": 0.5,
+"events": []
+}
+ui_text_indent={
+"deadzone": 0.5,
+"events": []
+}
+ui_text_dedent={
+"deadzone": 0.5,
+"events": []
+}
+StartSearch={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":102,"location":0,"echo":false,"script":null)
+]
+}
+switchTab={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}

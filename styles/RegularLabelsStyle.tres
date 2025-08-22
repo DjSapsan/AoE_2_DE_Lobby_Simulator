@@ -1,0 +1,18 @@
+[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://chq866uvw2nc"]
+
+[sub_resource type="SystemFont" id="SystemFont_mxrr4"]
+font_names = PackedStringArray("Noto Color Emoji")
+hinting = 0
+subpixel_positioning = 3
+oversampling = 4.0
+
+[sub_resource type="SystemFont" id="SystemFont_634oc"]
+fallbacks = Array[Font]([SubResource("SystemFont_mxrr4")])
+font_names = PackedStringArray("Noto Sans")
+hinting = 0
+subpixel_positioning = 3
+oversampling = 4.0
+
+[resource]
+font = SubResource("SystemFont_634oc")
+font_color = Color(0, 0, 0, 1)

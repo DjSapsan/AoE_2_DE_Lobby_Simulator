@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp4bfd7rxm30v"]
+
+[ext_resource type="LabelSettings" uid="uid://chq866uvw2nc" path="res://styles/RegularLabelsStyle.tres" id="1_w6xwl"]
+
+[node name="P1_name" type="Label"]
+text = "player1"
+label_settings = ExtResource("1_w6xwl")

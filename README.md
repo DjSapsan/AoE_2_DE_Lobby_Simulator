@@ -25,6 +25,6 @@
 - test and fully implement all popular platform, including mobile
 - translations
 - improve performance in some cases
-  
+
 # Download:
 - [Releases page](https://github.com/DjSapsan/AoE-2-DE-Lobby-Simulator/releases/latest)

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://dml1mycatvgxa"]
+
+[ext_resource type="Script" uid="uid://7ubbnmh6ct14" path="res://Scripts/specOrLobby.gd" id="1_4hkq5"]
+[ext_resource type="Texture2D" uid="uid://dslgyi4ye4emx" path="res://img/icons8-an-encyclopedia-web-page-search-online-with-a-brief-details-96.png" id="2_bom5s"]
+
+[node name="LobbyOrSpec" type="Button"]
+custom_minimum_size = Vector2(100, 90)
+script = ExtResource("1_4hkq5")
+
+[node name="columns" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_constants/separation = -2
+
+[node name="TextureRect" type="TextureRect" parent="columns"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+texture = ExtResource("2_bom5s")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="columns"]
+layout_mode = 2
+text = "Lobbies"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="." to="." method="_on_switch"]

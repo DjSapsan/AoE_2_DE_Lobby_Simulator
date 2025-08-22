@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfgfq82f8i221"]
+
+[ext_resource type="LabelSettings" uid="uid://cmpuu743x3c6d" path="res://styles/BigLabelStyle.tres" id="1_al4r7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1card"]
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 0)
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 0.25098)
+anti_aliasing = false
+
+[node name="Label_Lobby" type="Label"]
+custom_minimum_size = Vector2(50, 50)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_1card")
+text = "> Lobby title <"
+label_settings = ExtResource("1_al4r7")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[connection signal="gui_input" from="Button" to="." method="_on_button_pressed"]
+[connection signal="mouse_entered" from="Button" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Button" to="." method="_on_mouse_exited"]

@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxLine" format=3 uid="uid://dpi0yi5q1o4sn"]
+
+[resource]
+content_margin_left = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+color = Color(0, 0, 0, 0.12549)
+grow_begin = 4.0
+grow_end = 0.0
+thickness = 2
+vertical = true

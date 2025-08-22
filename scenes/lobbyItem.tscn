@@ -1,0 +1,98 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbuordoxb7v4l"]
+
+[ext_resource type="Script" uid="uid://bjf6wr75fgvc" path="res://Scripts/lobbyItem.gd" id="1_yjoqd"]
+[ext_resource type="FontFile" uid="uid://cdav63nqbesn2" path="res://fonts/Bion-Book.otf" id="2_g8da7"]
+[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_u7gdh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6lat"]
+content_margin_left = 2.0
+content_margin_top = 4.0
+content_margin_right = 0.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 0.25098)
+border_width_top = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.196078)
+anti_aliasing = false
+
+[node name="LobbyItem" type="PanelContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_n6lat")
+script = ExtResource("1_yjoqd")
+
+[node name="lobbyColumns" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="lobbyTitle" type="Label" parent="lobbyColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_colors/font_color = Color(0.954536, 0.909928, 0.854615, 1)
+theme_override_colors/font_outline_color = Color(0.180392, 0.00392157, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_u7gdh")
+text = "🌟title"
+vertical_alignment = 1
+clip_text = true
+text_overrun_behavior = 3
+max_lines_visible = 1
+
+[node name="lobbyPlayers" type="Label" parent="lobbyColumns"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+theme_override_colors/font_shadow_color = Color(0.180392, 0.00392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0.917647, 0.839216, 0.741176, 1)
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_g8da7")
+text = "0/0"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="lobbyMap" type="Label" parent="lobbyColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0.180392, 0.00392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0.917647, 0.839216, 0.741176, 1)
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_g8da7")
+text = "map"
+vertical_alignment = 1
+clip_text = true
+
+[node name="lobbyServer" type="Label" parent="lobbyColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_shadow_color = Color(0.180392, 0.00392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0.917647, 0.839216, 0.741176, 1)
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_g8da7")
+text = "server"
+vertical_alignment = 1
+clip_text = true
+
+[node name="lobbyPassword" type="Label" parent="lobbyColumns"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+theme_override_colors/font_shadow_color = Color(0.180392, 0.00392157, 0, 1)
+theme_override_colors/font_outline_color = Color(0.917647, 0.380392, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_g8da7")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="LobbyButton" type="Button" parent="."]
+layout_mode = 2
+flat = true
+
+[connection signal="gui_input" from="LobbyButton" to="." method="_on_pressed"]
+[connection signal="mouse_entered" from="LobbyButton" to="." method="_on_lobby_button_mouse_entered"]
+[connection signal="mouse_exited" from="LobbyButton" to="." method="_on_lobby_button_mouse_exited"]
