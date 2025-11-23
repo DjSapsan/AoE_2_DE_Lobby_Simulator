@@ -8,7 +8,7 @@ var associatedPlayer : CorePlayerClass
 
 @onready var colorSquare = $pColor
 @onready var eloField = $pElo
-@onready var smurfLabel = $pSmurf
+#@onready var smurfLabel = $pSmurf
 @onready var wrateLabel = $pWrate
 @onready var teamSquare = $pTeam
 @onready var flagIcon = $pFlag
@@ -40,7 +40,7 @@ func getFlag():
 		#flag += char(offset)
 	#return flag
 
-func changePlayer(player = null):
+func changePlayer(player:CorePlayerClass = null):
 	associatedPlayer = player
 	nameLabel.associatedPlayer = player
 	showName()
@@ -54,8 +54,8 @@ func changePlayer(player = null):
 		nameLabel.visible = false
 		emptyLabel.visible = true
 		p_civ.visible = false
-		smurfLabel.visible = false
-		smurfLabel.tooltip_text = ""
+		#smurfLabel.visible = false
+		#smurfLabel.tooltip_text = ""
 		nameLabel.associatedPlayer = null
 		change_color(0)
 		set_team(0)
@@ -78,7 +78,7 @@ func changePlayer(player = null):
 	flagIcon.texture = load("res://fonts/png/" + associatedPlayer.flag + ".png")
 	flagIcon.tooltip_text = getFlag()
 	showElo()
-	showSmurf()
+	#showSmurf()
 
 func change_color(index: int):
 	if Global.ColorIndex.has(index):
@@ -149,38 +149,38 @@ func showElo(LB_ID= null):
 	get_child(2).text = wr + "%"
 
 # outputs true if smurf is relatively better than the main ac
-func compareSmurf(s):
-	if s.id == associatedPlayer.id:
-		return false
-	var e:int = 0
-	if (s.stat).has(3) and (associatedPlayer.stat).has(3):
-		e = s.stat[3].rating + s.stat[3].rating * ( (associatedPlayer.stat[3].wr / s.stat[3].wr) -1 )*0.1
-		if e > associatedPlayer.stat[3].rating:
-			return true
-	if (s.stat).has(4) and (associatedPlayer.stat).has(4):
-		e = s.stat[4].rating + s.stat[4].rating * ( (associatedPlayer.stat[4].wr / s.stat[4].wr) -1 )*0.1
-		if e > associatedPlayer.stat[4].rating:
-			return true
-	return false
-
-func showSmurf():
-	if associatedPlayer and associatedPlayer.hasSmurfs():
-		var smurfs = associatedPlayer.smurfs
-		var result = ""
-
-		for s in smurfs:
-			if not associatedPlayer.significantSmurfs:
-				associatedPlayer.significantSmurfs = compareSmurf(s)
-			result += s.getShortStat() + "\n"
-
-		if associatedPlayer.significantSmurfs:
-			var txt:String = result.strip_edges()
-			smurfLabel.tooltip_text = txt
-			smurfLabel.visible = true
-	else:
-		smurfLabel.visible = false
-		smurfLabel.tooltip_text = ""
-
+#func compareSmurf(s):
+	#if s.id == associatedPlayer.id:
+		#return false
+	#var e:int = 0
+	#if (s.stat).has(3) and (associatedPlayer.stat).has(3):
+		#e = s.stat[3].rating + s.stat[3].rating * ( (associatedPlayer.stat[3].wr / s.stat[3].wr) -1 )*0.1
+		#if e > associatedPlayer.stat[3].rating:
+			#return true
+	#if (s.stat).has(4) and (associatedPlayer.stat).has(4):
+		#e = s.stat[4].rating + s.stat[4].rating * ( (associatedPlayer.stat[4].wr / s.stat[4].wr) -1 )*0.1
+		#if e > associatedPlayer.stat[4].rating:
+			#return true
+	#return false
+#
+#func showSmurf():
+	#if associatedPlayer and associatedPlayer.hasSmurfs():
+		#var smurfs = associatedPlayer.smurfs
+		#var result = ""
+#
+		#for s in smurfs:
+			#if not associatedPlayer.significantSmurfs:
+				#associatedPlayer.significantSmurfs = compareSmurf(s)
+			#result += s.getShortStat() + "\n"
+#
+		#if associatedPlayer.significantSmurfs:
+			#var txt:String = result.strip_edges()
+			#smurfLabel.tooltip_text = txt
+			#smurfLabel.visible = true
+	#else:
+		#smurfLabel.visible = false
+		#smurfLabel.tooltip_text = ""
+#
 
 func showName():
 	if associatedPlayer:

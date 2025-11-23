@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=3 uid="uid://ck4l5osj668m1"]
+[gd_scene load_steps=107 format=3 uid="uid://ck4l5osj668m1"]
 
 [ext_resource type="Script" uid="uid://d1oe36pa2p3lw" path="res://Scripts/main.gd" id="1_fefih"]
 [ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_7cxyb"]
@@ -339,11 +339,6 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lujj2"]
 
-[sub_resource type="SVGTexture" id="SVGTexture_fuqlw"]
-_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\"><path fill=\"none\" stroke=\"#b2b2b2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-opacity=\".85\" stroke-width=\"2\" d=\"m2 4 4 4 4-4\"/></svg>
-"
-base_scale = 1.75
-
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_3q2x2"]
 color = Color(0, 0, 0, 0.25098)
 thickness = 4
@@ -392,6 +387,7 @@ borderless = false
 max_size = Vector2i(1000, 1000)
 
 [node name="AboutPanel" parent="PopupPanel" instance=ExtResource("15_cqt5a")]
+anchors_preset = 15
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 796.0
@@ -491,7 +487,7 @@ wait_time = 10.0
 
 [node name="FindButton" type="Button" parent="MainContainer/Sections/TopElements"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(70, 64)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -632,11 +628,10 @@ theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_selected = ExtResource("14_ro1px")
 theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_focus = ExtResource("14_ro1px")
-current_tab = 1
+current_tab = 0
 script = ExtResource("16_84o23")
 
 [node name="Browse" type="PanelContainer" parent="MainContainer/Sections/TabsNode"]
-visible = false
 layout_mode = 2
 focus_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_voi6i")
@@ -733,6 +728,7 @@ focus_behavior_recursive = 1
 
 [node name="Lobby" type="PanelContainer" parent="MainContainer/Sections/TabsNode"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_voi6i")
 script = ExtResource("76_4eymg")
@@ -843,7 +839,6 @@ theme_override_styles/hover_mirrored = ExtResource("25_oetf7")
 theme_override_styles/disabled = ExtResource("25_oetf7")
 theme_override_styles/disabled_mirrored = ExtResource("25_oetf7")
 theme_override_styles/focus = ExtResource("25_oetf7")
-theme_override_icons/arrow = SubResource("SVGTexture_fuqlw")
 selected = 0
 fit_to_longest_item = false
 allow_reselect = true
@@ -870,6 +865,7 @@ label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
 [node name="L_Smurfs" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+visible = false
 custom_minimum_size = Vector2(120, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -884,6 +880,7 @@ vertical_alignment = 1
 
 [node name="B_Smurfs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1089,10 +1086,10 @@ script = ExtResource("24_lgocj")
 [node name="lobbyTips" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 446.0
-offset_top = 112.0
-offset_right = 990.0
-offset_bottom = 147.0
+offset_left = 166.0
+offset_top = 117.0
+offset_right = 710.0
+offset_bottom = 152.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 size_flags_stretch_ratio = 0.01

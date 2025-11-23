@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Lobby Simulator"
-config/description="See all opened lobbies from the AoE2 DE game.
+config/description="See all open lobbies from the AoE2 DE game.
 Connect to a lobby you want.
 Balance players in team games."
-config/version="1.97"
+config/version="1.98"
 run/main_scene="res://scenes/lobbySimulatorGUI.tscn"
 config/use_hidden_project_data_directory=false
 config/features=PackedStringArray("4.5", "GL Compatibility")
+run/low_processor_mode=true
 boot_splash/bg_color=Color(0.31, 0.08432, 0.0682, 1)
 boot_splash/fullsize=false
 boot_splash/use_filter=false
@@ -30,6 +31,10 @@ config/windows_native_icon="res://img/aoe.ico"
 Global="*res://Scripts/Global.gd"
 Storage="*res://Scripts/Storage.gd"
 Tables="*res://Scripts/Tables.gd"
+
+[debug]
+
+file_logging/enable_file_logging.pc=false
 
 [display]
 

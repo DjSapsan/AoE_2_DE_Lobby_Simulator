@@ -8,6 +8,7 @@ const lobbyItem: PackedScene = preload("res://scenes/lobbyItem.tscn")
 
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
+@onready var tabsNode = %TabsNode
 
 func clearLobbiesList():
 	for l in lobbiesListNode.get_children():
@@ -37,7 +38,7 @@ func setupLobbyItem(lItem, lobby):
 	obj.get_child(2).text = lobby.map
 	obj.get_child(3).text = lobby.server
 	obj.get_child(4).text = "X" if lobby.password else ""
-
+	
 func clearSpecList():
 	for l in specListNode.get_children():
 		l.queue_free()
@@ -69,6 +70,8 @@ func setupSpecItem(lItem, spec):
 	#obj.get_child(4).text = "X" if spec.password else ""
 
 func applyFilter(_null=null):
+	if tabsNode.current_tab == 1:
+		return
 	var text = searchField.text
 	var case_type: String = finder.find_cases(text)
 	var toHide = browseHeaders.hidePasswords

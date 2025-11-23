@@ -35,9 +35,9 @@ func signalRefreshAllElo(index):
 		playerSlots[i].showElo(LB_ID)
 	balancer.startBalancing()
 
-func refreshAllSmurfs():
-	for i in range(8):
-		playerSlots[i].showSmurf()
+#func refreshAllSmurfs():
+	#for i in range(8):
+		#playerSlots[i].showSmurf()
 
 func refreshAllNames():
 	for i in range(8):

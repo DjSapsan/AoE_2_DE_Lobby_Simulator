@@ -14,7 +14,6 @@ var total_players
 var min_diff
 var num_teams = 2
 
-var manual = false
 static var teamsRegex:RegEx
 
 var cant = false
@@ -29,7 +28,6 @@ func startBalancing():
 		return
 	disabled = true
 	rebalance_button.visible = false
-	manual = false
 	var playerNodes = lobbyPlayersList.get_children().filter(func(slot): return slot.associatedPlayer != null)
 	current_teams = balance_teams(playerNodes)
 	refresh_team_display()
@@ -62,7 +60,6 @@ func refresh_team_display():
 	disabled = false
 
 func manual_refresh_teams():
-	manual = true
 	rebalance_button.visible = true
 	var playerNodes = lobbyPlayersList.get_children().filter(func(slot): return slot.associatedPlayer != null)
 	current_teams.clear()
@@ -88,76 +85,81 @@ func _apply_current_teams_and_set_players(teams: Dictionary) -> void:
 		for player in current_teams[team_key]:
 			player.set_team(team_key + 1)
 
-# ---------- existing unconstrained search (type 2) ----------
-func find_teams(players: Array, teams: Dictionary, index := 0) -> void:
-	if index == total_players:
-		var team_ratings := {}
-		for team_key in teams.keys():
-			var team_rating := 0.0
-			for player in teams[team_key]:
-				team_rating += _player_elo(player)
-			team_ratings[team_key] = team_rating
-		var diff = abs(team_ratings.values().max() - team_ratings.values().min())
+# Fills out_caps with per-team capacities. Returns true on success.
+# If enforce_equal is requested and players aren't divisible, sets 'cant' and returns false.
+func _compute_capacities(n: int, t: int, enforce_equal: bool, out_caps: Array) -> bool:
+	out_caps.clear()
+	var base := int(floor(float(n) / float(t)))
+	var extra := n % t
+	if enforce_equal and extra != 0:
+		cant = true
+		return false
+	for i in range(t):
+		out_caps.append(base + (0 if enforce_equal else (1 if i < extra else 0)))
+	return true
+
+# Backtracking helper for best Elo balance
+func _backtrack(players: Array, enforce_equal: bool, capacities: Array, teams: Array, sums: Array, counts: Array, idx: int) -> void:
+	if idx == total_players:
+		var max_sum := -INF
+		var min_sum := INF
+		for s in sums:
+			if s > max_sum: max_sum = s
+			if s < min_sum: min_sum = s
+		var diff: float = abs(max_sum - min_sum)
 		if diff < min_diff:
 			min_diff = diff
 			var best := {}
-			for key in teams.keys():
-				best[key] = teams[key].duplicate(true)
+			for k in range(num_teams):
+				best[k] = teams[k].duplicate(true)
 			_apply_current_teams_and_set_players(best)
 		return
 
-	for i in teams.keys():
-		var new_teams := {}
-		for key in teams.keys():
-			new_teams[key] = teams[key].duplicate(true)
-		if players[index] not in new_teams[i]:
-			new_teams[i].push_back(players[index])
-		find_teams(players, new_teams, index + 1)
-
-# ---------- equal-sized fair search (type 0) ----------
-func find_teams_equal(players: Array, teams: Dictionary, counts: Dictionary, target_size: int, index := 0) -> void:
-	if index == total_players:
-		# all teams at target_size by construction
-		var team_ratings := {}
-		for team_key in teams.keys():
-			var team_rating := 0.0
-			for player in teams[team_key]:
-				team_rating += _player_elo(player)
-			team_ratings[team_key] = team_rating
-		var diff = abs(team_ratings.values().max() - team_ratings.values().min())
-		if diff < min_diff:
-			min_diff = diff
-			var best := {}
-			for key in teams.keys():
-				best[key] = teams[key].duplicate(true)
-			_apply_current_teams_and_set_players(best)
-		return
-
-	# try placing current player into any team that still has capacity
-	for i in teams.keys():
-		if counts[i] >= target_size:
+	var p = players[idx]
+	var elo := _player_elo(p)
+	for t in range(num_teams):
+		if enforce_equal and counts[t] >= capacities[t]:
 			continue
-		var new_teams := {}
-		var new_counts := {}
-		for key in teams.keys():
-			new_teams[key] = teams[key].duplicate(true)
-			new_counts[key] = counts[key]
-		new_teams[i].push_back(players[index])
-		new_counts[i] += 1
-		find_teams_equal(players, new_teams, new_counts, target_size, index + 1)
+		teams[t].push_back(p)
+		sums[t] += elo
+		counts[t] += 1
+		_backtrack(players, enforce_equal, capacities, teams, sums, counts, idx + 1)
+		counts[t] -= 1
+		sums[t] -= elo
+		teams[t].pop_back()
 
-# ---------- pair strongest with weakest (type 1) ----------
+# ---------- unified, efficient backtracking search ----------
+# Uses in-place mutation with push/pop to avoid cloning at every step.
+func _search_best_distribution(players: Array, enforce_equal: bool, capacities: Array) -> void:
+	var teams: Array = []
+	var sums: Array = []
+	var counts: Array = []
+	for _i in range(num_teams):
+		teams.append([])
+		sums.append(0.0)
+		counts.append(0)
+	min_diff = INF
+	_backtrack(players, enforce_equal, capacities, teams, sums, counts, 0)
+
+# ---------- pair strongest with weakest (type 1), simplified ----------
 func balance_pairs(players: Array) -> Dictionary:
+	# Sort players by Elo descending
 	var entries := []
 	for p in players:
 		entries.append({"p": p, "elo": _player_elo(p)})
 	entries.sort_custom(func(a, b): return a["elo"] > b["elo"]) # descending
 
+	# capacities ensure final spread <= 1 across teams
+	var caps: Array = []
+	if !_compute_capacities(entries.size(), num_teams, false, caps):
+		return {}
 	var teams := {}
 	var sums := {}
+	var left_cap := {}
 	for t in range(num_teams):
 		teams[t] = []
 		sums[t] = 0.0
+		left_cap[t] = caps[t]
 
 	var i := 0
 	var j := entries.size() - 1
@@ -166,20 +168,39 @@ func balance_pairs(players: Array) -> Dictionary:
 		pair.append(entries[i])
 		if i != j:
 			pair.append(entries[j])
-		i += 1
-		j -= 1
 
-		# choose team with current lowest sum
-		var target_team := 0
-		var best_sum := INF
+		# Try to place the pair into the single lowest-sum team if capacity allows; else split
+		var target_team := -1
+		var lowest_sum := INF
 		for k in teams.keys():
-			if sums[k] < best_sum:
-				best_sum = sums[k]
+			if left_cap[k] >= pair.size() and sums[k] < lowest_sum:
+				lowest_sum = sums[k]
 				target_team = k
 
-		for ent in pair:
-			teams[target_team].push_back(ent["p"])
-			sums[target_team] += ent["elo"]
+		if target_team != -1:
+			for ent in pair:
+				teams[target_team].push_back(ent["p"])
+				sums[target_team] += ent["elo"]
+				left_cap[target_team] -= 1
+		else:
+			# Split across two lowest-sum teams with capacity
+			pair.sort_custom(func(a, b): return a["elo"] > b["elo"]) # stronger first
+			for ent in pair:
+				var pick_team := -1
+				var best_sum := INF
+				for k in teams.keys():
+					if left_cap[k] > 0 and sums[k] < best_sum:
+						best_sum = sums[k]
+						pick_team = k
+				if pick_team == -1:
+					cant = true
+					return {}
+				teams[pick_team].push_back(ent["p"])
+				sums[pick_team] += ent["elo"]
+				left_cap[pick_team] -= 1
+
+		i += 1
+		j -= 1
 
 	# apply and return
 	_apply_current_teams_and_set_players(teams)
@@ -202,38 +223,25 @@ func balance_teams(playerItems: Array) -> Dictionary:
 	cant = false
 	match alg_type:
 		0:
-			# equal number of players + fair
-			if total_players % num_teams != 0:
-				#push_warning("Equal teams not possible: %d players across %d teams." % [total_players, num_teams])
-				cant = true
+			# equal number of players + fair: must be divisible
+			var caps0: Array = []
+			if !_compute_capacities(total_players, num_teams, true, caps0):
 				return {}
-			var target_size := int(total_players / num_teams)
-			var init := {}
-			var counts := {}
-			for x in range(num_teams):
-				init[x] = []
-				counts[x] = 0
-			find_teams_equal(playerItems, init, counts, target_size)
+			_search_best_distribution(playerItems, true, caps0)
 			return current_teams
 
 		1:
-			# strongest+weakest paired
+			# strongest+weakest paired (spread<=1 enforced via capacities)
 			return balance_pairs(playerItems)
 
 		2:
-			# existing method: unconstrained sizes, minimize Elo diff
-			var initu := {}
-			for x in range(num_teams):
-				initu[x] = []
-			find_teams(playerItems, initu)
+			# unconstrained sizes, minimize Elo diff
+			_search_best_distribution(playerItems, false, [])
 			return current_teams
 
 		_:
-			# default to existing method
-			var initd := {}
-			for x in range(num_teams):
-				initd[x] = []
-			find_teams(playerItems, initd)
+			# default to unconstrained method
+			_search_best_distribution(playerItems, false, [])
 			return current_teams
 
 func format_player_list(input_text: String) -> String:
@@ -246,7 +254,10 @@ func _on_pressed():
 	if !Storage.CURRENT_LOBBY:
 		return
 	var out := ""
-	for i in current_teams.keys():
-		var team = balanceDisplay.get_children()[i]
-		out += ("T%d: " % (i + 1)) + format_player_list(team.text) + " | "
+	var sorted_keys := current_teams.keys()
+	sorted_keys.sort()
+	var children := balanceDisplay.get_children()
+	for idx in range(sorted_keys.size()):
+		var team_node = children[idx]
+		out += ("T%d: " % (idx + 1)) + format_player_list(team_node.text) + " | "
 	DisplayServer.clipboard_set(out)

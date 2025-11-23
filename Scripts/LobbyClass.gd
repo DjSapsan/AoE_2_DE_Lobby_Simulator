@@ -49,6 +49,9 @@ var index: String = ""	#text index for searching
 
 var associatedNode: Control
 
+#var host: CorePlayerClass = null
+#var host_id: String = ""
+
 # Constructor
 func _init(source, kind, steamIDs:Dictionary = {}):
 	match kind:
@@ -108,6 +111,8 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#startgametime = source.last_match
 
 	index = index + title.to_lower()+map.to_lower()
+	#host_id = str(source.host_profile_id)
+	#host = Storage.PLAYERS[int(source.host_profile_id)]
 
 # translates values from the spectators API source into the internal representation
 func translateMembers(source):
@@ -217,7 +222,7 @@ func parse_options(decoded_options: Dictionary):
 
 	if decoded_options.has(HIDDEN_KEY) and int(decoded_options[HIDDEN_KEY]) == 1:
 		hidden_civs = true
-	if decoded_options[MODDED_KEY] != "0":
+	if decoded_options.has(MODDED_KEY) and decoded_options[MODDED_KEY] != "0":
 		is_modded = true
 
 	# Parse map type using the conversion table

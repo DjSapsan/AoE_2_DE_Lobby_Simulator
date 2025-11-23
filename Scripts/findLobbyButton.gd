@@ -9,6 +9,7 @@ extends Button
 @onready var browser = %Browser
 @onready var status = %Status
 @onready var lobby_tab: PanelContainer = %Lobby
+@onready var tabs_node: TabContainer = %TabsNode
 
 static var regex_lobby: RegEx
 static var regex_steamID: RegEx
@@ -17,7 +18,7 @@ static var regex_steamID: RegEx
 #var FUNCTIONS_TABLE: Dictionary
 var steamIDs: Dictionary
 
-var _pending_smurf_requests = {}
+#var _pending_smurf_requests = {}
 
 func _ready() -> void:
 	regex_lobby = RegEx.new()
@@ -145,58 +146,59 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 		status.changeStatus("! Error fetching Elo")
 		#print("Error ", rawResults[1])
 
-func requestPlayerSmurfs() -> void:
-	var lobby = Storage.CURRENT_LOBBY
-	var slots = lobby.slots
-	var unchecked_players: Array = slots.filter(
-		func(p): return p and p.lastTimeSmurfs < 0 and not p.isAI and p.id
-	)
-	if unchecked_players.is_empty():
-		return
 
-	var gatheredSmurfs: Array[CorePlayerClass] = []
-	var req := HTTPRequest.new()
-	add_child(req)
+# func requestPlayerSmurfs() -> void:
+# 	var lobby = Storage.CURRENT_LOBBY
+# 	var slots = lobby.slots
+# 	var unchecked_players: Array = slots.filter(
+# 		func(p): return p and p.lastTimeSmurfs < 0 and not p.isAI and p.id
+# 	)
+# 	if unchecked_players.is_empty():
+# 		return
 
-	var results
-	for i in range(unchecked_players.size()):
-		var player: CorePlayerClass = unchecked_players[i]
-		var url := Global.URL_CHECK_SMURF + str(player.id)
-		_pending_smurf_requests[player.id] = true
+# 	var gatheredSmurfs: Array[CorePlayerClass] = []
+# 	var req := HTTPRequest.new()
+# 	add_child(req)
 
-		req.request(url)
-		results = await req.request_completed
-		var body: PackedByteArray = results[3]
+# 	var results
+# 	for i in range(unchecked_players.size()):
+# 		var player: CorePlayerClass = unchecked_players[i]
+# 		var url := Global.URL_CHECK_SMURF + str(player.id)
+# 		_pending_smurf_requests[player.id] = true
 
-		_pending_smurf_requests.erase(player.id)
+# 		req.request(url)
+# 		results = await req.request_completed
+# 		var body: PackedByteArray = results[3]
 
-		if int(results[1]) != 200:
-			continue
+# 		_pending_smurf_requests.erase(player.id)
 
-		var json = JSON.parse_string(body.get_string_from_utf8())
-		if json.has("smurfs"):
-			for item in json.smurfs:
-				for s in item:
-					var id:int = int(s.profile_id)
-					if id > 0:
-						var newTable = {
-							"profile_id" = id,
-							"alias" = s.name,
-							"name" = "/steam/" + s.steam_id,
-							"country" = "NO"
-						}
-						var newS = Storage.PLAYERS_addOne(newTable)
-						player.addSmurf(newS)
-						gatheredSmurfs.append(newS)
+# 		if int(results[1]) != 200:
+# 			continue
 
-	await requestPlayersElo(gatheredSmurfs, false, false)
-	if results[1] == 200:
-		lobby.isCheckSmurfs = 2
-	else:
-		lobby.isCheckSmurfs = 0
-	gatheredSmurfs.clear()
-	lobby_tab.on_smurfs_updated()
-	req.queue_free()
+# 		var json = JSON.parse_string(body.get_string_from_utf8())
+# 		if json.has("smurfs"):
+# 			for item in json.smurfs:
+# 				for s in item:
+# 					var id:int = int(s.profile_id)
+# 					if id > 0:
+# 						var newTable = {
+# 							"profile_id" = id,
+# 							"alias" = s.name,
+# 							"name" = "/steam/" + s.steam_id,
+# 							"country" = "NO"
+# 						}
+# 						var newS = Storage.PLAYERS_addOne(newTable)
+# 						player.addSmurf(newS)
+# 						gatheredSmurfs.append(newS)
+
+# 	await requestPlayersElo(gatheredSmurfs, false, false)
+# 	if results[1] == 200:
+# 		lobby.isCheckSmurfs = 2
+# 	else:
+# 		lobby.isCheckSmurfs = 0
+# 	gatheredSmurfs.clear()
+# 	lobby_tab.on_smurfs_updated()
+# 	req.queue_free()
 
 func downloadAllLobbies():
 	#Storage.PLAYERS_reset()
@@ -214,11 +216,13 @@ func openLobby(justRefresh: bool = true):
 	match find_cases(txt):
 		"general":
 			lobby = Storage.LIST_findInIndex(txt, Storage.LOBBIES)
+			searchField.text = ""
 		"lobby_id":
 			var id = int(Global.GetDigits(txt))
 			lobby = Storage.LOBBIES.get(id)
 		_:
-			lobby_tab.closeCurrentLobby()
+			#if Storage.CURRENT_LOBBY:
+			#	lobby_tab.closeCurrentLobby()
 			return
 
 	if not lobby:
@@ -238,7 +242,9 @@ func _on_find_button_pressed(isAuto: bool = false):
 	disabled = true
 
 	await downloadAllLobbies()
-	openLobby(isAuto)
+
+	var is_lobby_tab := tabs_node.current_tab == 1
+	openLobby(isAuto or not is_lobby_tab)
 
 	disabled = false
 	status.showAmountOfLobbies()

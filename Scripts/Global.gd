@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = 1.97
+const VERSION = 1.98
 
 # Define color index with explicit colors
 const ColorIndex: Dictionary = {
@@ -33,7 +33,7 @@ const URL_UPDATE: String = "https://github.com/DjSapsan/AoE-2-DE-Lobby-Simulator
 const URL_API_Updates = "https://api.github.com/repos/DjSapsan/AoE-2-DE-Lobby-Simulator/releases/latest"
 const URL_API_ELO: String = "/community/leaderboard/getpersonalstat"
 const URL_HALF_ELO = URL_AOE_API + URL_API_ELO + "?title=age2&profile_names="
-const URL_CHECK_SMURF = "https://smurf.new-chapter.eu/api/check_player?player_id="
+#const URL_CHECK_SMURF = "https://smurf.new-chapter.eu/api/check_player?player_id="
 #const URL_PLAYER_STATS = "https://www.aoe2insights.com/user/"
 const URL_PLAYER_STATS = "https://www.aoe2companion.com/profile/"
 

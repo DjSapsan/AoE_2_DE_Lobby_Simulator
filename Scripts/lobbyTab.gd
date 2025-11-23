@@ -1,6 +1,6 @@
 extends Node
 
-@onready var b_smurfs: CheckBox = %B_Smurfs
+#@onready var b_smurfs: CheckBox = %B_Smurfs
 @onready var tabsNode = %TabsNode
 @onready var lobbyPlayersList = %LobbyPlayersList
 @onready var balanceButton = %BalanceButton
@@ -48,10 +48,10 @@ func populateLobby():
 
 	find_button.requestPlayersElo(lobby.slots)
 
-	b_smurfs.reset(lobby.isCheckSmurfs)
+	#b_smurfs.reset(lobby.isCheckSmurfs)
 	lobbyPlayersList.refreshAllOtherInfo()
 	lobbyPlayersList.refreshAllElo()
-	lobbyPlayersList.refreshAllSmurfs()
+	#lobbyPlayersList.refreshAllSmurfs()
 
 func populateSpecLobby():
 	var lobby = Storage.CURRENT_LOBBY
@@ -76,5 +76,5 @@ func on_elo_updated():
 	lobbyPlayersList.refreshAllElo()
 	balanceButton.startBalancing()
 
-func on_smurfs_updated():
-	lobbyPlayersList.refreshAllSmurfs()
+#func on_smurfs_updated():
+	#lobbyPlayersList.refreshAllSmurfs()

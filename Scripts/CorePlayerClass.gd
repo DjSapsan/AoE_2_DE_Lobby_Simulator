@@ -31,12 +31,12 @@ static var trailing_digits_regex: RegEx
 
 static func _static_init():
 	regex_clan_prefix = RegEx.new()
-	#regex_clan_prefix.compile(r'^[^\p{L}]*[\p{L}\p{N}]{2,5}\s*[^\'\p{L}\p{N}\s]{1,3}\s*(\p{L}.{3,})$')
-	regex_clan_prefix.compile(r'^.*[\p{L}\p{N}\p{S}]{2,5}\s*[^\p{L}\s]{1,3}\s*(\p{L}[\p{L}\p{N}].{1,})$')
+	#regex_clan_prefix.compile(r'^[^\p{L}]*[\p{L}\p{N}]{2,5}\s*[^'\p{L}\p{N}\s]{1,3}\s*(\p{L}.{3,})$')
+	regex_clan_prefix.compile(r'^[^\p{L}\p{N}]*[\p{L}\p{N}\p{S}]{2,5}\s*[^\p{L}\p{N}\s]{1,3}\s*(\p{L}[\p{L}\p{N}].{1,})$')
 	regex_brackets = RegEx.new()
 	regex_brackets.compile(r"[\[({<][^\]\)\}>]*[\]\)\}>](?=.{3,}$)")
 	regex_split = RegEx.new()
-	regex_split.compile(r"(?:[\p{Lu}]+(?![\p{Ll}\p{N}]))|(?:[\p{Lu}][\p{Ll}\p{N}]+)|(?:[\p{Ll}\p{N}]+)")
+	regex_split.compile(r"(?:[\p{Lu}]+(?![\p{Ll}\p{N}]))|(?:[\p{Lu}][[\p{Ll}\p{N}]+)|(?:[\p{Ll}\p{N}]+)")
 	trailing_digits_regex = RegEx.new()
 	trailing_digits_regex.compile(r"^(.*?)(\d{2,})$")
 	regex_remove_platforms = RegEx.new()
@@ -89,7 +89,7 @@ func RM_to_TG(elo, toLB):
 # TG/RM = 0.75
 func estimateElo(LB_ID):
 	if notRanked:
-		return Global.ELO_ZERO
+		return int(Global.ELO_ZERO)
 		
 	var current_rating := 0.0
 	var highest_rating := 0.0
@@ -133,14 +133,14 @@ func estimateElo(LB_ID):
 
 	else:
 		# No stats available
-		return Global.ELO_ZERO
+		return int(Global.ELO_ZERO)
 
 	return int(estimated_elo)
 
 func getElo(LB) -> int:
 	if stat.has(LB):
 		return int(stat[LB].rating)
-	return Global.ELO_ZERO
+	return int(Global.ELO_ZERO)
 
 func getWR(LB) -> float:
 	if stat.has(LB):
@@ -221,7 +221,7 @@ func makeShortNames() -> void:
 		# Bonus: first token gets +1.
 		if i == 0:
 			score += 1
-		# Bonus: add +5 for a present uppercase letter.
+		# Bonus: add +4 for a present uppercase letter.
 		if is_upper(token):
 			score += 4
 		# Penalty: tokens with 3 or less characters get -3.

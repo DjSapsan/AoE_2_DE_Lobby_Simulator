@@ -131,3 +131,5 @@ func applySort():
 	for node in newOrder:
 		node.visible = not (hidePasswords and node.associatedLobby.password)
 		Global.ACTIVE_BROWSER.add_child(node)
+
+	browser.applyFilter()
