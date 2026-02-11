@@ -1,15 +1,17 @@
-[gd_scene load_steps=107 format=3 uid="uid://ck4l5osj668m1"]
+[gd_scene format=3 uid="uid://ck4l5osj668m1"]
 
 [ext_resource type="Script" uid="uid://d1oe36pa2p3lw" path="res://Scripts/main.gd" id="1_fefih"]
 [ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_7cxyb"]
 [ext_resource type="Texture2D" uid="uid://d2qavhcl5rx0c" path="res://img/brown-papyrus-paper.jpg" id="3_kawg6"]
 [ext_resource type="Texture2D" uid="uid://s3wbe7hhrjd2" path="res://img/icons8-account-48.png" id="4_aewdw"]
 [ext_resource type="Script" uid="uid://cv10u5mqf2sqm" path="res://Scripts/loadNameButton.gd" id="5_p4ms2"]
+[ext_resource type="StyleBox" uid="uid://bfsny6qtvwp3e" path="res://styles/SearchBarStyleFocused.tres" id="6_r0bsf"]
 [ext_resource type="StyleBox" uid="uid://nplginui37s7" path="res://styles/SearchBarStyle.tres" id="6_uqrwo"]
 [ext_resource type="Texture2D" uid="uid://ibb0uqlolccr" path="res://img/icons8-save-96.png" id="7_3e0dw"]
 [ext_resource type="Script" uid="uid://dh70yedxr5iva" path="res://Scripts/saveNameButton.gd" id="8_qlva8"]
 [ext_resource type="Texture2D" uid="uid://duyfvpvqcadha" path="res://img/icons8-search-64.png" id="9_accmd"]
 [ext_resource type="Script" uid="uid://c2ymq1ra44wsl" path="res://Scripts/findLobbyButton.gd" id="10_wwqqj"]
+[ext_resource type="Theme" uid="uid://dwpvf6cranlsf" path="res://styles/main_button_theme.tres" id="11_en781"]
 [ext_resource type="Texture2D" uid="uid://bnifervyccru2" path="res://img/icons8-balance-64.png" id="11_nio3w"]
 [ext_resource type="Script" uid="uid://b2ls1vihfplob" path="res://Scripts/balanceButton.gd" id="12_s7mkd"]
 [ext_resource type="Script" uid="uid://df0qsych4gepa" path="res://Scripts/autoFind.gd" id="12_xt3t0"]
@@ -97,20 +99,42 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 texture = ExtResource("3_kawg6")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35w6p"]
-content_margin_left = 20.0
-bg_color = Color(0, 0, 0, 0.12549)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0, 0, 1, 0.25098)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-corner_detail = 4
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6s01v"]
+bg_color = Color(0, 0, 0, 0.184314)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_asu8v"]
+bg_color = Color(0, 0, 0.160784, 0.623529)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fydr7"]
+bg_color = Color(0.380392, 0.380392, 0.380392, 0.623529)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqffa"]
+bg_color = Color(0, 0, 0, 0.184314)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ypvt3"]
+bg_color = Color(0, 0, 0, 0.184314)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yqjxw"]
 shader = ExtResource("19_34r52")
@@ -270,43 +294,6 @@ animations = [{
 "speed": 30.0
 }]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6s01v"]
-bg_color = Color(0, 0, 0, 0.184314)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_asu8v"]
-bg_color = Color(0, 0, 0.160784, 0.623529)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fydr7"]
-bg_color = Color(0.380392, 0.380392, 0.380392, 0.623529)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uqffa"]
-bg_color = Color(0, 0, 0, 0.184314)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ypvt3"]
-bg_color = Color(0, 0, 0, 0.184314)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hg8t4"]
 content_margin_left = 20.0
 content_margin_right = 20.0
@@ -367,7 +354,7 @@ anti_aliasing = false
 color = Color(0, 0, 0, 0.25098)
 thickness = 4
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1944486479]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -378,7 +365,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_fefih")
 
-[node name="PopupPanel" type="PopupPanel" parent="."]
+[node name="PopupPanel" type="PopupPanel" parent="." unique_id=1774850975]
 unique_name_in_owner = true
 title = "About"
 initial_position = 4
@@ -386,14 +373,14 @@ size = Vector2i(800, 600)
 borderless = false
 max_size = Vector2i(1000, 1000)
 
-[node name="AboutPanel" parent="PopupPanel" instance=ExtResource("15_cqt5a")]
+[node name="AboutPanel" parent="PopupPanel" unique_id=1256030932 instance=ExtResource("15_cqt5a")]
 anchors_preset = 15
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 796.0
 offset_bottom = 596.0
 
-[node name="MainContainer" type="PanelContainer" parent="."]
+[node name="MainContainer" type="PanelContainer" parent="." unique_id=339486553]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -403,16 +390,47 @@ grow_vertical = 2
 theme = SubResource("Theme_pn1ay")
 theme_override_styles/panel = SubResource("StyleBoxTexture_nl1kt")
 
-[node name="Sections" type="VBoxContainer" parent="MainContainer"]
+[node name="Sections" type="VBoxContainer" parent="MainContainer" unique_id=1534414561]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/Sections"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/Sections" unique_id=1876240288]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="LoadNameButton" type="Button" parent="MainContainer/Sections/HBoxContainer"]
+[node name="searchField" type="LineEdit" parent="MainContainer/Sections/HBoxContainer" unique_id=401121549]
 unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(600, 40)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+tooltip_text = "Text to search.
+
+Player name - if Lobby tab is opened then it will immediately load/refresh the lobby with the player in it.
+
+Any text - filter by lobby titles and player names
+
+Lobby ID - will show the specific lobby. ID can a number or a link"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = ExtResource("6_uqrwo")
+theme_override_styles/focus = ExtResource("6_r0bsf")
+placeholder_text = "enter name, map, lobby id, steam id"
+clear_button_enabled = true
+middle_mouse_paste_enabled = false
+drag_and_drop_selection_enabled = false
+draw_control_chars = true
+select_all_on_focus = true
+caret_blink = true
+caret_blink_interval = 0.4
+
+[node name="LoadNameButton" type="Button" parent="MainContainer/Sections/HBoxContainer" unique_id=571276691]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 tooltip_text = "Load your search text if it was saved"
 theme_override_colors/font_color = Color(0, 0, 0, 0.588235)
 theme_override_colors/font_focus_color = Color(0, 0, 0, 0.501961)
@@ -429,49 +447,43 @@ vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("5_p4ms2")
 
-[node name="searchField" type="LineEdit" parent="MainContainer/Sections/HBoxContainer"]
+[node name="SaveNameButton" type="Button" parent="MainContainer/Sections/HBoxContainer" unique_id=596131379]
 unique_name_in_owner = true
-clip_contents = true
-custom_minimum_size = Vector2(600, 40)
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-size_flags_horizontal = 3
-tooltip_text = "Text to search.
-
-Player name - if Lobby tab is opened then it will immediately load/refresh the lobby with the player in it.
-
-Any text - filter by lobby titles and player names
-
-Lobby ID - will show the specific lobby. ID can a number or a link"
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = ExtResource("6_uqrwo")
-theme_override_styles/focus = SubResource("StyleBoxFlat_35w6p")
-placeholder_text = "enter name, map, lobby id, steam id"
-clear_button_enabled = true
-middle_mouse_paste_enabled = false
-drag_and_drop_selection_enabled = false
-draw_control_chars = true
-select_all_on_focus = true
-caret_blink = true
-caret_blink_interval = 0.4
-
-[node name="SaveNameButton" type="Button" parent="MainContainer/Sections/HBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
 tooltip_text = "Save current settings as default"
 icon = ExtResource("7_3e0dw")
 icon_alignment = 1
 expand_icon = true
 script = ExtResource("8_qlva8")
 
-[node name="TopElements" type="HBoxContainer" parent="MainContainer/Sections"]
+[node name="AboutButton" type="Button" parent="MainContainer/Sections/HBoxContainer" unique_id=1578113445]
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+focus_behavior_recursive = 1
+theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_font_sizes/font_size = 29
+theme_override_styles/normal = SubResource("StyleBoxFlat_6s01v")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_asu8v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fydr7")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_uqffa")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ypvt3")
+text = "?"
+clip_text = true
+expand_icon = true
+script = ExtResource("14_fsqxs")
+
+[node name="TopElements" type="HBoxContainer" parent="MainContainer/Sections" unique_id=1730082869]
 layout_mode = 2
 size_flags_vertical = 0
 focus_behavior_recursive = 1
 
-[node name="AutoFind" type="Button" parent="MainContainer/Sections/TopElements"]
+[node name="AutoFind" type="Button" parent="MainContainer/Sections/TopElements" unique_id=320874695]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
@@ -482,19 +494,21 @@ focus_behavior_recursive = 1
 text = "II"
 script = ExtResource("12_xt3t0")
 
-[node name="Timer" type="Timer" parent="MainContainer/Sections/TopElements/AutoFind"]
+[node name="Timer" type="Timer" parent="MainContainer/Sections/TopElements/AutoFind" unique_id=1926474455]
 wait_time = 10.0
 
-[node name="FindButton" type="Button" parent="MainContainer/Sections/TopElements"]
+[node name="FindButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=827122051]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(70, 64)
+custom_minimum_size = Vector2(76, 64)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "In the [Browse] - search and filter all lobbies
 In the [Lobby] - refresh or open the specific lobby"
 focus_behavior_recursive = 1
+theme = ExtResource("11_en781")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
 shortcut_feedback = false
 shortcut_in_tooltip = false
 text = "Find"
@@ -504,20 +518,20 @@ vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("10_wwqqj")
 
-[node name="HTTPRequest_lobbies" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton"]
+[node name="HTTPRequest_lobbies" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=87466418]
 use_threads = true
 
-[node name="HTTPRequest_elo" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton"]
+[node name="HTTPRequest_elo" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=589381202]
 use_threads = true
 
-[node name="HTTPRequest_smurf" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton"]
+[node name="HTTPRequest_smurf" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=2138983431]
 use_threads = true
 
-[node name="WebSocket_spec" type="Node" parent="MainContainer/Sections/TopElements/FindButton"]
+[node name="WebSocket_spec" type="Node" parent="MainContainer/Sections/TopElements/FindButton" unique_id=700642608]
 unique_name_in_owner = true
 script = ExtResource("34_jv8pu")
 
-[node name="LobbyOrSpec" parent="MainContainer/Sections/TopElements" instance=ExtResource("13_vkma3")]
+[node name="LobbyOrSpec" parent="MainContainer/Sections/TopElements" unique_id=635456711 instance=ExtResource("13_vkma3")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 64)
 layout_mode = 2
@@ -529,7 +543,7 @@ tooltip_text = "Switch between open lobbies and ongoing matches
 focus_behavior_recursive = 1
 disabled = true
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MainContainer/Sections/TopElements/LobbyOrSpec"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MainContainer/Sections/TopElements/LobbyOrSpec" unique_id=2086410376]
 visible = false
 material = SubResource("ShaderMaterial_yqjxw")
 position = Vector2(51, 26)
@@ -539,7 +553,7 @@ animation = &"new_animation"
 frame = 13
 frame_progress = 0.0409846
 
-[node name="BalanceButton" type="Button" parent="MainContainer/Sections/TopElements"]
+[node name="BalanceButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=1008117269]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
@@ -547,6 +561,9 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Coppy the balance as text to insert in chat"
 focus_behavior_recursive = 1
+theme = ExtResource("11_en781")
+theme_override_colors/font_color = Color(0.875, 0.875, 0.875, 1)
+theme_override_constants/outline_size = 1
 disabled = true
 text = "Copy"
 icon = ExtResource("11_nio3w")
@@ -555,7 +572,7 @@ vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("12_s7mkd")
 
-[node name="RebalanceButton" type="Button" parent="MainContainer/Sections/TopElements"]
+[node name="RebalanceButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=1783968900]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(64, 64)
@@ -571,7 +588,7 @@ vertical_icon_alignment = 0
 expand_icon = true
 script = ExtResource("12_s7mkd")
 
-[node name="UpdateButton" type="Button" parent="MainContainer/Sections/TopElements"]
+[node name="UpdateButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=2033847711]
 visible = false
 clip_contents = true
 custom_minimum_size = Vector2(64, 64)
@@ -594,25 +611,7 @@ icon = ExtResource("18_4wnb8")
 icon_alignment = 1
 expand_icon = true
 
-[node name="AboutButton" type="Button" parent="MainContainer/Sections/TopElements"]
-clip_contents = true
-custom_minimum_size = Vector2(64, 32)
-layout_mode = 2
-size_flags_horizontal = 10
-size_flags_vertical = 0
-focus_behavior_recursive = 1
-theme_override_font_sizes/font_size = 46
-theme_override_styles/normal = SubResource("StyleBoxFlat_6s01v")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_asu8v")
-theme_override_styles/hover = SubResource("StyleBoxFlat_fydr7")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_uqffa")
-theme_override_styles/focus = SubResource("StyleBoxFlat_ypvt3")
-text = "?"
-clip_text = true
-expand_icon = true
-script = ExtResource("14_fsqxs")
-
-[node name="TabsNode" type="TabContainer" parent="MainContainer/Sections"]
+[node name="TabsNode" type="TabContainer" parent="MainContainer/Sections" unique_id=762673699]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -631,17 +630,17 @@ theme_override_styles/tab_focus = ExtResource("14_ro1px")
 current_tab = 0
 script = ExtResource("16_84o23")
 
-[node name="Browse" type="PanelContainer" parent="MainContainer/Sections/TabsNode"]
+[node name="Browse" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=2068362470]
 layout_mode = 2
 focus_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_voi6i")
 metadata/_tab_index = 0
 
-[node name="Headers and List" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse"]
+[node name="Headers and List" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse" unique_id=1797855027]
 layout_mode = 2
 focus_behavior_recursive = 1
 
-[node name="BrowseHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List"]
+[node name="BrowseHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List" unique_id=686218837]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
@@ -649,7 +648,7 @@ focus_behavior_recursive = 1
 theme_override_constants/separation = 1
 script = ExtResource("21_gs31j")
 
-[node name="BrowseFilterTitles" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders"]
+[node name="BrowseFilterTitles" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=2045139589]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -661,7 +660,7 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Title"
 
-[node name="BrowseFilterPlayers" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders"]
+[node name="BrowseFilterPlayers" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=1478838839]
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -672,7 +671,7 @@ icon = ExtResource("73_fuqlw")
 alignment = 0
 icon_alignment = 2
 
-[node name="BrowseFilterMap" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders"]
+[node name="BrowseFilterMap" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=404877204]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -682,7 +681,7 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Map"
 
-[node name="BrowseFilterServer" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders"]
+[node name="BrowseFilterServer" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=2136881749]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -690,9 +689,9 @@ size_flags_vertical = 0
 focus_behavior_recursive = 1
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = "Server"
+text = "Type"
 
-[node name="BrowseFilterPassword" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders"]
+[node name="BrowseFilterPassword" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=1174607632]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -707,7 +706,7 @@ icon = ExtResource("16_wx1bx")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Browser" type="ScrollContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List"]
+[node name="Browser" type="ScrollContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List" unique_id=105580170]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -715,18 +714,18 @@ focus_behavior_recursive = 1
 theme_override_styles/panel = SubResource("StyleBoxEmpty_lujj2")
 script = ExtResource("17_7ktkv")
 
-[node name="LobbiesListNode" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser"]
+[node name="LobbiesListNode" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser" unique_id=90448701]
 layout_mode = 2
 size_flags_horizontal = 3
 focus_behavior_recursive = 1
 
-[node name="SpecListNode" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser"]
+[node name="SpecListNode" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser" unique_id=1035228893]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 focus_behavior_recursive = 1
 
-[node name="Lobby" type="PanelContainer" parent="MainContainer/Sections/TabsNode"]
+[node name="Lobby" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=388414629]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -734,19 +733,19 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_voi6i")
 script = ExtResource("76_4eymg")
 metadata/_tab_index = 1
 
-[node name="LobbyAndBalance" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby"]
+[node name="LobbyAndBalance" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby" unique_id=1377724267]
 layout_mode = 2
 
-[node name="LeftRightSplit" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance"]
+[node name="LeftRightSplit" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance" unique_id=812800261]
 layout_mode = 2
 
-[node name="SpecificLobby" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit"]
+[node name="SpecificLobby" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=1922386749]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby"]
+[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=964568092]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
@@ -756,7 +755,7 @@ mouse_default_cursor_shape = 2
 flat = true
 script = ExtResource("23_7yx4d")
 
-[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton"]
+[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" unique_id=375997747]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -777,7 +776,7 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="MapAndMode" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby"]
+[node name="MapAndMode" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=597102822]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
@@ -790,23 +789,23 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby"]
+[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=1741072486]
 layout_mode = 2
 
-[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list"]
+[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list" unique_id=2121417079]
 custom_minimum_size = Vector2(1, 27)
 layout_mode = 2
 localize_numeral_system = false
 color = Color(0, 0, 0, 0.2509804)
 
-[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders"]
+[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders" unique_id=1041137616]
 layout_mode = 0
 offset_right = 747.0
 offset_bottom = 25.0
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=922664606]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -815,7 +814,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_elo" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="L_elo" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=817381479]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(135, 0)
 layout_mode = 2
@@ -848,7 +847,7 @@ popup/item_0/id = 3
 popup/item_1/text = "  TG"
 popup/item_1/id = 4
 
-[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1666606050]
 custom_minimum_size = Vector2(34, 25)
 layout_mode = 2
 text = "T"
@@ -856,7 +855,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=803918552]
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -864,7 +863,7 @@ text = " Player"
 label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
-[node name="L_Smurfs" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="L_Smurfs" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=982694714]
 visible = false
 custom_minimum_size = Vector2(120, 25)
 layout_mode = 2
@@ -878,7 +877,7 @@ text = "Check Smurfs"
 label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
-[node name="B_Smurfs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders"]
+[node name="B_Smurfs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1210187877]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 25)
@@ -892,56 +891,56 @@ action_mode = 0
 button_mask = 0
 script = ExtResource("81_r8mao")
 
-[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list"]
+[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list" unique_id=1510504281]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 script = ExtResource("81_2preu")
 
-[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1043135224 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 
-[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1418514572 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 1
 
-[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1198657105 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 2
 
-[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1968221371 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 3
 
-[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1008127145 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 4
 
-[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1892136560 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 5
 
-[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=514460592 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 6
 
-[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" instance=ExtResource("22_ek3il")]
+[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=679901844 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 7
 
-[node name="HSeparator2" type="VSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit"]
+[node name="HSeparator2" type="VSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=322869190]
 layout_mode = 2
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_3q2x2")
 
-[node name="LobbySettingsPanel" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit"]
+[node name="LobbySettingsPanel" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=205161036]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel"]
+[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel" unique_id=812382593]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/normal = ExtResource("77_0e5ro")
@@ -952,11 +951,11 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="ListOfSettings" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel"]
+[node name="ListOfSettings" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel" unique_id=372706513]
 layout_mode = 2
 script = ExtResource("29_wq3po")
 
-[node name="EstimateEloSetts" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="EstimateEloSetts" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=814125349]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "   Estimated Elo is based on the win rate
@@ -970,19 +969,19 @@ theme_override_fonts/font = ExtResource("2_7cxyb")
 button_pressed = true
 text = "Estimate Elo"
 
-[node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1149877098]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = ExtResource("77_0e5ro")
 
-[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1094574774]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Teams:"
 
-[node name="NumberOfTeamsSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="NumberOfTeamsSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=690048746]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -994,19 +993,19 @@ popup/item_1/id = 2
 popup/item_2/text = "4 Teams"
 popup/item_2/id = 3
 
-[node name="HSeparator2" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="HSeparator2" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=641650877]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = ExtResource("77_0e5ro")
 
-[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=426343889]
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Balancing:"
 
-[node name="BalanceAlgSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="BalanceAlgSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1576468078]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -1018,12 +1017,12 @@ popup/item_1/id = 1
 popup/item_2/text = "Unequal Fair"
 popup/item_2/id = 2
 
-[node name="HSeparator3" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="HSeparator3" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1877280940]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = ExtResource("77_0e5ro")
 
-[node name="ShortNamesLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="ShortNamesLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=858765514]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
@@ -1031,7 +1030,7 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Names with no clans:"
 
-[node name="ShortNamesSetts" type="HSlider" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="ShortNamesSetts" type="HSlider" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1239719812]
 unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Smallest - reduce names as much as possible
@@ -1047,12 +1046,12 @@ value = 1.0
 rounded = true
 ticks_on_borders = true
 
-[node name="HSeparator4" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="HSeparator4" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1376663500]
 layout_mode = 2
 theme_override_constants/separation = 8
 theme_override_styles/separator = ExtResource("77_0e5ro")
 
-[node name="MoreInfoSetts" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings"]
+[node name="MoreInfoSetts" type="CheckBox" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1287243919]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
@@ -1062,19 +1061,24 @@ disabled = true
 button_pressed = true
 text = "Show more info"
 
-[node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance"]
+[node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance" unique_id=1000648828]
 layout_mode = 2
 theme_override_constants/separation = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_t58ia")
 
-[node name="BalanceDisplay" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance"]
+[node name="BalanceDisplay" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance" unique_id=16492089]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="team" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/BalanceDisplay" instance=ExtResource("28_4s64f")]
+[node name="team" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/BalanceDisplay" unique_id=805056809 instance=ExtResource("28_4s64f")]
 layout_mode = 2
 
-[node name="Status" type="Label" parent="MainContainer/Sections"]
+[node name="Check" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=404776476]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Status" type="Label" parent="MainContainer/Sections" unique_id=1654180626]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
@@ -1083,38 +1087,72 @@ vertical_alignment = 2
 clip_text = true
 script = ExtResource("24_lgocj")
 
-[node name="lobbyTips" type="Label" parent="."]
+[node name="FloatingContainer" type="HSplitContainer" parent="." unique_id=1129785959]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 119.0
+offset_bottom = 147.0
+theme_override_constants/separation = 0
+split_offsets = PackedInt32Array(300, 0, -10)
+dragging_enabled = false
+split_offset = 300
+
+[node name="offset1" type="Container" parent="FloatingContainer" unique_id=1039851914]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="lobbyTips" type="Label" parent="FloatingContainer" unique_id=1051260373]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 166.0
-offset_top = 117.0
-offset_right = 710.0
-offset_bottom = 152.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
+clip_contents = true
+custom_minimum_size = Vector2(10, 20)
+layout_mode = 2
+size_flags_horizontal = 2
 size_flags_stretch_ratio = 0.01
-theme_override_colors/font_shadow_color = Color(1, 1, 1, 0)
 text = "🛈  Click to open in tab | Alt+Click to join in game 🛈"
 label_settings = ExtResource("20_vone5")
-horizontal_alignment = 1
-vertical_alignment = 2
+vertical_alignment = 1
 max_lines_visible = 1
+
+[node name="LineEdit" type="LineEdit" parent="FloatingContainer" unique_id=399248848]
+clip_contents = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+tooltip_text = "Code to check lobby settings"
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = ExtResource("6_uqrwo")
+theme_override_styles/focus = ExtResource("6_r0bsf")
+placeholder_text = "check code"
+emoji_menu_enabled = false
+backspace_deletes_composite_character_enabled = true
+clear_button_enabled = true
+select_all_on_focus = true
+
+[node name="offset2" type="Container" parent="FloatingContainer" unique_id=155711770]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
 
 [connection signal="configFileDetected" from="." to="." method="_on_config_file_detected"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
-[connection signal="popup_hide" from="PopupPanel" to="MainContainer/Sections/TopElements/AboutButton" method="_on_popup_panel_popup_hide"]
-[connection signal="pressed" from="MainContainer/Sections/HBoxContainer/LoadNameButton" to="MainContainer/Sections/HBoxContainer/LoadNameButton" method="_on_pressed"]
+[connection signal="popup_hide" from="PopupPanel" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_popup_panel_popup_hide"]
 [connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/searchField" to="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser" method="applyFilter"]
 [connection signal="text_submitted" from="MainContainer/Sections/HBoxContainer/searchField" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
+[connection signal="pressed" from="MainContainer/Sections/HBoxContainer/LoadNameButton" to="MainContainer/Sections/HBoxContainer/LoadNameButton" method="_on_pressed"]
 [connection signal="configFileDetected" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="." method="_on_config_file_detected"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="MainContainer/Sections/HBoxContainer/SaveNameButton" method="_save_data"]
+[connection signal="pressed" from="MainContainer/Sections/HBoxContainer/AboutButton" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/AutoFind" to="MainContainer/Sections/TopElements/AutoFind" method="_on_toggled"]
 [connection signal="timeout" from="MainContainer/Sections/TopElements/AutoFind/Timer" to="MainContainer/Sections/TopElements/AutoFind" method="_on_timer_timeout"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/FindButton" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/BalanceButton" to="MainContainer/Sections/TopElements/BalanceButton" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/RebalanceButton" to="MainContainer/Sections/TopElements/RebalanceButton" method="startBalancing"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/UpdateButton" to="." method="_on_update_button_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TopElements/AboutButton" to="MainContainer/Sections/TopElements/AboutButton" method="_on_pressed"]
 [connection signal="tab_changed" from="MainContainer/Sections/TabsNode" to="MainContainer/Sections/TabsNode" method="_on_tab_changed"]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterTitles" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_titles_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPlayers" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_players_pressed"]

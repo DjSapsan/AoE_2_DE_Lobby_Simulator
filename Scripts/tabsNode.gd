@@ -1,7 +1,7 @@
 extends TabContainer
 
-@onready var search_field: LineEdit = %searchField
-@onready var find_button: Button = %FindButton
+@onready var search_field:= %searchField
+@onready var find_button:= %FindButton
 
 var general_search_text := ""
 var lobby_search_text := ""

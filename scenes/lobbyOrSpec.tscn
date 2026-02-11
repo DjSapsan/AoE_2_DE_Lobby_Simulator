@@ -1,13 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dml1mycatvgxa"]
+[gd_scene format=3 uid="uid://dml1mycatvgxa"]
 
 [ext_resource type="Script" uid="uid://7ubbnmh6ct14" path="res://Scripts/specOrLobby.gd" id="1_4hkq5"]
 [ext_resource type="Texture2D" uid="uid://dslgyi4ye4emx" path="res://img/icons8-an-encyclopedia-web-page-search-online-with-a-brief-details-96.png" id="2_bom5s"]
+[ext_resource type="Theme" uid="uid://dwpvf6cranlsf" path="res://styles/main_button_theme.tres" id="3_gpcsr"]
 
-[node name="LobbyOrSpec" type="Button"]
+[node name="LobbyOrSpec" type="Button" unique_id=253320804]
 custom_minimum_size = Vector2(100, 90)
 script = ExtResource("1_4hkq5")
 
-[node name="columns" type="VBoxContainer" parent="."]
+[node name="columns" type="VBoxContainer" parent="." unique_id=446649305]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +18,7 @@ grow_vertical = 2
 size_flags_vertical = 4
 theme_override_constants/separation = -2
 
-[node name="TextureRect" type="TextureRect" parent="columns"]
+[node name="TextureRect" type="TextureRect" parent="columns" unique_id=948745824]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -26,8 +27,13 @@ texture = ExtResource("2_bom5s")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="columns"]
+[node name="Label" type="Label" parent="columns" unique_id=1077024162]
+modulate = Color(1, 1, 1, 0.5019608)
 layout_mode = 2
+theme = ExtResource("3_gpcsr")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
 text = "Lobbies"
 horizontal_alignment = 1
 vertical_alignment = 1

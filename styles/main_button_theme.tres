@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://dwpvf6cranlsf"]
+
+[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="1_eqamd"]
+
+[resource]
+default_font = ExtResource("1_eqamd")
+default_font_size = 16

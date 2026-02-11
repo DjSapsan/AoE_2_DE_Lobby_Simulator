@@ -1,0 +1,58 @@
+host_profile_id
+description contain
+
+hidden civs
+mod name
+visible
+passwordprotected
+maxplayers
+matchtype_id
+matchmembers:
+isobservable
+observerdelay
+server
+
+RMS name map
+scenario name
+Map Style
+size
+AI diff
+Resources
+Max pop
+Speed
+game type
+Reveal
+Starting age
+Ending age
+Treaty
+Victory
+
+Lock teams
+Teams together
+TeamPositions
+Shared Explo
+Lock Speed
+Allow cheats
+Turbo Mode
+Full tech tree
+Record
+
+== presense ==
+some players
+AI
+
+
+== per slot ==
+player
+civ
+color
+team
+
+========================================
+check.fields
+========================================
+int host_id
+string description
+bool hidden_civs
+int mod
+bool visible
