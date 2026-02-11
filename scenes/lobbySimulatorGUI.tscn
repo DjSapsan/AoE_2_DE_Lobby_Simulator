@@ -420,7 +420,6 @@ placeholder_text = "enter name, map, lobby id, steam id"
 clear_button_enabled = true
 middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
-draw_control_chars = true
 select_all_on_focus = true
 caret_blink = true
 caret_blink_interval = 0.4
@@ -1094,9 +1093,8 @@ anchor_right = 1.0
 offset_top = 119.0
 offset_bottom = 147.0
 theme_override_constants/separation = 0
-split_offsets = PackedInt32Array(300, 0, -10)
+split_offsets = PackedInt32Array(0, 0, 0)
 dragging_enabled = false
-split_offset = 300
 
 [node name="offset1" type="Container" parent="FloatingContainer" unique_id=1039851914]
 custom_minimum_size = Vector2(320, 0)
@@ -1116,7 +1114,8 @@ label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="LineEdit" type="LineEdit" parent="FloatingContainer" unique_id=399248848]
+[node name="CodeField" type="LineEdit" parent="FloatingContainer" unique_id=399248848]
+unique_name_in_owner = true
 clip_contents = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -1133,9 +1132,8 @@ clear_button_enabled = true
 select_all_on_focus = true
 
 [node name="offset2" type="Container" parent="FloatingContainer" unique_id=155711770]
-custom_minimum_size = Vector2(10, 0)
+custom_minimum_size = Vector2(2, 0)
 layout_mode = 2
-size_flags_horizontal = 8
 size_flags_vertical = 4
 
 [connection signal="configFileDetected" from="." to="." method="_on_config_file_detected"]
