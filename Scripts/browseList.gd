@@ -1,8 +1,10 @@
 extends Container
 
 const lobbyItem: PackedScene = preload("res://scenes/lobbyItem.tscn")
+const ROW_DARK := 0xffffffff
+const ROW_LIGHT := 0xffffff80
 
-@onready var searchField = %searchField
+@onready var searchField = %SearchField
 @onready var finder = %FindButton
 @onready var browseHeaders = %BrowseHeaders
 
@@ -13,9 +15,9 @@ const lobbyItem: PackedScene = preload("res://scenes/lobbyItem.tscn")
 func clearLobbiesList():
 	for l in lobbiesListNode.get_children():
 		l.queue_free()
-
+				
 func populateLobbiesList():
-	var lobbies = Storage.LOBBIES
+	var lobbies := Storage.LOBBIES
 
 	clearLobbiesList()
 
@@ -30,6 +32,7 @@ func populateLobbiesList():
 
 	browseHeaders.applySort()
 	applyFilter()
+
 
 func setupLobbyItem(lItem, lobby):
 	var obj = lItem.get_child(0)
@@ -75,24 +78,28 @@ func applyFilter(_null=null):
 	var text = searchField.text
 	var case_type: String = finder.find_cases(text)
 	var toHide = browseHeaders.hidePasswords
+	var search_text = text.to_lower()
 	
 	var active_browser = Global.ACTIVE_BROWSER
 	if not active_browser:
 		return  # Ensure active_browser is valid
 
+	var visible_index := 0
+	var v: = true
 	for lItem in active_browser.get_children():
 		var lobby = lItem.associatedLobby
-		match case_type:
-			"empty":
-				lItem.visible = true and not (toHide and lobby.password)
-			"lobby_id":
-				var lobby_id = lobby.id
-				if lobby_id == Global.GetDigits(text):
-					lItem.visible = true and not (toHide and lobby.password)
-				else:
-					lItem.visible = false
-			_:
-				if lobby.index.contains(text.to_lower()):
-					lItem.visible = true and not (toHide and lobby.password)
-				else:
-					lItem.visible = false
+		if case_type == "empty":
+			v = not (toHide and lobby.password)
+			lItem.visible = v
+			if v:
+				var row_color = ROW_DARK if visible_index % 2 == 0 else ROW_LIGHT
+				lItem.set_row_self_modulate(row_color)
+				visible_index += 1
+
+		else:
+			v = lobby.index.contains(search_text) and not (toHide and lobby.password)
+			lItem.visible = v
+			if v:
+				var row_color = ROW_DARK if visible_index % 2 == 0 else ROW_LIGHT
+				lItem.set_row_self_modulate(row_color)
+				visible_index += 1

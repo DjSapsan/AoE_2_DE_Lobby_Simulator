@@ -199,3 +199,7 @@ func showOtherInfo(civID, colorID, team):
 
 	change_color(colorID)
 	set_team(team)
+
+
+func _on_p_name_mouse_exited() -> void:
+	pass # Replace with function body.

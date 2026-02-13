@@ -5,7 +5,7 @@ extends Button
 @onready var http_request_smurf: HTTPRequest = $HTTPRequest_smurf
 @onready var request_spec_node: Node = $WebSocket_spec
 
-@onready var searchField: LineEdit = %searchField
+@onready var searchField: LineEdit = %SearchField
 @onready var browser = %Browser
 @onready var status = %Status
 @onready var lobby_tab: PanelContainer = %Lobby

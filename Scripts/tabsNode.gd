@@ -1,6 +1,6 @@
 extends TabContainer
 
-@onready var search_field:= %searchField
+@onready var search_field:= %SearchField
 @onready var find_button:= %FindButton
 
 var general_search_text := ""
@@ -34,16 +34,17 @@ func _on_search_field_text_changed(new_text: String):
 		general_search_text = new_text
 
 func _handle_tab_switch(is_lobby_tab: bool):
-	if is_lobby_tab:
-		general_search_text = search_field.text
-		search_field.placeholder_text = LOBBY_PLACEHOLDER
-		search_field.text = lobby_search_text
-		_update_lobby_find_button()
-	else:
-		lobby_search_text = search_field.text
-		search_field.placeholder_text = default_placeholder
-		find_button.text = default_find_text
-		search_field.text = general_search_text
+	if search_field:
+		if is_lobby_tab:
+			general_search_text = search_field.text
+			search_field.placeholder_text = LOBBY_PLACEHOLDER
+			search_field.text = lobby_search_text
+			_update_lobby_find_button()
+		else:
+			lobby_search_text = search_field.text
+			search_field.placeholder_text = default_placeholder
+			find_button.text = default_find_text
+			search_field.text = general_search_text
 
 func _update_lobby_find_button():
 	if current_tab != 1:

@@ -10,4 +10,4 @@ func _on_pressed():
 
 	var txt = config.get_value("MAIN","SEARCH_TEXT")
 
-	%searchField.text = txt
+	%SearchField.text = txt
