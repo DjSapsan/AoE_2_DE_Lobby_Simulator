@@ -8,6 +8,9 @@
 [ext_resource type="LabelSettings" uid="uid://dhb0x8acrg666" path="res://styles/player_item_label.tres" id="5_fo3xy"]
 [ext_resource type="Script" uid="uid://bkinleyhmicaj" path="res://Scripts/p_name.gd" id="6_0624c"]
 [ext_resource type="LabelSettings" uid="uid://rkn7ejylnsu" path="res://styles/lobby_item_label.tres" id="7_nrffc"]
+[ext_resource type="Texture2D" uid="uid://wpoypd5qcl73" path="res://fonts/png/🌐.png" id="8_w01b7"]
+[ext_resource type="StyleBox" uid="uid://chg2sibas03pe" path="res://styles/selected_name_style.tres" id="10_w01b7"]
+[ext_resource type="StyleBox" uid="uid://cs6li453wf2k1" path="res://styles/name_label_unselected.tres" id="11_r5ubx"]
 
 [node name="playerNode" type="HBoxContainer" unique_id=245079504]
 custom_minimum_size = Vector2(100, 30)
@@ -25,7 +28,6 @@ script = ExtResource("1_5453o")
 color_index = 4294967295
 
 [node name="pColor" type="ColorRect" parent="." unique_id=1499786992]
-visible = false
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -115,23 +117,26 @@ custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+texture = ExtResource("8_w01b7")
 expand_mode = 3
 stretch_mode = 5
 
 [node name="pName" type="Label" parent="." unique_id=1964437105]
 visible = false
 clip_contents = true
-custom_minimum_size = Vector2(200, 30)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 2
 mouse_filter = 0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = ExtResource("11_r5ubx")
 text = "nameф3"
 label_settings = ExtResource("5_fo3xy")
 vertical_alignment = 1
-clip_text = true
 max_lines_visible = 1
 script = ExtResource("6_0624c")
+selectedStyle = ExtResource("10_w01b7")
+unselectedStyle = ExtResource("11_r5ubx")
 
 [node name="pCiv" type="Label" parent="." unique_id=1290645854]
 visible = false

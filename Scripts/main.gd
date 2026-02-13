@@ -51,7 +51,7 @@ func checkUpdates():
 	add_child(http_request)
 	http_request.request(Global.URL_API_Updates)
 	var rawResults = await http_request.request_completed
-	if rawResults[1] == 403:
+	if rawResults[1] != 200:
 		return
 	var jsonResults = JSON.parse_string(rawResults[3].get_string_from_utf8())
 

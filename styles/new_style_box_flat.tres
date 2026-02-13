@@ -3,4 +3,3 @@
 [resource]
 draw_center = false
 border_color = Color(0, 0, 0, 0.12549)
-expand_margin_top = 8.0

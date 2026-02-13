@@ -2,10 +2,8 @@ extends Label
 
 var associatedPlayer: CorePlayerClass
 
-var _default_font_color: Color
-
-func _ready() -> void:
-	_default_font_color = get_theme_color("font_color")
+@export var selectedStyle: StyleBox
+@export var unselectedStyle: StyleBox
 
 func getURL():
 	return Global.URL_PLAYER_STATS + str(associatedPlayer.id)
@@ -16,7 +14,7 @@ func _on_gui_input(event):
 		accept_event()
 
 func _on_mouse_entered() -> void:
-	add_theme_color_override("font_color", 0xfafcffff)
+	add_theme_stylebox_override("normal",selectedStyle)
 
 func _on_mouse_exited() -> void:
-	add_theme_color_override("font_color", _default_font_color)
+	add_theme_stylebox_override("normal",unselectedStyle)

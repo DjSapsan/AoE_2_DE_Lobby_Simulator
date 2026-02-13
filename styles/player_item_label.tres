@@ -7,6 +7,5 @@ font = ExtResource("1_mrm43")
 font_size = 20
 font_color = Color(0.08939379, 0.031481247, 9.024516e-09, 1)
 outline_size = 1
-shadow_size = 4
+shadow_size = 2
 shadow_color = Color(0.37, 0.26485834, 0.1665, 0.39215687)
-shadow_offset = Vector2(0, 0)

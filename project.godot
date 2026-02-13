@@ -43,7 +43,7 @@ file_logging/enable_file_logging.pc=false
 [display]
 
 window/size/viewport_width=1000
-window/size/viewport_height=800
+window/size/viewport_height=700
 window/size/initial_position_type=4
 window/size/extend_to_title=true
 window/energy_saving/keep_screen_on=false

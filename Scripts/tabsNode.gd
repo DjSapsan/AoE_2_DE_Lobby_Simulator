@@ -5,10 +5,10 @@ extends TabContainer
 
 var general_search_text := ""
 var lobby_search_text := ""
-var default_placeholder := ""
-var default_find_text := ""
+var default_placeholder := "Filter by..."
+var default_find_text := "Find"
 
-const LOBBY_PLACEHOLDER := "find and jump to"
+const LOBBY_PLACEHOLDER := "Find and jump to..."
 
 func _ready():
 	current_tab = 0

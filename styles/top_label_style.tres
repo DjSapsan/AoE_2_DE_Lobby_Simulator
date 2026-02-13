@@ -1,0 +1,11 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://cllurjxw4b4js"]
+
+[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="1_4rk8s"]
+
+[resource]
+font = ExtResource("1_4rk8s")
+font_size = 15
+outline_size = 4
+outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+shadow_size = 4
+shadow_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
