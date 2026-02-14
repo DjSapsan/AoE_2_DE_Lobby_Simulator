@@ -7,7 +7,7 @@ func isLobby():
 
 func _on_mouse_entered():
 	if isLobby():
-		modulate = 0x9eacff
+		modulate = 0xa6c9feff
 
 func _on_mouse_exited():
 	if isLobby():

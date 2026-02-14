@@ -35,7 +35,7 @@ const URL_API_ELO: String = "/community/leaderboard/getpersonalstat"
 const URL_HALF_ELO = URL_AOE_API + URL_API_ELO + "?title=age2&profile_names="
 #const URL_CHECK_SMURF = "https://smurf.new-chapter.eu/api/check_player?player_id="
 #const URL_PLAYER_STATS = "https://www.aoe2insights.com/user/"
-const URL_PLAYER_STATS = "https://www.aoe2companion.com/profile/"
+const URL_PLAYER_STATS = "https://www.aoe2companion.com/players/"
 
 var ELO_ZERO: float = 1100
 var ELO_FACTOR: float = 110

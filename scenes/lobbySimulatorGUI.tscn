@@ -91,7 +91,11 @@
 [ext_resource type="Script" uid="uid://bwfmx7nwxde57" path="res://Scripts/lobbyPlayersList.gd" id="81_2preu"]
 [ext_resource type="Script" uid="uid://c1jij28lyaxus" path="res://Scripts/b_smurfs.gd" id="81_r8mao"]
 [ext_resource type="Texture2D" uid="uid://dgekutykvlfg3" path="res://img/slider.png" id="84_o0668"]
+[ext_resource type="StyleBox" uid="uid://b0p523ep5834k" path="res://styles/separ.tres" id="88_epvut"]
 [ext_resource type="LabelSettings" uid="uid://djsh3foyjan0h" path="res://styles/settings_label_style.tres" id="91_umjfb"]
+[ext_resource type="StyleBox" uid="uid://durctbo73jcyo" path="res://styles/separ_horizont.tres" id="93_g2h3m"]
+[ext_resource type="Texture2D" uid="uid://ddd4b0f6bggky" path="res://img/checkbox_mark.png" id="94_ufdfx"]
+[ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 
 [sub_resource type="Theme" id="Theme_pn1ay"]
 
@@ -311,11 +315,6 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lujj2"]
 
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_3q2x2"]
-color = Color(0, 0, 0, 0.25098)
-thickness = 4
-vertical = true
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kldg6"]
 bg_color = Color(0, 0, 0, 0.388235)
 border_width_left = 2
@@ -338,6 +337,19 @@ anti_aliasing = false
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_t58ia"]
 color = Color(0, 0, 0, 0.25098)
 thickness = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_umjfb"]
+bg_color = Color(0.09803922, 0.09803922, 0.09803922, 0.6)
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.39215687)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="FontVariation" id="FontVariation_umjfb"]
+base_font = ExtResource("2_7cxyb")
 
 [node name="Control" type="Control" unique_id=1944486479]
 layout_mode = 3
@@ -370,6 +382,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_pn1ay")
@@ -931,7 +944,7 @@ slotID = 7
 [node name="HSeparator2" type="VSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=322869190]
 layout_mode = 2
 theme_override_constants/separation = 2
-theme_override_styles/separator = SubResource("StyleBoxLine_3q2x2")
+theme_override_styles/separator = ExtResource("88_epvut")
 
 [node name="LobbySettingsPanel" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=205161036]
 unique_name_in_owner = true
@@ -966,6 +979,8 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0.251, 0.251, 0.251, 0.5)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_pressed = true
 text = "Estimate Elo"
 
@@ -979,7 +994,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = "Teams:"
+text = "Teams"
 
 [node name="NumberOfTeamsSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=690048746]
 unique_name_in_owner = true
@@ -1003,7 +1018,7 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = "Balancing:"
+text = "Balancing"
 
 [node name="BalanceAlgSetts" type="OptionButton" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1576468078]
 unique_name_in_owner = true
@@ -1028,7 +1043,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = "Names with no clans:"
+text = "Names with no clans"
 
 [node name="ShortNamesSetts" type="HSlider" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" unique_id=1239719812]
 unique_name_in_owner = true
@@ -1057,6 +1072,8 @@ layout_mode = 2
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_pressed = true
 text = "Show more info"
 
@@ -1079,18 +1096,21 @@ layout_mode = 2
 theme_override_styles/panel = ExtResource("74_qt3p3")
 metadata/_tab_index = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check" unique_id=959211054]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check" unique_id=1700620274]
+layout_mode = 2
+
+[node name="TopCheck" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer" unique_id=959211054]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 4
 
-[node name="LobbyReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer" unique_id=1112465263]
+[node name="LobbyReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1112465263]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 3
 
-[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal" unique_id=534583656]
+[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal" unique_id=534583656]
 custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
 tooltip_text = "LMB - join in game
@@ -1099,7 +1119,7 @@ mouse_default_cursor_shape = 2
 flat = true
 script = ExtResource("23_7yx4d")
 
-[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" unique_id=688256572]
+[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" unique_id=688256572]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -1119,24 +1139,24 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal" unique_id=1420828828]
+[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal" unique_id=1420828828]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list" unique_id=423403992]
+[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list" unique_id=423403992]
 custom_minimum_size = Vector2(1, 25)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
 
-[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/DarkerHeaders" unique_id=1805193340]
+[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/DarkerHeaders" unique_id=1805193340]
 layout_mode = 0
 offset_right = 159.0
 offset_bottom = 25.0
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1253874761]
+[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1253874761]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1145,7 +1165,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=596157894]
+[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=596157894]
 custom_minimum_size = Vector2(34, 25)
 layout_mode = 2
 text = "T"
@@ -1153,7 +1173,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=671613168]
+[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=671613168]
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1161,51 +1181,51 @@ text = " Player"
 label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
-[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list" unique_id=1959167065]
+[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list" unique_id=1959167065]
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 size_flags_vertical = 0
 script = ExtResource("81_2preu")
 
-[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=245079504 instance=ExtResource("22_ek3il")]
+[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=245079504 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 1
 
-[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=991938329 instance=ExtResource("22_ek3il")]
+[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=991938329 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 1
 
-[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=419188292 instance=ExtResource("22_ek3il")]
+[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=419188292 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 2
 
-[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=2131158864 instance=ExtResource("22_ek3il")]
+[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=2131158864 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 3
 
-[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1197272695 instance=ExtResource("22_ek3il")]
+[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1197272695 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 4
 
-[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1968992122 instance=ExtResource("22_ek3il")]
+[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1968992122 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 5
 
-[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=589562723 instance=ExtResource("22_ek3il")]
+[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=589562723 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 6
 
-[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/Headers and list/LobbyPlayersList" unique_id=116547146 instance=ExtResource("22_ek3il")]
+[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=116547146 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 7
 
-[node name="SettingsReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer" unique_id=1791986474]
+[node name="SettingsReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1791986474]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal" unique_id=63275447]
+[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal" unique_id=63275447]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/normal = ExtResource("77_0e5ro")
@@ -1216,13 +1236,13 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal" unique_id=262256121]
+[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal" unique_id=262256121]
 custom_minimum_size = Vector2(1, 25)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
 
-[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/DarkerHeaders" unique_id=1226812741]
+[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/DarkerHeaders" unique_id=1226812741]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1232,7 +1252,7 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=750063683]
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=750063683]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1240,13 +1260,17 @@ size_flags_vertical = 0
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = " Mode:"
+text = "Mode "
+horizontal_alignment = 2
 
-[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=1316137773]
+[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=1316137773]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1257,280 +1281,277 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="HBoxContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal" unique_id=1459517657]
+[node name="offset" type="Container" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal" unique_id=2077404103]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal" unique_id=1459517657]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 columns = 2
 
-[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=377910432]
-custom_minimum_size = Vector2(75, 25)
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=377910432]
+custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Map:"
+size_flags_vertical = 5
+text = "Map "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet1" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=2118750397]
+[node name="DropSet1" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=838429114]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Arena"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=805890175]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=805890175]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Size:"
+size_flags_vertical = 5
+text = "Size "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet11" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=391629710]
+[node name="DropSet11" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=391629710]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Large"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1960860780]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1960860780]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "AI Diff:"
+text = "AI "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet8" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=892937118]
+[node name="DropSet8" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=892937118]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Extreme"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1490497586]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1490497586]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Res:"
+text = "Res "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet9" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=193748237]
+[node name="DropSet9" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=193748237]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1051252275]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1051252275]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Pop:"
+text = "Pop "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet10" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=347623966]
+[node name="DropSet10" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=347623966]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "200"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label6" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1062908314]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label6" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1062908314]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Speed:"
+text = "Speed "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1795874520]
+[node name="DropSet2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1795874520]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label7" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=755012230]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label7" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=755012230]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Reveal:"
+text = "Reveal "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet3" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=212044254]
+[node name="DropSet3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=212044254]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label8" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1778250016]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label8" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1778250016]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Start in:"
+text = "Start in "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet4" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=553352665]
+[node name="DropSet4" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=553352665]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label9" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=355029687]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label9" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=355029687]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "End in:"
+text = "End in "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet5" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1907570010]
+[node name="DropSet5" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1907570010]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label10" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=1202763912]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label10" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=1202763912]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Treaty:"
+text = "Treaty "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet6" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=642717692]
+[node name="DropSet6" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=642717692]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Normal"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="Label11" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=49000536]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label11" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=49000536]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Victory:"
+text = "Victory "
 label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet7" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal/HBoxContainer" unique_id=787962247]
+[node name="DropSet7" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/HBoxContainer" unique_id=787962247]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
-theme_override_fonts/font = ExtResource("2_7cxyb")
-theme_override_font_sizes/font_size = 12
-alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Conquest"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
 clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
-[node name="SettingsReal2" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer" unique_id=1909792761]
+[node name="VSeparator" type="VSeparator" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=31266984]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("88_epvut")
+
+[node name="SettingsReal2" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1909792761]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2" unique_id=1041728415]
+[node name="LobbySettingsLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2" unique_id=1041728415]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_styles/normal = ExtResource("77_0e5ro")
@@ -1541,13 +1562,13 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2" unique_id=714768]
+[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2" unique_id=714768]
 custom_minimum_size = Vector2(1, 25)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
 
-[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/DarkerHeaders" unique_id=759938843]
+[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/DarkerHeaders" unique_id=759938843]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1557,11 +1578,14 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/DarkerHeaders/LobbyHeaders" unique_id=607513435]
+[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/DarkerHeaders/LobbyHeaders" unique_id=607513435]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1572,7 +1596,7 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/DarkerHeaders/LobbyHeaders" unique_id=1993970397]
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/DarkerHeaders/LobbyHeaders" unique_id=1993970397]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1580,18 +1604,25 @@ size_flags_vertical = 0
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
 theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_7cxyb")
-text = " Mode:"
+text = " Mode"
 
-[node name="HBoxContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2" unique_id=409207592]
+[node name="offset" type="Container" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2" unique_id=635451841]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="HBoxContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2" unique_id=409207592]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 columns = 2
 
-[node name="DropSet1" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1023246477]
+[node name="DropSet1" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1023246477]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1602,20 +1633,23 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=77668502]
-custom_minimum_size = Vector2(75, 25)
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=77668502]
+custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Map:"
+size_flags_vertical = 5
+text = " Map"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet11" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=35257270]
+[node name="DropSet11" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=35257270]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1626,20 +1660,23 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1813817905]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1813817905]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-text = "Size:"
+size_flags_vertical = 5
+text = " Size"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet8" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1826308059]
+[node name="DropSet8" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1826308059]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1650,21 +1687,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1938114911]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1938114911]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "AI Diff:"
+text = " AI"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet9" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=545607107]
+[node name="DropSet9" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=545607107]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1675,21 +1715,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1809157049]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1809157049]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Res:"
+text = " Res"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet10" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1195142716]
+[node name="DropSet10" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1195142716]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1700,21 +1743,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1285159317]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1285159317]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Pop:"
+text = " Pop"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=288298624]
+[node name="DropSet2" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=288298624]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1725,21 +1771,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label6" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=745863722]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label6" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=745863722]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Speed:"
+text = " Speed"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet3" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=344508346]
+[node name="DropSet3" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=344508346]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1750,21 +1799,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label7" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1086659321]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label7" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1086659321]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Reveal:"
+text = " Reveal"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet4" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=588899945]
+[node name="DropSet4" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=588899945]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1775,21 +1827,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label8" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=599668700]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label8" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=599668700]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Start in:"
+text = " Start in"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet5" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=1241196917]
+[node name="DropSet5" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=1241196917]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1800,21 +1855,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label9" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=2112741207]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label9" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=2112741207]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "End in:"
+text = " End in"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet6" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=151817533]
+[node name="DropSet6" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=151817533]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1825,21 +1883,24 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label10" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=2099594285]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label10" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=2099594285]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Treaty:"
+text = " Treaty"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="DropSet7" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=713498482]
+[node name="DropSet7" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=713498482]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 alignment = 1
@@ -1850,23 +1911,23 @@ item_count = 1
 popup/item_0/text = "Random Map"
 popup/item_0/id = 0
 
-[node name="Label11" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/SettingsReal2/HBoxContainer" unique_id=302955796]
-custom_minimum_size = Vector2(75, 21)
+[node name="Label11" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/HBoxContainer" unique_id=302955796]
+custom_minimum_size = Vector2(100, 21)
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
+size_flags_vertical = 5
 theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 0.501961)
-text = "Victory:"
+text = " Victory"
 label_settings = ExtResource("91_umjfb")
-horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
 
-[node name="LobbyReal2" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer" unique_id=1785164840]
+[node name="LobbyReal2" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1785164840]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 3
 
-[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2" unique_id=144058046]
+[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2" unique_id=144058046]
 custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
 tooltip_text = "LMB - join in game
@@ -1875,7 +1936,7 @@ mouse_default_cursor_shape = 2
 flat = true
 script = ExtResource("23_7yx4d")
 
-[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" unique_id=1484920042]
+[node name="Lobby_Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" unique_id=1484920042]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -1895,24 +1956,24 @@ vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2" unique_id=682887971]
+[node name="Headers and list" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2" unique_id=682887971]
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list" unique_id=593124606]
+[node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=593124606]
 custom_minimum_size = Vector2(1, 25)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
 
-[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/DarkerHeaders" unique_id=140937990]
+[node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders" unique_id=140937990]
 layout_mode = 0
 offset_right = 159.0
 offset_bottom = 25.0
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=246241535]
+[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=246241535]
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1921,7 +1982,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1023064896]
+[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1023064896]
 custom_minimum_size = Vector2(34, 25)
 layout_mode = 2
 text = "T"
@@ -1929,7 +1990,7 @@ label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=937970373]
+[node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=937970373]
 custom_minimum_size = Vector2(100, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1937,43 +1998,581 @@ text = " Player"
 label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
-[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list" unique_id=719386913]
+[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=719386913]
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 size_flags_vertical = 0
 script = ExtResource("81_2preu")
 
-[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1432929338 instance=ExtResource("22_ek3il")]
+[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1432929338 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 1
 
-[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=2088499856 instance=ExtResource("22_ek3il")]
+[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=2088499856 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 1
 
-[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=873039111 instance=ExtResource("22_ek3il")]
+[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=873039111 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 2
 
-[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1928827457 instance=ExtResource("22_ek3il")]
+[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1928827457 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 3
 
-[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1347283996 instance=ExtResource("22_ek3il")]
+[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1347283996 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 4
 
-[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1472159367 instance=ExtResource("22_ek3il")]
+[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1472159367 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 5
 
-[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=285637344 instance=ExtResource("22_ek3il")]
+[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=285637344 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 6
 
-[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1150908331 instance=ExtResource("22_ek3il")]
+[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1150908331 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 slotID = 7
+
+[node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer" unique_id=207925021]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("93_g2h3m")
+
+[node name="BottomCheck" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer" unique_id=635791613]
+layout_mode = 2
+
+[node name="VBoxContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=460134077]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1606460384]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Type"
+label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="DropSet1" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=936911224]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Unkraned"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1697031172]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Visible"
+label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="DropSet2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1444330084]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Public"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1493751719]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Spectate"
+label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="PanelContainer" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1435006800]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer/PanelContainer" unique_id=1887538141]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+
+[node name="DropSet2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer/PanelContainer" unique_id=765576079]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "2 min"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1582429909]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Hide civs"
+label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="CheckBox2" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=566638553]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+
+[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1027468410]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Server"
+label_settings = ExtResource("91_umjfb")
+horizontal_alignment = 2
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="DropSet3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer" unique_id=1364911065]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "europe"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="GridContainer" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=221702440]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/v_separation = -5
+columns = 2
+
+[node name="CheckBox" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1664678297]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Lock teams"
+
+[node name="CheckBox2" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=2134146195]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Lock speed"
+
+[node name="CheckBox3" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=91857798]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Together"
+
+[node name="CheckBox4" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1039074273]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Cheats"
+
+[node name="CheckBox5" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1182236876]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Team position"
+
+[node name="CheckBox6" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1504475212]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Turbo"
+
+[node name="CheckBox7" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1058922243]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Shared Exp"
+
+[node name="CheckBox8" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=590423198]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Full tech"
+
+[node name="CheckBox9" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=871556100]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Handicap"
+
+[node name="CheckBox10" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1621749715]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Empire wars"
+
+[node name="CheckBox11" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1969369750]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Regicide"
+
+[node name="CheckBox12" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer" unique_id=1989958380]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Sudden death"
+
+[node name="VSeparator" type="VSeparator" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=367865469]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("88_epvut")
+
+[node name="GridContainer2" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=877648109]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/v_separation = -5
+columns = 2
+
+[node name="CheckBox2" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=2036390359]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Lock speed"
+
+[node name="CheckBox" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=911877278]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Lock teams"
+
+[node name="CheckBox4" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=1227024814]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Cheats"
+
+[node name="CheckBox3" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=1256987549]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Together"
+
+[node name="CheckBox6" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=952863275]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Turbo"
+
+[node name="CheckBox5" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=1929848139]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Team position"
+
+[node name="CheckBox8" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=535862211]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Full tech"
+
+[node name="CheckBox7" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=538213697]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Shared Exp"
+
+[node name="CheckBox10" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=196972205]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Empire wars"
+
+[node name="CheckBox9" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=561392123]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Handicap"
+
+[node name="CheckBox12" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=468959639]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Sudden death"
+
+[node name="CheckBox11" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/GridContainer2" unique_id=1404189719]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_umjfb")
+theme_override_font_sizes/font_size = 16
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+text = "Regicide"
+
+[node name="VBoxContainer2" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=1650396670]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="DropSet1" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1538744867]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Unkraned"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1434794608]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Type"
+label_settings = ExtResource("91_umjfb")
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="DropSet2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1018182649]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "Public"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=982310498]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Visible"
+label_settings = ExtResource("91_umjfb")
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="PanelContainer" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1931318984]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2/PanelContainer" unique_id=423049095]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+
+[node name="DropSet2" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2/PanelContainer" unique_id=1845180943]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "2 min"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=2089264995]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Spectate"
+label_settings = ExtResource("91_umjfb")
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="CheckBox2" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1390573352]
+layout_mode = 2
+theme_override_icons/checked = ExtResource("94_ufdfx")
+theme_override_icons/unchecked = ExtResource("95_1jyxy")
+
+[node name="Label4" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1380865383]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Hide civs"
+label_settings = ExtResource("91_umjfb")
+vertical_alignment = 1
+max_lines_visible = 1
+
+[node name="DropSet3" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=695096408]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
+text = "europe"
+label_settings = ExtResource("20_vone5")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Label5" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=186900878]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 5
+text = "Server"
+label_settings = ExtResource("91_umjfb")
+vertical_alignment = 1
+max_lines_visible = 1
 
 [node name="Status" type="Label" parent="MainContainer/Sections" unique_id=1654180626]
 unique_name_in_owner = true
@@ -2064,9 +2663,9 @@ size_flags_vertical = 4
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/NumberOfTeamsSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_desired_teams_item_selected"]
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/BalanceAlgSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_balance_type_item_selected"]
 [connection signal="value_changed" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/ShortNamesSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_short_names_setts_changed"]
-[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" method="_on_button_pressed"]
-[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal/LobbyButton" method="_on_mouse_exited"]
-[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" method="_on_button_pressed"]
-[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/HBoxContainer/LobbyReal2/LobbyButton" method="_on_mouse_exited"]
+[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" method="_on_button_pressed"]
+[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/LobbyButton" method="_on_mouse_exited"]
+[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" method="_on_button_pressed"]
+[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/LobbyButton" method="_on_mouse_exited"]
