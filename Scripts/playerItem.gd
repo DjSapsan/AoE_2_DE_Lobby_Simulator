@@ -2,10 +2,6 @@ extends HBoxContainer
 
 var associatedPlayer : CorePlayerClass
 
-@export var color_index = 0
-@export var team_index = 0
-@export var slotID:int
-
 @onready var colorSquare = $pColor
 @onready var eloField = $pElo
 #@onready var smurfLabel = $pSmurf
@@ -14,7 +10,7 @@ var associatedPlayer : CorePlayerClass
 @onready var flagIcon = $pFlag
 @onready var nameLabel = $pName
 @onready var emptyLabel = $pEmpty
-@onready var teamLabel = $pTeam/P_label
+@onready var teamButton: Button = $pTeam/B_team
 @onready var eloSelector = %L_elo
 @onready var estimate_elo_setts: CheckBox = %EstimateEloSetts
 @onready var short_names_setts: HSlider = %ShortNamesSetts
@@ -22,12 +18,14 @@ var associatedPlayer : CorePlayerClass
 @onready var balance_button: Button = %BalanceButton
 
 var lockTeam = false		# Locks when loaded
+var color_index = 0
+var team_index = 0
 
 func _ready():
 	flagIcon.tooltip_text = ""
 	colorSquare.color = Global.ColorIndex[color_index]
-	teamLabel.text = Global.TeamIndex[0]
 	nameLabel.associatedPlayer = null
+	teamButton.balance_button = balance_button
 
 func getFlag():
 	return associatedPlayer.country.to_upper()
@@ -87,22 +85,8 @@ func change_color(index: int):
 		colorSquare.color = Global.ColorIndex[4294967295]
 
 func set_team(t:int=0):
-	team_index = t
-	teamLabel.text = Global.TeamIndex[team_index]
-
-func next_team(plus:int=1):
-	team_index = (team_index + 1*plus) % Global.TeamIndex.size()
-	teamLabel.text = Global.TeamIndex[team_index]
-
-func _on_change_team(event):
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			next_team(1)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			next_team(-1)
-
-		balance_button.manual_refresh_teams()
-
+	teamButton.set_team(t)
+	
 func getElo(LB_ID= null):
 	if not associatedPlayer:
 		return
@@ -117,6 +101,9 @@ func getElo(LB_ID= null):
 		return associatedPlayer.getElo(LB)
 
 	#return Global.ELO_ZERO
+
+func getTeam() -> int:
+	return teamButton.team_index
 
 func overrideElo(e=null):
 	if associatedPlayer:

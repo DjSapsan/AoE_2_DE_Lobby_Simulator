@@ -11,46 +11,38 @@ var default_find_text := "Find"
 const LOBBY_PLACEHOLDER := "Find and jump to..."
 
 func _ready():
-	current_tab = 0
 	default_placeholder = search_field.placeholder_text
 	default_find_text = find_button.text
 	general_search_text = search_field.text
-	search_field.text_changed.connect(_on_search_field_text_changed)
 
 func _input(event):
 	if event.is_action_pressed("switchTab"):
-		current_tab = 1 - current_tab
-
-func _on_tab_changed(tab):
-	current_tab = tab
-	%lobbyTips.visible = current_tab == 0
-	_handle_tab_switch(current_tab == 1)
+		current_tab = 0 if current_tab != 0 else 1
 
 func _on_search_field_text_changed(new_text: String):
-	if current_tab == 1:
+	if current_tab == 1 or current_tab == 2:
 		lobby_search_text = new_text
-		_update_lobby_find_button()
+		changeFindButton()
 	else:
 		general_search_text = new_text
 
-func _handle_tab_switch(is_lobby_tab: bool):
-	if search_field:
-		if is_lobby_tab:
-			general_search_text = search_field.text
-			search_field.placeholder_text = LOBBY_PLACEHOLDER
-			search_field.text = lobby_search_text
-			_update_lobby_find_button()
-		else:
-			lobby_search_text = search_field.text
+func _on_tab_changed(tab):
+	current_tab = tab
+	match tab:
+		0:	# browser
+			%lobbyTips.visible = true
 			search_field.placeholder_text = default_placeholder
-			find_button.text = default_find_text
 			search_field.text = general_search_text
+			find_button.text = "Find"
 
-func _update_lobby_find_button():
-	if current_tab != 1:
-		return
-
-	search_field.placeholder_text = LOBBY_PLACEHOLDER
+		1, 2:	# lobby/check
+			%lobbyTips.visible = false
+			if search_field: 
+				search_field.placeholder_text = LOBBY_PLACEHOLDER
+				search_field.text = lobby_search_text
+				changeFindButton()
+	
+func changeFindButton():
 	if lobby_search_text.is_empty():
 		find_button.text = "Refresh"
 	else:

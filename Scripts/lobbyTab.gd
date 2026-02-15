@@ -2,7 +2,9 @@ extends Node
 
 #@onready var b_smurfs: CheckBox = %B_Smurfs
 @onready var tabsNode = %TabsNode
-@onready var lobbyPlayersList = %LobbyPlayersList
+@onready var lobbyPlayersList := %LobbyPlayersList
+@onready var checkPlayersList := %CheckPlayersList
+
 @onready var balanceButton = %BalanceButton
 @onready var map_and_mode: Label = %MapAndMode
 @onready var lobby_label: Label = %Lobby_Label
@@ -15,8 +17,8 @@ func closeCurrentLobby():
 	lobby_label.text = "no lobby"
 	main.removeTeamDisplay()
 	for index in range(8):
-		var child = lobbyPlayersList.get_child(index)
-		child.changePlayer()
+		lobbyPlayersList.get_child(index).changePlayer()
+		checkPlayersList.get_child(index).changePlayer()
 
 func openSelectedLobby(selected):
 	tabsNode.current_tab = 1
@@ -32,7 +34,7 @@ func openSelectedLobby(selected):
 			main.removeTeamDisplay()
 
 func refreshLobby():
-	if Storage.CURRENT_LOBBY and tabsNode.current_tab == 1:
+	if Storage.CURRENT_LOBBY and (tabsNode.current_tab > 0):
 		populateLobby()
 		if Global.ACTIVE_BROWSER_ID == 0:
 			balanceButton.startBalancing()
@@ -45,6 +47,7 @@ func populateLobby():
 	map_and_mode.text = lobby.map + " (" + lobby.match_type + ")"
 
 	lobbyPlayersList.changePlayersInSlots()
+	checkPlayersList.changePlayersInSlots()
 
 	find_button.requestPlayersElo(lobby.slots)
 

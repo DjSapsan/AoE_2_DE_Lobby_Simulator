@@ -73,7 +73,7 @@ func setupSpecItem(lItem, spec):
 	#obj.get_child(4).text = "X" if spec.password else ""
 
 func applyFilter(_null=null):
-	if tabsNode.current_tab == 1:
+	if tabsNode.current_tab == 1 or tabsNode.current_tab == 2:
 		return
 	var text = searchField.text
 	var case_type: String = finder.find_cases(text)
