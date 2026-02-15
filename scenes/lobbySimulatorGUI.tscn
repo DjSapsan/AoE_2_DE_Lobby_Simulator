@@ -95,6 +95,7 @@
 [ext_resource type="LabelSettings" uid="uid://djsh3foyjan0h" path="res://styles/settings_label_style.tres" id="91_umjfb"]
 [ext_resource type="StyleBox" uid="uid://durctbo73jcyo" path="res://styles/separ_horizont.tres" id="93_g2h3m"]
 [ext_resource type="Texture2D" uid="uid://ddd4b0f6bggky" path="res://img/checkbox_mark.png" id="94_ufdfx"]
+[ext_resource type="Script" uid="uid://ldj5j3u8bjy" path="res://scenes/check.gd" id="94_v8aya"]
 [ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 [ext_resource type="PackedScene" uid="uid://chsa7sqergkst" path="res://scenes/presenceItem.tscn" id="95_v8aya"]
 
@@ -348,6 +349,14 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[sub_resource type="ImageTexture" id="ImageTexture_1jyxy"]
+
+[sub_resource type="FontVariation" id="FontVariation_1jyxy"]
+base_font = ExtResource("2_7cxyb")
+spacing_top = -20
+spacing_bottom = -20
+baseline_offset = 0.5
 
 [sub_resource type="FontVariation" id="FontVariation_umjfb"]
 base_font = ExtResource("2_7cxyb")
@@ -797,7 +806,7 @@ text_overrun_behavior = 1
 layout_mode = 2
 
 [node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list" unique_id=2121417079]
-custom_minimum_size = Vector2(25, 25)
+custom_minimum_size = Vector2(25, 28)
 layout_mode = 2
 localize_numeral_system = false
 color = Color(0, 0, 0, 0.2509804)
@@ -918,31 +927,24 @@ layout_mode = 2
 
 [node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1418514572 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 1
 
 [node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1198657105 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 2
 
 [node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1968221371 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 3
 
 [node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1008127145 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 4
 
 [node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=1892136560 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 5
 
 [node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=514460592 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 6
 
 [node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" unique_id=679901844 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 7
 
 [node name="HSeparator2" type="VSeparator" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit" unique_id=322869190]
 layout_mode = 2
@@ -1095,8 +1097,10 @@ size_flags_stretch_ratio = 10.0
 layout_mode = 2
 
 [node name="Check" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=404776476]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/panel = ExtResource("74_qt3p3")
+script = ExtResource("94_v8aya")
 metadata/_tab_index = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check" unique_id=1700620274]
@@ -1135,7 +1139,7 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 
 [node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list" unique_id=423403992]
-custom_minimum_size = Vector2(1, 25)
+custom_minimum_size = Vector2(1, 28)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
@@ -1176,43 +1180,36 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list" unique_id=1959167065]
+[node name="CheckPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list" unique_id=1959167065]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 size_flags_vertical = 0
 script = ExtResource("81_2preu")
 
-[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=245079504 instance=ExtResource("22_ek3il")]
+[node name="playerSlot1" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=245079504 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 1
 
-[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=991938329 instance=ExtResource("22_ek3il")]
+[node name="playerSlot2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=991938329 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 1
 
-[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=419188292 instance=ExtResource("22_ek3il")]
+[node name="playerSlot3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=419188292 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 2
 
-[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=2131158864 instance=ExtResource("22_ek3il")]
+[node name="playerSlot4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=2131158864 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 3
 
-[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1197272695 instance=ExtResource("22_ek3il")]
+[node name="playerSlot5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=1197272695 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 4
 
-[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=1968992122 instance=ExtResource("22_ek3il")]
+[node name="playerSlot6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=1968992122 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 5
 
-[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=589562723 instance=ExtResource("22_ek3il")]
+[node name="playerSlot7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=589562723 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 6
 
-[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/LobbyPlayersList" unique_id=116547146 instance=ExtResource("22_ek3il")]
+[node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/CheckPlayersList" unique_id=116547146 instance=ExtResource("22_ek3il")]
 layout_mode = 2
-slotID = 7
 
 [node name="DropSet7" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal" unique_id=787536981]
 self_modulate = Color(1, 1, 1, 0.39215687)
@@ -1244,7 +1241,7 @@ clip_text = true
 text_overrun_behavior = 1
 
 [node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal" unique_id=262256121]
-custom_minimum_size = Vector2(1, 25)
+custom_minimum_size = Vector2(1, 28)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
@@ -1570,7 +1567,7 @@ clip_text = true
 text_overrun_behavior = 1
 
 [node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2" unique_id=714768]
-custom_minimum_size = Vector2(1, 25)
+custom_minimum_size = Vector2(1, 28)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
@@ -1586,10 +1583,10 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 
 [node name="DropSet1" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal2/DarkerHeaders/LobbyHeaders" unique_id=1023246477]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 8
+size_flags_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
 theme_override_constants/outline_size = 3
@@ -2115,34 +2112,43 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 
 [node name="DarkerHeaders" type="ColorRect" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=593124606]
-custom_minimum_size = Vector2(1, 25)
+custom_minimum_size = Vector2(1, 28)
 layout_mode = 2
 size_flags_vertical = 0
 color = Color(0, 0, 0, 0.2509804)
 
 [node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders" unique_id=140937990]
-layout_mode = 0
-offset_right = 159.0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 25.0
+grow_horizontal = 2
 size_flags_vertical = 0
-theme_override_constants/separation = 0
 
-[node name="L_color" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=246241535]
-custom_minimum_size = Vector2(25, 25)
+[node name="DropSet1" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=554866372]
+custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
-size_flags_horizontal = 0
-text = "#"
-label_settings = ExtResource("20_vone5")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="L_team" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1023064896]
-custom_minimum_size = Vector2(34, 25)
-layout_mode = 2
-text = "T"
-label_settings = ExtResource("20_vone5")
-horizontal_alignment = 1
-vertical_alignment = 1
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 0.5019608)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_font_sizes/font_size = 12
+theme_override_icons/arrow = SubResource("ImageTexture_1jyxy")
+alignment = 1
+clip_text = true
+selected = 0
+fit_to_longest_item = false
+item_count = 4
+popup/item_0/text = "-"
+popup/item_0/id = 0
+popup/item_1/text = "FFA"
+popup/item_1/id = 1
+popup/item_2/text = "1v1"
+popup/item_2/id = 2
+popup/item_3/text = "TG"
+popup/item_3/id = 3
 
 [node name="L_name" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=937970373]
 custom_minimum_size = Vector2(100, 25)
@@ -2152,38 +2158,64 @@ text = "Presence"
 label_settings = ExtResource("20_vone5")
 vertical_alignment = 1
 
+[node name="B_add" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=1329401162]
+custom_minimum_size = Vector2(34, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Add a presence"
+theme_override_fonts/font = SubResource("FontVariation_1jyxy")
+theme_override_font_sizes/font_size = 20
+text = "+"
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="B_remove" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=853560280]
+custom_minimum_size = Vector2(34, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Remove a presence"
+theme_override_fonts/font = SubResource("FontVariation_1jyxy")
+theme_override_font_sizes/font_size = 20
+text = "-"
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+
 [node name="offset" type="Container" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=287168055]
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="LobbyPlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=719386913]
+[node name="PresencePlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=719386913]
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 size_flags_vertical = 0
 script = ExtResource("81_2preu")
 
-[node name="playerNode" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=2079203694 instance=ExtResource("95_v8aya")]
+[node name="playerNode" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=2079203694 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=160378009 instance=ExtResource("95_v8aya")]
+[node name="playerNode2" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=160378009 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=312523880 instance=ExtResource("95_v8aya")]
+[node name="playerNode3" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=312523880 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1934867836 instance=ExtResource("95_v8aya")]
+[node name="playerNode4" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=1934867836 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=521216231 instance=ExtResource("95_v8aya")]
+[node name="playerNode5" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=521216231 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=655120353 instance=ExtResource("95_v8aya")]
+[node name="playerNode6" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=655120353 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1020358724 instance=ExtResource("95_v8aya")]
+[node name="playerNode7" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=1020358724 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="playerNode8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/LobbyPlayersList" unique_id=1807086570 instance=ExtResource("95_v8aya")]
+[node name="playerNode8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list/PresencePlayersList" unique_id=1807086570 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
 [node name="DropSet7" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal2/Headers and list" unique_id=1852744907]
@@ -2952,6 +2984,7 @@ size_flags_vertical = 4
 [connection signal="configFileDetected" from="." to="." method="_on_config_file_detected"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="popup_hide" from="PopupPanel" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_popup_panel_popup_hide"]
+[connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TabsNode" method="_on_search_field_text_changed"]
 [connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser" method="applyFilter"]
 [connection signal="text_submitted" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/LoadNameButton" to="MainContainer/Sections/HBoxContainer/LoadNameButton" method="_on_pressed"]

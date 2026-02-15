@@ -243,7 +243,7 @@ func _on_find_button_pressed(isAuto: bool = false):
 
 	await downloadAllLobbies()
 
-	var is_lobby_tab := tabs_node.current_tab == 1
+	var is_lobby_tab := tabs_node.current_tab > 0
 	openLobby(isAuto or not is_lobby_tab)
 
 	disabled = false

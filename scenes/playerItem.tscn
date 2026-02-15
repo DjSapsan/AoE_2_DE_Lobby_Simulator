@@ -7,12 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="4_ckqq1"]
 [ext_resource type="LabelSettings" uid="uid://dhb0x8acrg666" path="res://styles/player_item_label.tres" id="5_fo3xy"]
 [ext_resource type="Script" uid="uid://bkinleyhmicaj" path="res://Scripts/p_name.gd" id="6_0624c"]
-[ext_resource type="LabelSettings" uid="uid://rkn7ejylnsu" path="res://styles/lobby_item_label.tres" id="7_nrffc"]
+[ext_resource type="Script" uid="uid://djq33xm0v1gja" path="res://Scripts/p_team.gd" id="8_tukpa"]
 [ext_resource type="Texture2D" uid="uid://wpoypd5qcl73" path="res://fonts/png/🌐.png" id="8_w01b7"]
 [ext_resource type="StyleBox" uid="uid://chg2sibas03pe" path="res://styles/selected_name_style.tres" id="10_w01b7"]
 [ext_resource type="StyleBox" uid="uid://cs6li453wf2k1" path="res://styles/name_label_unselected.tres" id="11_r5ubx"]
 
-[node name="playerNode" type="HBoxContainer" unique_id=245079504]
+[node name="playerItem" type="HBoxContainer" unique_id=245079504]
 custom_minimum_size = Vector2(100, 30)
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,30 +86,27 @@ texture_normal = ExtResource("4_ckqq1")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="P_label" type="Label" parent="pTeam" unique_id=1974713069]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 0
-offset_right = 30.0
-offset_bottom = 30.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 21
-text = "1"
-label_settings = ExtResource("7_nrffc")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="pTeam" unique_id=1068691434]
+[node name="B_team" type="Button" parent="pTeam" unique_id=1068691434]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_fo3xy")
+theme_override_font_sizes/font_size = 20
 action_mode = 0
 button_mask = 3
 shortcut_feedback = false
 shortcut_in_tooltip = false
+text = "1"
 flat = true
+script = ExtResource("8_tukpa")
 
 [node name="pFlag" type="TextureRect" parent="." unique_id=1360031446]
 visible = false
@@ -161,7 +158,7 @@ horizontal_alignment = 1
 [connection signal="gui_input" from="pElo" to="pElo" method="_on_gui_input"]
 [connection signal="text_changed" from="pElo" to="pElo" method="_on_text_changed"]
 [connection signal="text_submitted" from="pElo" to="pElo" method="_on_text_submitted"]
-[connection signal="gui_input" from="pTeam/Button" to="." method="_on_change_team"]
+[connection signal="gui_input" from="pTeam/B_team" to="pTeam/B_team" method="_on_change_team"]
 [connection signal="gui_input" from="pName" to="pName" method="_on_gui_input"]
 [connection signal="mouse_entered" from="pName" to="pName" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="pName" to="pName" method="_on_mouse_exited"]
