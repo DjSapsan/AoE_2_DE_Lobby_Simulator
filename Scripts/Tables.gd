@@ -157,6 +157,36 @@ const MAPS_TABLE: Dictionary = {
 	10965 : "Wade" ,
 	10966 : "Morass" ,
 	10967 : "Shoals" ,
+	10968 : "Cliffbound" ,
+	10969 : "Isthmus" ,
+	10970 : "Dunesprings" ,
+	10971 : "GoldenStream" ,
+	10972 : "MountainDunes" ,
+	10973 : "RiverDivide" ,
+	10974 : "Sandrift" ,
+	10975 : "Shrubland" ,
+	10976 : "Passage" ,
+	10977 : "HollowWoodlands" ,
+	10978 : "Karsts" ,
+	10979 : "Glade" ,
+	10980 : "FortifiedClearing" ,
+	10981 : "QpArabia" ,
+	10982 : "QpFortifiedClearing" ,
+	10983 : "QpGlade" ,
+	10984 : "QpNomad" ,
+	11000 : "Stranded" ,
+	11005 : "QpRunestones" ,
+	11006 : "QpArena" ,
+	11007 : "QpBlackForest" ,
+	11008 : "RealWorldManchuria" ,
+	11009 : "Sardis" ,
+	11010 : "Aquarena" ,
+	11011 : "SpecialMapForestBreach" ,
+	11012 : "BorderDispute" ,
+	11013 : "Graupel" ,
+	11014 : "Chaos pit" ,
+	11015 : "Mired" ,
+	11016 : "Murkwood" ,
 	}
 
 const GAME_TYPE_TABLE: Dictionary = {
@@ -234,6 +264,10 @@ const CIVS_TABLE: Dictionary = {
 	52 : "Jurchens",
 	53 : "Wu",
 
+	54: "Mapuche",
+	55: "Muisca",
+	56: "Tupi",
+
 	65537: "Random",
 	65538: "Mirror",
 	65539: "Full RNG",}
@@ -298,6 +332,10 @@ const REVERSE_CIVS_TABLE = {
 	"Wei" : 51,
 	"Jurchens" : 52,
 	"Khitans" : 53,
+
+	"Mapuche" : 54,
+	"Muisca" : 55,
+	"Tupi" : 56,
 
 	"Random" : 65537,
 	"Mirror" : 65538,
