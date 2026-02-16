@@ -38,45 +38,67 @@ func getFlag():
 		#flag += char(offset)
 	#return flag
 
-func changePlayer(player:CorePlayerClass = null):
+func changePlayer(player:CorePlayerClass = null, levelOfDetails:int = 0):
 	associatedPlayer = player
 	nameLabel.associatedPlayer = player
 	showName()
 
 	if !player:
-		colorSquare.visible = false
-		eloField.visible = false
-		wrateLabel.visible = false
-		teamSquare.visible = false
-		flagIcon.visible = false
-		nameLabel.visible = false
-		emptyLabel.visible = true
-		p_civ.visible = false
-		#smurfLabel.visible = false
-		#smurfLabel.tooltip_text = ""
+		showDetails(0)
 		nameLabel.associatedPlayer = null
 		change_color(0)
 		set_team(0)
 		return
 
-	#if player.has("color"):
-	#	change_color(player.color)
-
-	#f player.has("team"):
-	#	change_team(player.team+1)
-	colorSquare.visible = true
-	eloField.visible = true
-	wrateLabel.visible = true
-	teamSquare.visible = true
-	flagIcon.visible = true
-	nameLabel.visible = true
-	emptyLabel.visible = false
-	p_civ.visible = true
+	showDetails(levelOfDetails)
 
 	flagIcon.texture = load("res://fonts/png/" + associatedPlayer.flag + ".png")
 	flagIcon.tooltip_text = getFlag()
-	showElo()
-	#showSmurf()
+
+#0 = empty, 1 = minimal, 2 = full
+func showDetails(level:int = 0):
+	match level:
+		0:
+			colorSquare.visible = false
+			eloField.visible = false
+			wrateLabel.visible = false
+			teamSquare.visible = false
+			flagIcon.visible = false
+			nameLabel.visible = false
+			p_civ.visible = false
+			#smurfLabel.visible = false
+			#smurfLabel.tooltip_text = ""
+			lockTeam = true
+			emptyLabel.visible = true
+
+		1:
+			colorSquare.visible = false
+			eloField.visible = false
+			wrateLabel.visible = false
+			teamSquare.visible = true
+			lockTeam = true
+			flagIcon.visible = false
+			nameLabel.visible = true
+			p_civ.visible = false
+			#smurfLabel.visible = false
+			#smurfLabel.tooltip_text = ""
+			lockTeam = true
+			emptyLabel.visible = false
+
+		2:
+			colorSquare.visible = true
+			eloField.visible = true
+			wrateLabel.visible = true
+			teamSquare.visible = true
+			lockTeam = false
+			flagIcon.visible = true
+			nameLabel.visible = true
+			p_civ.visible = true
+			#smurfLabel.visible = true
+			lockTeam = false
+			emptyLabel.visible = false
+			#showSmurf()
+			showElo()
 
 func change_color(index: int):
 	if Global.ColorIndex.has(index):
@@ -186,3 +208,6 @@ func showOtherInfo(civID, colorID, team):
 
 	change_color(colorID)
 	set_team(team)
+
+func showRealTeam(realTeam):
+	teamButton.set_team(realTeam)

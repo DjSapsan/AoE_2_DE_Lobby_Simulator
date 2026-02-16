@@ -1,5 +1,6 @@
 extends Button
 
+@onready var parent: HBoxContainer = $"../.."
 var balance_button: Button
 var team_index: int = 0
 
@@ -15,7 +16,7 @@ func next_team(plus:int=1):
 	text = Global.TeamIndex[team_index]
 
 func _on_change_team(event):
-	if event is InputEventMouseButton and event.pressed:
+	if (not parent.lockTeam) and event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			next_team(1)
 		elif event.button_index == MOUSE_BUTTON_RIGHT:

@@ -19,7 +19,7 @@ func changePlayersInSlots():
 	for i in range(8):
 		var player = lobby.slots[i]
 		var playerSlot = playerSlots[i]
-		playerSlot.changePlayer(player)
+		playerSlot.changePlayer(player, 2)
 
 func reset():
 	for i in range(8):

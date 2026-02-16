@@ -17,11 +17,12 @@ const ColorIndex: Dictionary = {
 
 # Define team index with textual descriptions
 const TeamIndex = [
-	"-",
-	"1",
-	"2",
-	"3",
-	"4",
+	"-", #0
+	"1", #1
+	"2", #2
+	"3", #3
+	"4", #4
+	"?", #5
 ]
 
 const SETTINGS_FILE_PATH = "user://BalanceAge.cfg"

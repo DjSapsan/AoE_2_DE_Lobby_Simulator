@@ -8,7 +8,8 @@ extends Button
 @onready var searchField: LineEdit = %SearchField
 @onready var browser = %Browser
 @onready var status = %Status
-@onready var lobby_tab: PanelContainer = %Lobby
+@onready var lobbyTab: PanelContainer = %Lobby
+@onready var lobbyTabCheck: PanelContainer = %Check
 @onready var tabs_node: TabContainer = %TabsNode
 
 static var regex_lobby: RegEx
@@ -81,7 +82,8 @@ func requestLobbies():
 		Storage.PLAYERS_add(players)
 		Storage.LOBBIES_add(lobbies,steamIDs)
 
-		lobby_tab.refreshLobby()
+		lobbyTab.refreshLobby()
+		lobbyTabCheck.refreshLobby()
 
 		for lobby_data in lobbies:
 			received_lobby_ids.append(lobby_data.id)
@@ -141,7 +143,7 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 					p.updateElo(stat)
 
 		if doRefresh:
-			lobby_tab.on_elo_updated()
+			lobbyTab.on_elo_updated()
 	else:
 		status.changeStatus("! Error fetching Elo")
 		#print("Error ", rawResults[1])
@@ -197,7 +199,7 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 # 	else:
 # 		lobby.isCheckSmurfs = 0
 # 	gatheredSmurfs.clear()
-# 	lobby_tab.on_smurfs_updated()
+# 	lobbyTab.on_smurfs_updated()
 # 	req.queue_free()
 
 func downloadAllLobbies():
@@ -209,7 +211,8 @@ func openLobby(justRefresh: bool = true):
 	var txt = searchField.text
 
 	if justRefresh or (Storage.CURRENT_LOBBY and txt.is_empty()):
-		lobby_tab.refreshLobby()
+		lobbyTab.refreshLobby()
+		lobbyTabCheck.refreshLobby()
 		return
 
 	var lobby
@@ -222,18 +225,21 @@ func openLobby(justRefresh: bool = true):
 			lobby = Storage.LOBBIES.get(id)
 		_:
 			#if Storage.CURRENT_LOBBY:
-			#	lobby_tab.closeCurrentLobby()
+			#	lobbyTab.closeCurrentLobby()
 			return
 
 	if not lobby:
-		lobby_tab.closeCurrentLobby()
+		lobbyTab.closeCurrentLobby()
+		lobbyTabCheck.closeCurrentLobby()
 		return
 
 	Storage.CURRENT_LOBBY = lobby
-	lobby_tab.refreshLobby()
+	lobbyTab.refreshLobby()
+	lobbyTabCheck.refreshLobby()
 
 func openSelectedLobby(selected):
-	lobby_tab.openSelectedLobby(selected)
+	lobbyTab.openSelectedLobby(selected)
+	lobbyTabCheck.refreshLobby()
 
 func _on_find_button_pressed(isAuto: bool = false):
 	if disabled:
@@ -243,8 +249,8 @@ func _on_find_button_pressed(isAuto: bool = false):
 
 	await downloadAllLobbies()
 
-	var is_lobby_tab := tabs_node.current_tab > 0
-	openLobby(isAuto or not is_lobby_tab)
+	var is_lobbyTab := tabs_node.current_tab > 0
+	openLobby(isAuto or not is_lobbyTab)
 
 	disabled = false
 	status.showAmountOfLobbies()

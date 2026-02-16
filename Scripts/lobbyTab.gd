@@ -3,22 +3,19 @@ extends Node
 #@onready var b_smurfs: CheckBox = %B_Smurfs
 @onready var tabsNode = %TabsNode
 @onready var lobbyPlayersList := %LobbyPlayersList
-@onready var checkPlayersList := %CheckPlayersList
 
 @onready var balanceButton = %BalanceButton
 @onready var map_and_mode: Label = %MapAndMode
-@onready var lobby_label: Label = %Lobby_Label
+@onready var lobbyLabel: Label = %LobbyLabel
 @onready var main = get_node("/root/Control")
 @onready var find_button: Button = %FindButton
 # Link back to the find button script for data requests
 @export var find_button_path: NodePath
 
 func closeCurrentLobby():
-	lobby_label.text = "no lobby"
+	lobbyLabel.text = "no lobby"
 	main.removeTeamDisplay()
-	for index in range(8):
-		lobbyPlayersList.get_child(index).changePlayer()
-		checkPlayersList.get_child(index).changePlayer()
+	lobbyPlayersList.reset()
 
 func openSelectedLobby(selected):
 	tabsNode.current_tab = 1
@@ -43,11 +40,10 @@ func populateLobby():
 	var lobby = Storage.CURRENT_LOBBY
 	if not lobby:
 		return
-	lobby_label.text = "> " + lobby.title + " <"
+	lobbyLabel.text = "> " + lobby.title + " <"
 	map_and_mode.text = lobby.map + " (" + lobby.match_type + ")"
 
 	lobbyPlayersList.changePlayersInSlots()
-	checkPlayersList.changePlayersInSlots()
 
 	find_button.requestPlayersElo(lobby.slots)
 
@@ -73,7 +69,7 @@ func populateSpecLobby():
 			player.team = int(item.get("team"))
 			player.civ = str(item.get("civ"))
 			player.country = str(item.get("country"))
-			playerSlot.changePlayer(player)
+			playerSlot.changePlayer(player, 2)
 
 func on_elo_updated():
 	lobbyPlayersList.refreshAllElo()

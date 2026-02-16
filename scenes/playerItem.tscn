@@ -25,9 +25,9 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_5453o")
-color_index = 4294967295
 
 [node name="pColor" type="ColorRect" parent="." unique_id=1499786992]
+visible = false
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 size_flags_horizontal = 0

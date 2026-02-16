@@ -36,6 +36,7 @@ var observers: int = 0
 var slotinfo
 var slots: Array [CorePlayerClass] = [null,null,null,null,null,null,null,null]
 var teams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
+var realTeams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
 var civs: Array[int] = [65537, 65537, 65537, 65537, 65537, 65537, 65537, 65537]
 var colors: Array[int] = [4294967295, 4294967295, 4294967295, 4294967295, 4294967295, 4294967295, 4294967295, 4294967295]
 #var ready:  Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -201,8 +202,8 @@ func decode_slots(input: String) -> String:
 
 # Function to parse game and map types from decoded options
 func parse_options(decoded_options: Dictionary):
-	#if title == "test":
-		#pass
+	if title == "test":
+		pass
 		#var x = Marshalls.base64_to_raw(decoded_options[52])
 		#var p = x.get_string_from_utf32()
 
@@ -310,6 +311,16 @@ func putPlayersInSlotsWithInfo():
 							pass
 						civs[position] = int(meta[CIV_KEY])
 					colors[position] = int(meta[COLOR_KEY])
+					var t: String = meta.get(7)
+					var t_int: int = 0
+					if t == "":
+						realTeams[position] = 5
+					else:
+						t_int = int(t)-1
+						if t_int >= 0 and t_int < 5:
+							realTeams[position] = t_int
+						else:
+							realTeams[position] = 5
 			else:
 				pass
 				#print("warning! Got data but no player in the list ", profile_id)
@@ -317,6 +328,8 @@ func putPlayersInSlotsWithInfo():
 		position = position + 1
 
 func decodeMetaData(data) -> PackedStringArray:
+	if title == "test":
+		pass
 	var decodedOne := Marshalls.base64_to_raw(data)
 	var txt := decodedOne.get_string_from_utf8().replace('"', '')
 	var decodedTwo := Marshalls.base64_to_raw(txt)
