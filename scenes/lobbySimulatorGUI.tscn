@@ -1663,7 +1663,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 0
 columns = 2
 
-[node name="Drop_Location" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/HBoxContainer" unique_id=607513435]
+[node name="Drop_Location" type="LineEdit" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/HBoxContainer" unique_id=1502112317]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1673,13 +1673,8 @@ theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
+placeholder_text = "map id"
 alignment = 1
-clip_text = true
-selected = 0
-fit_to_longest_item = false
-item_count = 1
-popup/item_0/text = "Random Map"
-popup/item_0/id = 0
 
 [node name="L_Location" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/HBoxContainer" unique_id=77668502]
 custom_minimum_size = Vector2(100, 25)
