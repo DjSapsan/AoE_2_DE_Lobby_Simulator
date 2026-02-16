@@ -340,3 +340,166 @@ const REVERSE_CIVS_TABLE = {
 	"Random" : 65537,
 	"Mirror" : 65538,
 	"Full RNG" : 65539};
+
+const LobbyOptions_Mode = {
+	0 : "-",
+	1 : "Random Map",
+	2 : "Empire Wars",
+	3 : "Regicide",
+	4 : "King of the Hill",
+	5 : "Death Match",
+	6 : "Battle Royale",
+	7 : "Sudden Death",
+	8 : "Capture the Relic",
+	9 : "Defend the Wonder",
+	10 : "Wonder Race",
+	11 : "Scenario"
+}
+
+const LobbyOptions_MapSize = {
+	0 : "-",
+	1 : "Tiny (2 p) [120]",
+	2 : "Small (3 p) [144]",
+	3 : "Medium (4 p) [168]",
+	4 : "Normal (6 p) [200]",
+	5 : "Large (8 p) [220]",
+	6 : "Huge [240]",
+	7 : "Ludicrous [480]"
+}
+
+const LobbyOptions_AI = {
+	0 : "-",
+	1 : "Easiest",
+	2 : "Standard",
+	3 : "Moderate",
+	4 : "Hard",
+	5 : "Hardest",
+	6 : "Extreme"
+}
+
+const LobbyOptions_Res = {
+	0 : "-",
+	1 : "Standard",
+	2 : "Low",
+	3 : "Medium",
+	4 : "High",
+	5 : "Ultra High",
+	6 : "Infinite",
+	7 : "Random"
+}
+
+const LobbyOptions_Pop = {
+	0 : "-",
+	1 : "25",
+	2 : "50",
+	3 : "75",
+	4 : "100",
+	5 : "125",
+	6 : "150",
+	7 : "175",
+	8 : "200",
+	9 : "225",
+	10 : "250",
+	11 : "300",
+	12 : "400",
+	13 : "500"
+}
+
+const LobbyOptions_Speed = {
+	0 : "-",
+	1 : "Slow",
+	2 : "Casual",
+	3 : "Normal",
+	4 : "Fast"
+}
+
+const LobbyOptions_Reveal = {
+	0 : "-",
+	1 : "Normal",
+	2 : "Explored",
+	3 : "All Visible"
+}
+
+const LobbyOptions_StartIn = {
+	0 : "-",
+	1 : "Standard",
+	2 : "Dark Age",
+	3 : "Feudal Age",
+	4 : "Castle Age",
+	5 : "Imperial Age",
+	6 : "Post-Imperial Age"
+}
+
+const LobbyOptions_EndIn = {
+	0 : "-",
+	1 : "Standard",
+	2 : "Dark Age",
+	3 : "Feudal Age",
+	4 : "Castle Age",
+	5 : "Imperial Age"
+}
+
+const LobbyOptions_Treaty = {
+	0 : "-",
+	1 : "[None]",
+	2 : "5 Minutes",
+	3 : "10 Minutes",
+	4 : "15 Minutes",
+	5 : "20 Minutes",
+	6 : "25 Minutes",
+	7 : "30 Minutes",
+	8 : "35 Minutes",
+	9 : "40 Minutes",
+	10 : "45 Minutes",
+	11 : "50 Minutes",
+	12 : "60 Minutes",
+	13 : "90 Minutes"
+}
+
+const LobbyOptions_Victory = {
+	0 : "-",
+	1 : "Standard",
+	2 : "Conquest",
+	3 : "Time Limit",
+	4 : "Score",
+	5 : "Last Man Standing"
+}
+
+const LobbyOptions_TypeRanked = {
+	0 : "-",
+	1 : "Unkraned",
+	2 : "1v1 DM",
+	3 : "TG DM"
+}
+
+const LobbyOptions_VisibleLobby = {
+	0 : "-",
+	1 : "Public",
+	2 : "Private"
+}
+
+const LobbyOptions_SpecDelay = {
+	0 : "-",
+	1 : "1 min",
+	2 : "2 min",
+	3 : "3 min",
+	4 : "4 min",
+	5 : "5 min",
+	6 : "10 min"
+}
+
+const LobbyOptions_Server = {
+	0 : "-",
+	1 : "brazilsouth",
+	2 : "centralindia",
+	3 : "australiasoutheast",
+	4 : "ukwest",
+	5 : "southeastasia",
+	6 : "westus3",
+	7 : "westeurope",
+	8 : "southcentralus",
+	9 : "eastus",
+	10 : "koreacentral",
+	11 : "chilecentral",
+	12 : "LAN"
+}
