@@ -1,27 +1,35 @@
 class_name LobbyClass
 
+# players keys
+const CIV_KEY := 1
+const COLOR_KEY := 3
+const TEAM_KEY := 7
+
+# lobby keys
 const GAME_TYPE_KEY := 5
 const MAP_TYPE_KEY := 10
 const MAP_CUSTOM_KEY := 10
+#const IS_RMS_NAME := 11
+const CUSTOM_MAP_KEY := 16
+const DATA_MOD_ID_KEY := 20
+const SCENARIO_KEY := 22
+#const SCENARIO_NAME_KEY := 38 #?
 const GAME_SPEED_KEY := 41
-const HIDDEN_KEY := 85
 const MODDED_KEY := 60
 const MOD_NAME_KEY := 63
-const SCENARIO_NAME_KEY := 38
-const RMS_NAME_KEY := 11
 const EXPANSION := 67 #?
-
-const COLOR_KEY := 3
-const CIV_KEY := 1
+const HIDDEN_KEY := 85
 
 var id: int
 var steam_id: String
 var title: String = ""
 var password: bool = false
 var hidden_civs: bool = false
-var is_modded: bool = false
+var isModded: bool = false
 var maxPlayers: int = 8
-var match_type: String
+var gameTypeName: String
+var dataModName: String
+var dataModID: int
 var startgametime: int
 var server: String
 var map: String = "-"
@@ -32,6 +40,9 @@ var victory: String
 var speed: String
 var totalPlayers: int = 0
 var observers: int = 0
+var isVisible: bool = true
+var isObservable: bool = true
+var observerDelay: int = 0
 
 var slotinfo
 var slots: Array [CorePlayerClass] = [null,null,null,null,null,null,null,null]
@@ -55,6 +66,7 @@ var associatedNode: Control
 
 # Constructor
 func _init(source, kind, steamIDs:Dictionary = {}):
+
 	match kind:
 		"lobby":
 			id = source.id
@@ -64,16 +76,18 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 
 			#Decode options and parse game/map types
 			slotinfo = JSON.parse_string("["+decode_slots(source.slotinfo)+"]")[1]
-			var decoded_options: Dictionary = decode_options(source.options)
 			title = source.description
-			parse_options(decoded_options)
+			parseOptionBytes(decode_options(source.options))
 			putPlayersInSlotsWithInfo()
 
-			if is_modded:
+			if isModded:
 				title = "🌟 "+title
 			#map = str(source.mapname)
 			server = source.relayserver_region
 			password = source.passwordprotected
+			isVisible = str(source.visible) == "1"
+			isObservable = str(source.isobservable) == "1"
+			observerDelay = int(source.observerdelay)
 #
 		#for aoe2lobby
 		#"spec":
@@ -81,7 +95,7 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#title = "👁 " + source.description
 			#maxPlayers = source.maxplayers
 			#map = source.Map
-			#match_type = source.Game_Mode
+			#gameTypeName = source.Game_Mode
 			#server = source.relayserver_region
 			##password = source.passwordprotected
 			#translateMembers(source.slot)
@@ -94,7 +108,7 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 		# 	title = "👁 " + source.diplomacy
 		# 	maxPlayers = source.players.size()
 		# 	map = source.map
-		# 	match_type = source.game_type
+		# 	gameTypeName = source.game_type
 		# 	server = source.server
 		# 	#password = source.passwordprotected
 		# 	translateMembers(source.players)
@@ -105,13 +119,15 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#title = "👁 " + source.match_diplomacy
 			#maxPlayers = 8
 			#map = source.match_map
-			#match_type = source.game_type
+			#gameTypeName = source.game_type
 			#server = source.server
 			##password = source.passwordprotected
 			#translateMembers(source.players)
 			#startgametime = source.last_match
 
 	index = index + title.to_lower()+map.to_lower()
+	if title == "test":
+		pass
 	#host_id = str(source.host_profile_id)
 	#host = Storage.PLAYERS[int(source.host_profile_id)]
 
@@ -184,15 +200,16 @@ func translatePlayer(source):
 		p = Storage.PLAYERS_addOne(newP)
 	return p
 
-
-# Function to decode options (as already implemented)
-func decode_options(input: String) -> Dictionary:
+func decode_options(input: String) -> PackedByteArray:
 	var decoded: PackedByteArray = Marshalls.base64_to_raw(input)
-	var unzipped: PackedByteArray = decoded.decompress(16384, 1)
+	var unzipped: PackedByteArray = decoded.decompress(16384, FileAccess.COMPRESSION_DEFLATE)
+
+	# unzipped is a UTF-8 string that contains base64 text (your `txt`)
 	var txt := unzipped.get_string_from_utf8().replace('"', '')
-	var array := Marshalls.base64_to_raw(txt)
-	var result := getDictionary(array)
-	return result
+
+	# this becomes the binary stream with [u32len][ascii "k:v"]...
+	var bin := Marshalls.base64_to_raw(txt)
+	return bin
 
 # Function to decode options (as already implemented)
 func decode_slots(input: String) -> String:
@@ -200,45 +217,69 @@ func decode_slots(input: String) -> String:
 	var unzipped: PackedByteArray = decoded.decompress(16384, 1)
 	return unzipped.get_string_from_ascii()
 
-# Function to parse game and map types from decoded options
-func parse_options(decoded_options: Dictionary):
-	if title == "test":
-		pass
-		#var x = Marshalls.base64_to_raw(decoded_options[52])
-		#var p = x.get_string_from_utf32()
+# func set_match_type_from_options(decoded_options: Dictionary):
+# 	var game_type = get_option_value(decoded_options, GAME_TYPE_KEY, null)
+# 	if game_type == null:
+# 		return
 
-	# if title == "CBA 6x":
-	# 	var s = ""
-	# 	for key in decoded_options.keys():
-	# 		s += "%s : %s , " % [key, decoded_options[key]]
-	# 	print(title,s)
+# 	var game_type_id := int(game_type)
+# 	gameTypeName = Tables.GAME_TYPE_TABLE.get(game_type_id, "Other type")
 
-	# Parse game type using the conversion table
-	if decoded_options.has(GAME_TYPE_KEY):
-		var game_type_id := int(decoded_options[GAME_TYPE_KEY])
-		if Tables.GAME_TYPE_TABLE.has(game_type_id):
-			match_type = Tables.GAME_TYPE_TABLE[game_type_id]
-		else:
-			match_type = "Other type"
+# func set_hidden_civs_from_options(decoded_options: Dictionary):
+# 	if get_option_int(decoded_options, HIDDEN_KEY, 0) == 1:
+# 		hidden_civs = true
 
-	if decoded_options.has(HIDDEN_KEY) and int(decoded_options[HIDDEN_KEY]) == 1:
-		hidden_civs = true
-	if decoded_options.has(MODDED_KEY) and decoded_options[MODDED_KEY] != "0":
-		is_modded = true
+# func set_modded_from_options(decoded_options: Dictionary):
+# 	var modded_value = get_option_value(decoded_options, MODDED_KEY, null)
+# 	if modded_value != null and str(modded_value) != "0":
+# 		isModded = true
 
-	# Parse map type using the conversion table
-	var m: String
-	if decoded_options[MAP_TYPE_KEY]:
-		m = Tables.MAPS_TABLE.get(int(decoded_options[MAP_TYPE_KEY]), "")
-	if m == "":
-		if decoded_options.has(RMS_NAME_KEY):
-			m = decoded_options[RMS_NAME_KEY].get_file().get_basename()
-		#elif decoded_options.has(MAP_CUSTOM_KEY):
-		#	var map_name = decoded_options[MAP_CUSTOM_KEY].get_file().get_basename()
-		#	m = map_name
-		else:
-			m = "other map"
-	map = m
+# func get_map_from_options(decoded_options: Dictionary) -> String:
+# 	var map_name := ""
+# 	var map_type = get_option_value(decoded_options, MAP_TYPE_KEY, null)
+# 	if map_type:
+# 		map_name = Tables.MAPS_TABLE.get(int(map_type), "")
+
+# 	if map_name == "":
+# 		var rms_name = get_option_value(decoded_options, IS_RMS_NAME, null)
+# 		if rms_name != null:
+# 			map_name = str(rms_name).get_file().get_basename()
+# 		#elif decoded_options.has(MAP_CUSTOM_KEY):
+# 		#	var custom_map = decoded_options[MAP_CUSTOM_KEY].get_file().get_basename()
+# 		#	map_name = custom_map
+# 		else:
+# 			map_name = "other map"
+
+# 	return map_name
+	
+# taking options from the decoded byte array in the loop to avoid allocating memory and work
+# func processOptionKV(K:int, V):
+# 	if title == "test":
+# 		pass
+
+# 	var t	# temp var
+
+# 	t = options.get(CUSTOM_MAP_KEY, "") 
+# 	if t == "y":
+# 		map = Tables.MAPS_TABLE.get(int(t), "unknown map")
+# 		gameTypeName = "Random Map"
+# 	elif t == "n":
+# 		pass
+# 	elif t == "":
+# 		map = "unknown map"
+
+# 	t = options.get(SCENARIO_KEY, "")
+# 	if t == "n":
+# 		pass
+# 	if t == "y":
+# 		map = "scenario"
+# 		gameTypeName = "Scenario"
+# 	elif t == "":
+# 		pass
+# 	else:
+# 		dataModName = t
+# 		dataModID = options.get(DATA_MOD_ID_KEY, 0)
+# 		isModded = true
 
 
 # Extract dictionary from packed array
@@ -311,7 +352,7 @@ func putPlayersInSlotsWithInfo():
 							pass
 						civs[position] = int(meta[CIV_KEY])
 					colors[position] = int(meta[COLOR_KEY])
-					var t: String = meta.get(7)
+					var t: String = meta.get(TEAM_KEY)
 					var t_int: int = 0
 					if t == "":
 						realTeams[position] = 5
@@ -359,3 +400,54 @@ func getSteamURL() -> String:
 		#type = 1
 	var url := "steam://joinlobby/813780/" + steam_id
 	return url
+	
+func _read_u32_le(data: PackedByteArray, offset: int) -> int:
+	# little-endian: b0 + (b1<<8) + (b2<<16) + (b3<<24)
+	return int(data[offset]) \
+		| (int(data[offset + 1]) << 8) \
+		| (int(data[offset + 2]) << 16) \
+		| (int(data[offset + 3]) << 24)
+
+func parseOptionBytes(data: PackedByteArray):
+	var debugStringK = ""
+	var debugStringV = ""
+	
+	var i := 1
+
+	while i + 4 <= data.size():
+		var n := _read_u32_le(data, i)
+		i += 4
+
+		if n <= 0:
+			continue
+		if i + n > data.size():
+			break  # truncated/corrupt or wrong endianness
+
+		var s := data.slice(i, i + n).get_string_from_ascii()
+		i += n
+
+		var sep := s.find(":")
+		if sep == -1:
+			continue
+
+		var key := int(s.substr(0, sep))
+		var val_str := s.substr(sep + 1)
+		
+		debugStringK += "%d, " % [key]
+		debugStringV += val_str + ", "
+
+		#if optionFunctions.has(key):
+		#	call(optionFunctions[key],(val_str))
+
+	print("\nParsed options: ")
+	print("\n",debugStringK)
+	print("\n",debugStringV)
+	
+
+# array of functions for each option key to avoid if-else:
+static var optionFunctions: Dictionary = {
+	MAP_CUSTOM_KEY: func(v):
+		pass,
+	1: func(v):
+		pass
+}

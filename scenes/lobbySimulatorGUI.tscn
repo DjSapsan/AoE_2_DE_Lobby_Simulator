@@ -1187,6 +1187,7 @@ size_flags_vertical = 0
 theme_override_constants/separation = 0
 
 [node name="LobbyReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1112465263]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -1274,6 +1275,7 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="SettingsReal" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1791986474]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -1583,6 +1585,7 @@ layout_mode = 2
 theme_override_styles/separator = ExtResource("88_epvut")
 
 [node name="SettingsCheck" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1909792761]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -1673,7 +1676,7 @@ theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
-placeholder_text = "map id"
+placeholder_text = "map name"
 alignment = 1
 
 [node name="L_Location" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/HBoxContainer" unique_id=77668502]
@@ -2104,6 +2107,7 @@ vertical_alignment = 1
 max_lines_visible = 1
 
 [node name="LobbyCheck" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck" unique_id=1785164840]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -2227,7 +2231,7 @@ layout_mode = 2
 [node name="playerNode8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list/PresencePlayersList" unique_id=1807086570 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="F_Conditions" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=1852744907]
+[node name="F_Conditions" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=382169985]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.39215687)
 custom_minimum_size = Vector2(0, 25)
@@ -2235,9 +2239,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
-label_settings = ExtResource("20_vone5")
-horizontal_alignment = 1
-vertical_alignment = 1
 clip_text = true
 
 [node name="HSeparator" type="HSeparator" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer" unique_id=207925021]
@@ -2940,7 +2941,8 @@ theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
-placeholder_text = "mod id"
+text = "AoE2 DE"
+placeholder_text = "mod name"
 alignment = 1
 
 [node name="L_Data" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/VBoxContainer2" unique_id=1659724894]

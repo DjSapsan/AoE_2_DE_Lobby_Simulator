@@ -41,7 +41,7 @@ func populateLobby():
 	if not lobby:
 		return
 	lobbyLabel.text = "> " + lobby.title + " <"
-	map_and_mode.text = lobby.map + " (" + lobby.match_type + ")"
+	map_and_mode.text = lobby.map + " (" + lobby.gameTypeName + ")"
 
 	lobbyPlayersList.changePlayersInSlots()
 
