@@ -5,6 +5,7 @@ extends Node
 @onready var presencePlayersList := %PresencePlayersList
 
 @onready var lobbyLabelCheck: Label = %RealLobbyLabel
+@onready var checkCodeLabel: Label = %CheckCodeLabel
 @onready var find_button: Button = %FindButton
 
 @onready var real_victory_conditions: Label = %F_Conditions
@@ -18,9 +19,16 @@ extends Node
 @onready var check_lobby_fields: GridContainer = %CheckLobbyFields
 @onready var check_lobby_boxes: GridContainer = %CheckLobbyBoxes
 
+const CHECK_CODE_VERSION := 1
+const LOBBY_OPTIONS_TEAMING: Array[String] = ["-", "FFA", "1v1", "TG"]
+
 var toLoad = true
+var checkCodeSignalsConnected := false
 var realLobbyElements: Dictionary = {}
 var checkLobbyElements: Dictionary = {}
+
+func _ready() -> void:
+	loading()
 
 # loads only once
 func loading() -> void:
@@ -36,6 +44,8 @@ func loading() -> void:
 	loadItemsFromParent(check_lobby_boxes, checkLobbyElements)
 	
 	toLoad = false
+	connectCheckCodeSignals()
+	refreshCheckCodeLabel()
 
 func loadItemsFromParent(parent: Node, add: Dictionary) -> Dictionary:
 	var items = parent.get_children()
@@ -57,6 +67,151 @@ func setTooltip(elements: Dictionary, name: String, value) -> void:
 func setBox(elements: Dictionary, name: String, value: bool) -> void:
 	var element = elements.get(name)
 	element.button_pressed = bool(value)
+
+func getCheckCodeFieldNames() -> Array[String]:
+	var fields: Array[String] = []
+
+	for key in checkLobbyElements.keys():
+		if typeof(key) != TYPE_STRING:
+			continue
+		var field_name := str(key)
+		if not (field_name.begins_with("F_") or field_name.begins_with("B_")):
+			continue
+
+		var element = checkLobbyElements.get(field_name)
+		if element is OptionButton or element is CheckBox or element is LineEdit:
+			fields.append(field_name)
+
+	fields.sort()
+	return fields
+
+func connectCheckCodeSignals() -> void:
+	if checkCodeSignalsConnected:
+		return
+
+	var on_change := Callable(self, "_on_check_setting_changed")
+	for field_name in getCheckCodeFieldNames():
+		var element = checkLobbyElements.get(field_name)
+		if element is OptionButton:
+			if not element.item_selected.is_connected(on_change):
+				element.item_selected.connect(on_change)
+		elif element is CheckBox:
+			if not element.toggled.is_connected(on_change):
+				element.toggled.connect(on_change)
+		elif element is LineEdit:
+			if not element.text_changed.is_connected(on_change):
+				element.text_changed.connect(on_change)
+
+	var on_code_click := Callable(self, "_on_check_code_label_gui_input")
+	if not checkCodeLabel.gui_input.is_connected(on_code_click):
+		checkCodeLabel.gui_input.connect(on_code_click)
+
+	checkCodeSignalsConnected = true
+
+func getOptionButtonText(button: OptionButton) -> String:
+	if button.selected < 0 or button.selected >= button.item_count:
+		return ""
+	return button.get_item_text(button.selected)
+
+func getLookupForField(field_name: String) -> Array:
+	match field_name:
+		"F_Mode":
+			return Tables.LobbyOptions_Mode
+		"F_Size":
+			return Tables.LobbyOptions_MapSize
+		"F_AI":
+			return Tables.LobbyOptions_AI
+		"F_Res":
+			return Tables.LobbyOptions_Res
+		"F_Pop":
+			return Tables.LobbyOptions_Pop
+		"F_Speed":
+			return Tables.LobbyOptions_Speed
+		"F_Reveal":
+			return Tables.LobbyOptions_Reveal
+		"F_StartIn":
+			return Tables.LobbyOptions_StartIn
+		"F_EndIn":
+			return Tables.LobbyOptions_EndIn
+		"F_Treaty":
+			return Tables.LobbyOptions_Treaty
+		"F_Victory":
+			return Tables.LobbyOptions_Victory
+		"F_Type":
+			return Tables.LobbyOptions_TypeRanked
+		"F_Visible":
+			return Tables.LobbyOptions_VisibleLobby
+		"F_Delay":
+			return Tables.LobbyOptions_SpecDelay
+		"F_Server":
+			return Tables.LobbyOptions_Server
+		"F_Teaming":
+			return LOBBY_OPTIONS_TEAMING
+		"F_CheckConditions":
+			var victory_field = checkLobbyElements.get("F_Victory")
+			if victory_field is OptionButton:
+				var victory := getOptionButtonText(victory_field)
+				if victory == "Time Limit":
+					return Tables.LobbyOptions_TimeLimit_Conditions
+				if victory == "Score":
+					return Tables.LobbyOptions_Score_Conditions
+	return []
+
+func encodeCheckField(field_name: String):
+	var element = checkLobbyElements.get(field_name)
+
+	if element is CheckBox:
+		return int(element.button_pressed)
+	if element is LineEdit:
+		return str(element.text).strip_edges()
+	if element is OptionButton:
+		var value := getOptionButtonText(element)
+		var lookup := getLookupForField(field_name)
+		if lookup.is_empty():
+			return value
+
+		var lookup_id := lookup.find(value)
+		return lookup_id if lookup_id >= 0 else value
+
+	return ""
+
+func encodeCheckCodePayload(payload: Dictionary) -> String:
+	var payload_text := JSON.stringify(payload)
+	if payload_text.is_empty():
+		return ""
+
+	var payload_bytes := payload_text.to_utf8_buffer()
+	var compressed := payload_bytes.compress(FileAccess.COMPRESSION_DEFLATE)
+	if compressed.is_empty():
+		return ""
+
+	return Marshalls.raw_to_base64(compressed)
+
+func refreshCheckCodeLabel() -> void:
+	if checkLobbyElements.is_empty():
+		return
+
+	var fields := getCheckCodeFieldNames()
+	var values: Array = []
+	for field_name in fields:
+		values.append(encodeCheckField(field_name))
+
+	var payload := {
+		"v": CHECK_CODE_VERSION,
+		"f": fields,
+		"d": values,
+	}
+
+	checkCodeLabel.text = encodeCheckCodePayload(payload)
+	checkCodeLabel.tooltip_text = "RBM to copy code to clipboard"
+
+func _on_check_setting_changed(_value = null) -> void:
+	call_deferred("refreshCheckCodeLabel")
+
+func _on_check_code_label_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		if checkCodeLabel.text != "":
+			DisplayServer.clipboard_set(checkCodeLabel.text)
 
 func getTeaming(lobby: LobbyClass) -> String:
 	var team_counts := {}
@@ -147,6 +302,7 @@ func refreshLobby():
 
 	populateCheckLobby(lobby)
 	fillRealLobbyElements(lobby)
+	refreshCheckCodeLabel()
 
 func populateCheckLobby(lobby):
 	lobbyLabelCheck.text = lobby.title
