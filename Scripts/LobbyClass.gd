@@ -12,6 +12,7 @@ const END_IN_KEY := 4
 const GAME_TYPE_KEY := 5
 const MAP_SIZE_KEY := 8
 const MAP_ID_KEY := 10
+const MAP_RMS_KEY := 11
 const MAX_POP_KEY := 28
 const RESOURCES_KEY := 37
 const SCENARIO_NAME_KEY := 38
@@ -450,8 +451,8 @@ func _read_u32_le(data: PackedByteArray, offset: int) -> int:
 # static var debug_baseline_by_lobby: Dictionary = {}
 
 func parseOptionBytes(data: PackedByteArray):
-	#var debugStringK = ""
-	#var debugStringV = ""
+	var debugStringK = ""
+	var debugStringV = ""
 	#if title == "test":
 		#pass
 		
@@ -476,12 +477,14 @@ func parseOptionBytes(data: PackedByteArray):
 		var key := int(s.substr(0, sep))
 		var val_str := s.substr(sep + 1)
 		
-		#debugStringK += "%d, " % [key]
-		#debugStringV += val_str + ", "
+		debugStringK += "%d, " % [key]
+		debugStringV += val_str + ", "
 		
 		if optionFunctions.has(key):
 			optionFunctions[key].call(self, val_str)
 		
+	if id==457229479:
+		pass
 	#if title == "test":
 		#pass		
 		#print("\nParsed options: ")
@@ -519,7 +522,7 @@ static var optionFunctions: Dictionary = {
 		pass,
 
 	SCENARIO_NAME_KEY: func(l:LobbyClass,v):
-		l.map = v
+		l.map = v.left(-13)
 		l.gameModeName = "Scenario"
 		l.size = "-"
 		pass,
@@ -653,5 +656,10 @@ static var optionFunctions: Dictionary = {
 	
 	DATA_MOD_NAME_KEY: func(l:LobbyClass,v):
 		l.dataModName = v
+		pass,
+
+	#take the value and remove last 4 chars
+	MAP_RMS_KEY: func(l:LobbyClass,v):
+		l.map = v.left(-4)
 		pass,
 }

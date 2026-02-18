@@ -37,6 +37,7 @@ const URL_HALF_ELO = URL_AOE_API + URL_API_ELO + "?title=age2&profile_names="
 #const URL_CHECK_SMURF = "https://smurf.new-chapter.eu/api/check_player?player_id="
 #const URL_PLAYER_STATS = "https://www.aoe2insights.com/user/"
 const URL_PLAYER_STATS = "https://www.aoe2companion.com/players/"
+const URL_MODS = "https://www.ageofempires.com/mods/details/"
 
 var ELO_ZERO: float = 1100
 var ELO_FACTOR: float = 110
