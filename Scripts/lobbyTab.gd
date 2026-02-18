@@ -3,6 +3,7 @@ extends Node
 #@onready var b_smurfs: CheckBox = %B_Smurfs
 @onready var tabsNode = %TabsNode
 @onready var lobbyPlayersList := %LobbyPlayersList
+@onready var checkTab: PanelContainer = %Check
 
 @onready var balanceButton = %BalanceButton
 @onready var map_and_mode: Label = %MapAndMode

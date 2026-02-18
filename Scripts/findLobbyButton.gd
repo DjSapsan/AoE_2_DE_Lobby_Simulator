@@ -1,5 +1,7 @@
 extends Button
 
+signal refresh_completed
+
 @onready var http_request_lobbies: HTTPRequest = $HTTPRequest_lobbies
 @onready var http_request_elo: HTTPRequest = $HTTPRequest_elo
 @onready var http_request_smurf: HTTPRequest = $HTTPRequest_smurf
@@ -14,6 +16,9 @@ extends Button
 
 static var regex_lobby: RegEx
 static var regex_steamID: RegEx
+
+const TAB_LOBBY := 1
+const TAB_CHECK := 2
 
 # holds functions to process data about ongoing matches for spectating
 #var FUNCTIONS_TABLE: Dictionary
@@ -82,7 +87,7 @@ func requestLobbies():
 		Storage.PLAYERS_add(players)
 		Storage.LOBBIES_add(lobbies,steamIDs)
 
-		lobbyTab.refreshLobby()
+		refresh_active_lobby_tab()
 
 		for lobby_data in lobbies:
 			received_lobby_ids.append(lobby_data.id)
@@ -206,11 +211,17 @@ func downloadAllLobbies():
 	await requestLobbies()
 	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
 
+func refresh_active_lobby_tab() -> void:
+	if tabs_node.current_tab == TAB_CHECK:
+		lobbyTabCheck.refreshLobby()
+	else:
+		lobbyTab.refreshLobby()
+
 func openLobby(justRefresh: bool = true):
 	var txt = searchField.text
 
 	if justRefresh or (Storage.CURRENT_LOBBY and txt.is_empty()):
-		lobbyTab.refreshLobby()
+		refresh_active_lobby_tab()
 		return
 
 	var lobby
@@ -232,7 +243,7 @@ func openLobby(justRefresh: bool = true):
 		return
 
 	Storage.CURRENT_LOBBY = lobby
-	lobbyTab.refreshLobby()
+	refresh_active_lobby_tab()
 
 func openSelectedLobby(selected):
 	lobbyTab.openSelectedLobby(selected)
@@ -245,11 +256,14 @@ func _on_find_button_pressed(isAuto: bool = false):
 
 	await downloadAllLobbies()
 
-	var is_lobbyTab := tabs_node.current_tab > 0
-	openLobby(isAuto or not is_lobbyTab)
+	var is_lobby_tab := tabs_node.current_tab == TAB_LOBBY
+	var is_check_tab := tabs_node.current_tab == TAB_CHECK
+	var is_lobby_context := is_lobby_tab or is_check_tab
+	openLobby(isAuto or not is_lobby_context)
 
 	disabled = false
 	status.showAmountOfLobbies()
+	refresh_completed.emit()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("StartSearch"):

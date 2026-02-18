@@ -264,9 +264,10 @@ const CIVS_TABLE: Dictionary = {
 	52 : "Jurchens",
 	53 : "Wu",
 
-	54: "Mapuche",
-	55: "Muisca",
-	56: "Tupi",
+	56 : "Puru",
+	58: "Mapuche",
+	57: "Muisca",
+	59: "Tupi",
 
 	65537: "Random",
 	65538: "Mirror",
@@ -333,9 +334,10 @@ const REVERSE_CIVS_TABLE = {
 	"Jurchens" : 52,
 	"Khitans" : 53,
 
-	"Mapuche" : 54,
-	"Muisca" : 55,
-	"Tupi" : 56,
+	"Puru" : 56,
+	"Mapuche" : 58,
+	"Muisca" : 57,
+	"Tupi" : 59,
 
 	"Random" : 65537,
 	"Mirror" : 65538,
