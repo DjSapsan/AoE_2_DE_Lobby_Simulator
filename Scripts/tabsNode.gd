@@ -54,7 +54,6 @@ func _on_tab_changed(tab):
 				search_field.text = lobby_search_text
 				changeFindButton()
 				
-			check_tab.loading()	#it will work only once per app start
 			check_tab.refreshLobby()				#refresh only when switching to it
 	
 func changeFindButton():

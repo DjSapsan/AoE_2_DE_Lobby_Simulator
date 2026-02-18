@@ -3,7 +3,7 @@ extends HBoxContainer
 @onready var browseFilterTitles = $BrowseFilterTitles
 @onready var browseFilterPlayers = $BrowseFilterPlayers
 @onready var browseFilterMap = $BrowseFilterMap
-@onready var browseFilterServer = $BrowseFilterServer
+@onready var browseFilterType = $BrowseFilterType
 @onready var browseFilterPassword = $BrowseFilterPassword
 
 @onready var sortButtonActive
@@ -66,17 +66,17 @@ func _on_browse_filter_map_pressed():
 	sortButtonActive.text = addArrowToTitle("Map")
 	applySort()
 
-func _on_browse_filter_server_pressed():
-	if sortButtonActive != browseFilterServer:
+func _on_browse_filter_type_pressed():
+	if sortButtonActive != browseFilterType:
 		removeArrow()
-		sortButtonActive = browseFilterServer
+		sortButtonActive = browseFilterType
 		sortDirection = -1
 	else:
 		sortDirection -= 1
 		if sortDirection < -1:
 			sortDirection = 1
-	sortBy = "server"
-	sortButtonActive.text = addArrowToTitle("Server")
+	sortBy = "type"
+	sortButtonActive.text = addArrowToTitle("Type")
 	applySort()
 
 func _on_browse_filter_password_pressed():
@@ -112,11 +112,11 @@ func applySort():
 				return sortDirection*(lobbyA.totalPlayers - (lobbyB.totalPlayers)) < 0
 			)
 
-		"server":
+		"type":
 			newOrder.sort_custom(func(a,b):
 				var lobbyA = a.associatedLobby
 				var lobbyB = b.associatedLobby
-				return sortDirection*(lobbyA.server.naturalnocasecmp_to(lobbyB.server)) < 0
+				return sortDirection*(lobbyA.gameModeName.naturalnocasecmp_to(lobbyB.gameModeName)) < 0
 			)
 			
 		"map":

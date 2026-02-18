@@ -39,7 +39,7 @@ func setupLobbyItem(lItem, lobby):
 	obj.get_child(0).text = lobby.title
 	obj.get_child(1).text = "%d/%d" % [lobby.totalPlayers, lobby.maxPlayers]
 	obj.get_child(2).text = lobby.map
-	obj.get_child(3).text = lobby.server
+	obj.get_child(3).text = lobby.gameModeName
 	obj.get_child(4).text = "X" if lobby.password else ""
 	
 func clearSpecList():
@@ -69,7 +69,7 @@ func setupSpecItem(lItem, spec):
 	obj.get_child(0).text = spec.title
 	obj.get_child(1).text = "%d/%d" % [spec.totalPlayers, spec.maxPlayers]
 	obj.get_child(2).text = spec.map
-	obj.get_child(3).text = spec.server
+	obj.get_child(3).text = spec.gameModeName
 	#obj.get_child(4).text = "X" if spec.password else ""
 
 func applyFilter(_null=null):
