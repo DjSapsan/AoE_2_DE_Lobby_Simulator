@@ -341,6 +341,84 @@ const REVERSE_CIVS_TABLE = {
 	"Mirror" : 65538,
 	"Full RNG" : 65539};
 
+const MAP_SIZES_TABLE: Dictionary = {
+	120: "Tiny (2 p) [120]",
+	144: "Small (3 p) [144]",
+	168: "Medium (4 p) [168]",
+	200: "Normal (6 p) [200]",
+	220: "Large (8 p) [220]",
+	240: "Huge [240]",
+	480: "Ludicrous [480]"
+}
+
+const LOBBY_AI_DIFFICULTY_TABLE: Dictionary = {
+	-1: "Extreme",
+	0: "Hardest",
+	1: "Hard",
+	2: "Moderate",
+	3: "Standard",
+	4: "Easiest",
+}
+
+const LOBBY_RESOURCES_TABLE: Dictionary = {
+	0: "Standard",
+	1: "Low",
+	2: "Medium",
+	3: "High",
+	4: "Ultra High",
+	5: "Infinite",
+	6: "Random",
+}
+
+const LOBBY_SPEED_TABLE: Dictionary = {
+	0: "Slow",
+	1: "Casual",
+	2: "Normal",
+	3: "Fast",
+}
+
+const LOBBY_MAP_REVEAL_TABLE: Dictionary = {
+	0: "Normal",
+	1: "Explored",
+	2: "All Visible",
+}
+
+const LOBBY_START_IN_TABLE: Dictionary = {
+	0: "Standard",
+	2: "Dark Age",
+	3: "Feudal Age",
+	4: "Castle Age",
+	5: "Imperial Age",
+	6: "Post-Imperial Age",
+}
+
+const LOBBY_END_IN_TABLE: Dictionary = {
+	0: "Standard",
+	2: "Dark Age",
+	3: "Feudal Age",
+	4: "Castle Age",
+	5: "Imperial Age",
+	6: "Post-Imperial Age",
+}
+
+const LOBBY_VICTORY_TABLE: Dictionary = {
+	9: "Standard",
+	1: "Conquest",
+	7: "Time Limit",
+	8: "Score",
+	11: "Last Man Standing",
+}
+
+const LOBBY_CONDITION_TIME_TABLE: Dictionary = {
+	15000: "1,500 years (2:00 hr)",
+	13000: "1,300 years (1:45 hr)",
+	11000: "1,100 years (1:30 hr)",
+	9000: "900 years (1:15 hr)",
+	7000: "700 years (60 min)",
+	5000: "500 years (40 min)",
+	3000: "300 years (25 min)"
+}
+
 const LobbyOptions_Mode: Array[String] = [
 	"-",
 	"Random Map",

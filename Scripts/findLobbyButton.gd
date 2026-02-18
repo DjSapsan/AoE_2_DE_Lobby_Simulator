@@ -83,7 +83,6 @@ func requestLobbies():
 		Storage.LOBBIES_add(lobbies,steamIDs)
 
 		lobbyTab.refreshLobby()
-		lobbyTabCheck.refreshLobby()
 
 		for lobby_data in lobbies:
 			received_lobby_ids.append(lobby_data.id)
@@ -212,7 +211,6 @@ func openLobby(justRefresh: bool = true):
 
 	if justRefresh or (Storage.CURRENT_LOBBY and txt.is_empty()):
 		lobbyTab.refreshLobby()
-		lobbyTabCheck.refreshLobby()
 		return
 
 	var lobby
@@ -235,11 +233,9 @@ func openLobby(justRefresh: bool = true):
 
 	Storage.CURRENT_LOBBY = lobby
 	lobbyTab.refreshLobby()
-	lobbyTabCheck.refreshLobby()
 
 func openSelectedLobby(selected):
 	lobbyTab.openSelectedLobby(selected)
-	lobbyTabCheck.refreshLobby()
 
 func _on_find_button_pressed(isAuto: bool = false):
 	if disabled:

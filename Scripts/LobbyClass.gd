@@ -5,44 +5,83 @@ const CIV_KEY := 1
 const COLOR_KEY := 3
 const TEAM_KEY := 7
 
-# lobby keys
+# lobby option keys
+const START_IN_KEY := 0
+const ALLOW_CHEATS_KEY := 1
+const END_IN_KEY := 4
 const GAME_TYPE_KEY := 5
-const MAP_TYPE_KEY := 10
-const MAP_CUSTOM_KEY := 10
-#const IS_RMS_NAME := 11
-const CUSTOM_MAP_KEY := 16
-const DATA_MOD_ID_KEY := 20
-const SCENARIO_KEY := 22
-#const SCENARIO_NAME_KEY := 38 #?
+const MAP_SIZE_KEY := 8
+const MAP_ID_KEY := 10
+const MAX_POP_KEY := 28
+const RESOURCES_KEY := 37
+const SCENARIO_NAME_KEY := 38
 const GAME_SPEED_KEY := 41
-const MODDED_KEY := 60
-const MOD_NAME_KEY := 63
-const EXPANSION := 67 #?
-const HIDDEN_KEY := 85
+const TREATY_KEY := 57
+const DATA_MOD_ID_KEY := 59
+const AI_DIFFICULTY_KEY := 61
+const FULL_TECH_TREE_KEY := 62
+const DATA_MOD_NAME_KEY := 63
+const LOCK_SPEED_KEY := 65
+const LOCK_TEAMS_KEY := 66
+const SHARED_EXPLORATION_KEY := 76
+const TURBO_MODE_KEY := 79
+const VICTORY_CONDITION_KEY := 80
+const VICTORY_KEY := 81
+const MAP_REVEAL_KEY := 82
+const TEAM_POSITION_KEY := 86
+const TEAM_TOGETHER_KEY := 87#?
+const IS_EW_KEY := 89
+const IS_SD_KEY := 90
+const IS_REGICIDE_KEY := 91
+const ANTIQUITY_KEY := 100
 
 var id: int
 var steam_id: String
 var title: String = ""
 var password: bool = false
-var hidden_civs: bool = false
-var isModded: bool = false
 var maxPlayers: int = 8
-var gameTypeName: String
-var dataModName: String
-var dataModID: int
+
 var startgametime: int
-var server: String
+
+var gameModeName: String
 var map: String = "-"
+var mapID: int
 var size: String
+var AI_difficulty: String
 var resources: String
 var maxPop: int
-var victory: String
 var speed: String
-var totalPlayers: int = 0
-var observers: int = 0
+var mapReveal: String
+var startIn: String
+var endIn: String
+var treaty: String
+var victory: String
+var victoryCondition: String
+
+var isLockSpeed: bool = false
+var isCheats: bool = false
+var isTurbo: bool = false
+var isFullTech: bool = false
+var isEW: bool = false
+var isSD: bool = false
+var isRegicide: bool = false
+var isAntiquity: bool = false
+var isLockTeams: bool = false
+var isTogether: bool = false
+var isTeamPosition: bool = false
+var isSharedExploration: bool = false
+
+var rankedType: String = "-"
 var isVisible: bool = true
 var isObservable: bool = true
 var observerDelay: int = 0
+var dataModName: String = "AoE2 DE"
+var dataModID: int
+var isModded: bool = false
+
+var totalPlayers: int = 0
+var isHideCivs: bool = false
+var server: String
 
 var slotinfo
 var slots: Array [CorePlayerClass] = [null,null,null,null,null,null,null,null]
@@ -85,8 +124,8 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#map = str(source.mapname)
 			server = source.relayserver_region
 			password = source.passwordprotected
-			isVisible = str(source.visible) == "1"
-			isObservable = str(source.isobservable) == "1"
+			isVisible = source.visible > 0
+			isObservable = source.isobservable > 0
 			observerDelay = int(source.observerdelay)
 #
 		#for aoe2lobby
@@ -95,7 +134,7 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#title = "👁 " + source.description
 			#maxPlayers = source.maxplayers
 			#map = source.Map
-			#gameTypeName = source.Game_Mode
+			#gameModeName = source.Game_Mode
 			#server = source.relayserver_region
 			##password = source.passwordprotected
 			#translateMembers(source.slot)
@@ -108,7 +147,7 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 		# 	title = "👁 " + source.diplomacy
 		# 	maxPlayers = source.players.size()
 		# 	map = source.map
-		# 	gameTypeName = source.game_type
+		# 	gameModeName = source.game_type
 		# 	server = source.server
 		# 	#password = source.passwordprotected
 		# 	translateMembers(source.players)
@@ -119,7 +158,7 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#title = "👁 " + source.match_diplomacy
 			#maxPlayers = 8
 			#map = source.match_map
-			#gameTypeName = source.game_type
+			#gameModeName = source.game_type
 			#server = source.server
 			##password = source.passwordprotected
 			#translateMembers(source.players)
@@ -223,11 +262,11 @@ func decode_slots(input: String) -> String:
 # 		return
 
 # 	var game_type_id := int(game_type)
-# 	gameTypeName = Tables.GAME_TYPE_TABLE.get(game_type_id, "Other type")
+# 	gameModeName = Tables.GAME_TYPE_TABLE.get(game_type_id, "Other type")
 
-# func set_hidden_civs_from_options(decoded_options: Dictionary):
+# func set_isHideCivs_from_options(decoded_options: Dictionary):
 # 	if get_option_int(decoded_options, HIDDEN_KEY, 0) == 1:
-# 		hidden_civs = true
+# 		isHideCivs = true
 
 # func set_modded_from_options(decoded_options: Dictionary):
 # 	var modded_value = get_option_value(decoded_options, MODDED_KEY, null)
@@ -262,7 +301,7 @@ func decode_slots(input: String) -> String:
 # 	t = options.get(CUSTOM_MAP_KEY, "") 
 # 	if t == "y":
 # 		map = Tables.MAPS_TABLE.get(int(t), "unknown map")
-# 		gameTypeName = "Random Map"
+# 		gameModeName = "Random Map"
 # 	elif t == "n":
 # 		pass
 # 	elif t == "":
@@ -273,7 +312,7 @@ func decode_slots(input: String) -> String:
 # 		pass
 # 	if t == "y":
 # 		map = "scenario"
-# 		gameTypeName = "Scenario"
+# 		gameModeName = "Scenario"
 # 	elif t == "":
 # 		pass
 # 	else:
@@ -310,8 +349,8 @@ func getDictionary(packed_array: PackedByteArray) -> Dictionary:
 				value = key_value[1]
 				dictionary[key] = value
 
-	if title == "test":
-		pass
+	#if title == "test":
+		#pass
 	return dictionary
 
 # Function to parse slot information and assign players to slots
@@ -344,7 +383,7 @@ func putPlayersInSlotsWithInfo():
 					pass
 
 				if meta.size() > 0:
-					if hidden_civs:
+					if isHideCivs:
 						civs[position] = -2
 					else:
 						c = int(meta[CIV_KEY])
@@ -369,8 +408,8 @@ func putPlayersInSlotsWithInfo():
 		position = position + 1
 
 func decodeMetaData(data) -> PackedStringArray:
-	if title == "test":
-		pass
+	#if title == "test":
+		#pass
 	var decodedOne := Marshalls.base64_to_raw(data)
 	var txt := decodedOne.get_string_from_utf8().replace('"', '')
 	var decodedTwo := Marshalls.base64_to_raw(txt)
@@ -408,10 +447,14 @@ func _read_u32_le(data: PackedByteArray, offset: int) -> int:
 		| (int(data[offset + 2]) << 16) \
 		| (int(data[offset + 3]) << 24)
 
+# static var debug_baseline_by_lobby: Dictionary = {}
+
 func parseOptionBytes(data: PackedByteArray):
-	var debugStringK = ""
-	var debugStringV = ""
-	
+	#var debugStringK = ""
+	#var debugStringV = ""
+	#if title == "test":
+		#pass
+		
 	var i := 1
 
 	while i + 4 <= data.size():
@@ -433,21 +476,182 @@ func parseOptionBytes(data: PackedByteArray):
 		var key := int(s.substr(0, sep))
 		var val_str := s.substr(sep + 1)
 		
-		debugStringK += "%d, " % [key]
-		debugStringV += val_str + ", "
-
-		#if optionFunctions.has(key):
-		#	call(optionFunctions[key],(val_str))
-
-	print("\nParsed options: ")
-	print("\n",debugStringK)
-	print("\n",debugStringV)
+		#debugStringK += "%d, " % [key]
+		#debugStringV += val_str + ", "
+		
+		if optionFunctions.has(key):
+			optionFunctions[key].call(self, val_str)
+		
+	#if title == "test":
+		#pass		
+		#print("\nParsed options: ")
+		#print("\n",debugStringK)
+		#print("\n",debugStringV)
+	# 	var debug_key := str(id)
+	# 	var expected_debug: String = str(debug_baseline_by_lobby.get(debug_key, ""))
+	# 	if expected_debug != "" and debugStringV != expected_debug:
+	# 		var parsed_keys := debugStringK.split(",", false)
+	# 		var parsed_values := debugStringV.split(",", false)
+	# 		var expected_values := expected_debug.split(",", false)
+	# 		var j := 0
+	# 		for parsed_entry in parsed_values:
+	# 			if j >= parsed_keys.size() or j >= expected_values.size():
+	# 				break
+	# 			var key_str := parsed_keys[j].strip_edges()
+	# 			var parsed_value := parsed_entry.strip_edges()
+	# 			var expected_value := expected_values[j].strip_edges()
+	# 			if parsed_value != expected_value and key_str != "":
+	# 				print("[%s] %s -> %s" % [key_str, parsed_value, expected_value])
+	# 			j += 1
+	# 	debug_baseline_by_lobby[debug_key] = debugStringV
+	# 	#print("\nParsed options: ")
+	# 	#print("\n",debugStringK)
+	# 	#print("\n",debugStringV)
 	
 
 # array of functions for each option key to avoid if-else:
 static var optionFunctions: Dictionary = {
-	MAP_CUSTOM_KEY: func(v):
+	
+	DATA_MOD_ID_KEY: func(l:LobbyClass,v):
+		if (v!="0"):
+			l.dataModID = int(v)
+			l.isModded = true
 		pass,
-	1: func(v):
-		pass
+
+	SCENARIO_NAME_KEY: func(l:LobbyClass,v):
+		l.map = v
+		l.gameModeName = "Scenario"
+		l.size = "-"
+		pass,
+
+	MAX_POP_KEY: func(l:LobbyClass,v):
+		l.maxPop = int(v)
+		pass,
+
+	SHARED_EXPLORATION_KEY: func(l:LobbyClass,v):
+		if v =="y":
+			l.isSharedExploration = true
+		pass,
+	
+	MAP_SIZE_KEY: func(l:LobbyClass,v):
+		l.size = Tables.MAP_SIZES_TABLE.get(int(v), "?")
+		pass,
+	
+	LOCK_TEAMS_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isLockTeams = true
+		pass,
+	
+	LOCK_SPEED_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isLockSpeed = true
+		pass,
+	
+	ALLOW_CHEATS_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isCheats = true
+		pass,
+	
+	TURBO_MODE_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isTurbo = true
+		pass,
+	
+	FULL_TECH_TREE_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isFullTech = true
+		pass,
+	
+	#75 record game
+	# 75: func(l:LobbyClass,v):
+	# 	if v == "y":
+	# 		l.isRecording = true
+	# 	pass,
+
+	#extreme, hardest, hard, moderate, standard, easiest
+	AI_DIFFICULTY_KEY: func(l:LobbyClass,v):
+		l.AI_difficulty = Tables.LOBBY_AI_DIFFICULTY_TABLE.get(int(v), "?")
+		pass,
+	
+	RESOURCES_KEY: func(l:LobbyClass,v):
+		l.resources = Tables.LOBBY_RESOURCES_TABLE.get(int(v), "?")
+		pass,
+
+	GAME_SPEED_KEY: func(l:LobbyClass,v):
+		l.speed = Tables.LOBBY_SPEED_TABLE.get(int(v), "?")
+		pass,
+
+	MAP_REVEAL_KEY: func(l:LobbyClass,v):
+		l.mapReveal = Tables.LOBBY_MAP_REVEAL_TABLE.get(int(v), "?")
+		pass,
+
+	START_IN_KEY: func(l:LobbyClass,v):
+		l.startIn = Tables.LOBBY_START_IN_TABLE.get(int(v), "?")
+		pass,
+	
+	END_IN_KEY: func(l:LobbyClass,v):
+		l.endIn = Tables.LOBBY_END_IN_TABLE.get(int(v), "?")
+		pass,
+
+	TREATY_KEY: func(l:LobbyClass,v):
+		l.treaty = v
+		pass,
+
+	GAME_TYPE_KEY: func(l:LobbyClass,v):
+		l.gameModeName = Tables.GAME_TYPE_TABLE.get(int(v), "?")
+		pass,
+
+	MAP_ID_KEY: func(l:LobbyClass,v):
+		l.map = Tables.MAPS_TABLE.get(int(v), "?")
+		l.mapID = int(v)
+		pass,
+
+	VICTORY_CONDITION_KEY: func(l:LobbyClass,v):
+		l.victoryCondition = v
+		pass,
+
+	VICTORY_KEY: func(l:LobbyClass,v):
+		l.victory = Tables.LOBBY_VICTORY_TABLE.get(int(v), "?")
+		pass,
+
+	ANTIQUITY_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isAntiquity = true
+		pass,
+
+	#64 is custom map
+	# 64: func(l:LobbyClass,v):
+	# 	if v == "y":
+	# 		l.gameModeName = "Scenario"
+	# 	pass,
+
+	#is team together
+	TEAM_TOGETHER_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isTogether = true
+		pass,
+	
+	TEAM_POSITION_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isTeamPosition = true
+		pass,
+	
+	#is EW, is SD, is Regicide
+	IS_EW_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isEW = true
+		pass,
+	IS_SD_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isSD = true
+		pass,
+
+	IS_REGICIDE_KEY: func(l:LobbyClass,v):
+		if v == "y":
+			l.isRegicide = true
+		pass,	
+	
+	DATA_MOD_NAME_KEY: func(l:LobbyClass,v):
+		l.dataModName = v
+		pass,
 }

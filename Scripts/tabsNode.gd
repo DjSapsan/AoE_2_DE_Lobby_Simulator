@@ -2,6 +2,7 @@ extends TabContainer
 
 @onready var search_field:= %SearchField
 @onready var find_button:= %FindButton
+@onready var check_tab: PanelContainer = %Check
 
 var general_search_text := ""
 var lobby_search_text := ""
@@ -27,6 +28,10 @@ func _on_search_field_text_changed(new_text: String):
 		general_search_text = new_text
 
 func _on_tab_changed(tab):
+	
+	if not is_node_ready():
+		return
+		
 	current_tab = tab
 	match tab:
 		0:	# browser
@@ -35,12 +40,22 @@ func _on_tab_changed(tab):
 			search_field.text = general_search_text
 			find_button.text = "Find"
 
-		1, 2:	# lobby/check
+		1:	#lobby
 			%lobbyTips.visible = false
 			if search_field: 
 				search_field.placeholder_text = LOBBY_PLACEHOLDER
 				search_field.text = lobby_search_text
 				changeFindButton()
+				
+		2:	# check
+			%lobbyTips.visible = false
+			if search_field: 
+				search_field.placeholder_text = LOBBY_PLACEHOLDER
+				search_field.text = lobby_search_text
+				changeFindButton()
+				
+			check_tab.loading()	#it will work only once per app start
+			check_tab.refreshLobby()				#refresh only when switching to it
 	
 func changeFindButton():
 	if lobby_search_text.is_empty():
