@@ -187,6 +187,16 @@ const MAPS_TABLE: Dictionary = {
 	11014 : "Chaos pit" ,
 	11015 : "Mired" ,
 	11016 : "Murkwood" ,
+	10990 : "Moats" ,
+	11017 : "Crownwood" ,
+	11018 : "DorotheaQuarry" ,
+	11019 : "Glacis" ,
+	11020 : "Hengehold" ,
+	11021 : "LochNess" ,
+	11022 : "Rampart" ,
+	11023 : "Stonefront" ,
+	11024 : "Thames" ,
+	11025 : "Vulpine" ,
 	}
 
 const GAME_TYPE_TABLE: Dictionary = {

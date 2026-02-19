@@ -18,7 +18,7 @@ config/name="Lobby Simulator"
 config/description="See all open lobbies from the AoE2 DE game.
 Connect to a lobby you want.
 Balance players in team games."
-config/version="1.99s"
+config/version="1.99"
 run/main_scene="res://scenes/lobbySimulatorGUI.tscn"
 config/use_hidden_project_data_directory=false
 config/features=PackedStringArray("4.6", "GL Compatibility")
