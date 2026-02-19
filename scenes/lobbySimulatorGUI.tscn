@@ -646,10 +646,11 @@ theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_selected = ExtResource("14_ro1px")
 theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_focus = ExtResource("14_ro1px")
-current_tab = 0
+current_tab = 2
 script = ExtResource("16_84o23")
 
 [node name="Browse" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=2068362470]
+visible = false
 layout_mode = 2
 focus_behavior_recursive = 1
 theme_override_styles/panel = ExtResource("74_qt3p3")
@@ -771,23 +772,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 4
 
-[node name="LobbyButton" type="Button" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=964568092]
+[node name="LobbyLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=375997747]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 39)
 layout_mode = 2
-tooltip_text = "LMB - join in game
-RBM - copy to clipboard"
-mouse_default_cursor_shape = 2
-flat = true
-script = ExtResource("23_7yx4d")
-
-[node name="LobbyLabel" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" unique_id=375997747]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 39.0
-grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 tooltip_text = "Alt + LMB to join in game
@@ -801,6 +788,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
+script = ExtResource("23_7yx4d")
 
 [node name="MapAndMode" type="Label" parent="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby" unique_id=597102822]
 unique_name_in_owner = true
@@ -1111,7 +1099,6 @@ layout_mode = 2
 
 [node name="Check" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=404776476]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("74_qt3p3")
 script = ExtResource("94_v8aya")
@@ -1178,12 +1165,12 @@ theme_override_styles/separator = ExtResource("88_epvut")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-tooltip_text = "Copy the code to share it"
+tooltip_text = "Click to copy the code"
 mouse_filter = 1
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = ExtResource("77_0e5ro")
 text = "sharing code"
-label_settings = ExtResource("24_u1rfu")
+label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
@@ -1277,6 +1264,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 label_settings = ExtResource("20_vone5")
 horizontal_alignment = 1
@@ -1321,6 +1309,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1356,6 +1345,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 mouse_filter = 1
 mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1378,6 +1368,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1401,6 +1392,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1424,6 +1416,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1447,6 +1440,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1470,6 +1464,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1493,6 +1488,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1516,6 +1512,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1539,6 +1536,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1562,6 +1560,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -1585,6 +1584,7 @@ custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
 text = "-"
 label_settings = ExtResource("20_vone5")
@@ -2138,10 +2138,14 @@ color = Color(0, 0, 0, 0.2509804)
 
 [node name="LobbyHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list/DarkerHeaders" unique_id=140937990]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-offset_bottom = 25.0
+anchor_bottom = 0.5
+offset_top = -12.5
+offset_bottom = 12.5
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 0
 
 [node name="offset" type="Container" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list/DarkerHeaders/LobbyHeaders" unique_id=676783608]
@@ -3070,11 +3074,14 @@ custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 19
-text = "≡"
+tooltip_text = "Menu to change settings"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_7cxyb")
+theme_override_font_sizes/font_size = 18
+text = "⋯"
 icon = ExtResource("104_kmo78")
 clip_text = true
 icon_alignment = 1
@@ -3113,9 +3120,9 @@ size_flags_vertical = 4
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterMap" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_map_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterType" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_type_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPassword" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_password_pressed"]
-[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" method="_on_button_pressed"]
-[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyButton" method="_on_mouse_exited"]
+[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_gui_input"]
+[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_exited"]
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders/L_elo" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/LobbyPlayersList" method="signalRefreshAllElo"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders/L_smurfs" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders/B_Smurfs" method="activate"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders/B_Smurfs" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/Headers and list/DarkerHeaders/LobbyHeaders/B_Smurfs" method="activate"]
@@ -3124,6 +3131,8 @@ size_flags_vertical = 4
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/BalanceAlgSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_balance_type_item_selected"]
 [connection signal="value_changed" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/ShortNamesSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_short_names_setts_changed"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" method="_on_gui_input"]
+[connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" method="_on_mouse_exited"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer/F_Location" to="MainContainer/Sections/TabsNode/Check" method="onModOpenInput"]
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer/F_Victory" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer/F_Victory" method="_on_item_selected"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/F_Data" to="MainContainer/Sections/TabsNode/Check" method="onModOpenInput" flags=3]

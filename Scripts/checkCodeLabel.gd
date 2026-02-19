@@ -1,9 +1,15 @@
 extends Label
 
+func isCode():
+	return text !="" and text !="sharing code"
+
+func _on_mouse_entered():
+	if isCode():
+		modulate = 0xa6c9feff
+
+func _on_mouse_exited():
+	modulate = 0xffffffff
+	
 func _on_gui_input(event: InputEvent) -> void:
-	if \
-	text !="" \
-	and text !="sharing code"\
-	and event is InputEventMouseButton \
-	and event.button_index == MOUSE_BUTTON_RIGHT:
+	if isCode()	and event is InputEventMouseButton:
 			DisplayServer.clipboard_set(text)

@@ -1,4 +1,4 @@
-extends Button
+extends Label
 
 @onready var main = get_node("/root/Control")
 
@@ -13,7 +13,7 @@ func _on_mouse_exited():
 	if isLobby():
 		modulate = 0xffffffff
 	
-func _on_button_pressed(event):
+func _on_gui_input(event: InputEvent) -> void:
 	if isLobby() and event is InputEventMouseButton:
 		if Input.is_physical_key_pressed(KEY_ALT):
 			main.openAge(Storage.CURRENT_LOBBY)

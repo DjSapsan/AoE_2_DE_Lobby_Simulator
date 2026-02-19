@@ -12,6 +12,7 @@ var default_find_text := "Find"
 const LOBBY_PLACEHOLDER := "Find and jump to..."
 
 func _ready():
+	current_tab = 0
 	default_placeholder = search_field.placeholder_text
 	default_find_text = find_button.text
 	general_search_text = search_field.text
