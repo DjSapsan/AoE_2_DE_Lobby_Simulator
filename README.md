@@ -1,30 +1,40 @@
-<img width="999" height="724" alt="image" src="https://github.com/user-attachments/assets/078f8276-cb2c-4957-9ae8-dc6fdc9d07e1" />
+
+[Screencast_20260219_041244.webm](https://github.com/user-attachments/assets/f117ba22-e728-40ea-94f9-6a50143e86d9)
 
 ### Features:
-
-- Bug fixes
+- Everything is new and improved
+- Join the selected lobby in-game by clicking on it
+- Sort, show, and filter lobbies by title, map, or players inside
+- Balance for 2 - 4 teams and paste it into game chat
 - Colors explain Elo:
     - Gray = no Elo in the selected leaderboard
     - Blue = estimated Elo
     - Black = actual Elo
     - Purple = manually overwritten Elo
 - Select 1v1 or TG to show and balance, manually override Elo, or estimate "true" Elo
-- Balance for 2 - 4 teams and paste it into game chat
 - Override teams manually
-- Sort, show, and filter lobbies by title, map, or players inside
-- Join the selected lobby in-game by clicking on it
+
 - Instantly jump to a specific lobby by ID or player's name
 - Make names shorter
-- Removed smurf-checking, as the source is gone
+- Open players stats
+
+### Lobbycheck:
+- fantastic new feature to check the lobby settings
+- intended for tournaments, community games, etc (please contact for more details)
+- sharing the code just like the map/civ draft!
+- future updates will include:
+   - website
+   - more checks
+   - better code sharing
+   - better interface
 
 ### Bugs:
 - Spectating is broken and therefore disabled
-- Potentially some crashes on Windows
-- Let me know if you encounter any crashes or bugs
+- New features could introduce new bugs, please report them!
 
-### Opensource!
-- I made it open source! Please contact if you wanna participate
-- Also contact me if you wanna support it
+### Open source!
+- It's open source! Please contact if you want to contribute
+- Also contact me if you want to support it
 
 ### TODO:
 - find bugs
