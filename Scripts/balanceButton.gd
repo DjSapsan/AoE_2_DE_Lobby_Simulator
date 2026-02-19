@@ -263,7 +263,7 @@ func format_player_list(input_text: String) -> String:
 	return ", ".join(players)
 
 func _on_pressed():
-	if !Storage.CURRENT_LOBBY:
+	if !Storage.OPENED_LOBBY:
 		return
 	var out := ""
 	var sorted_keys := current_teams.keys()

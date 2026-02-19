@@ -1,10 +1,13 @@
 extends Node
 
-var LOBBIES: Dictionary = {}
 var PLAYERS: Dictionary = {}
+
+var LOBBIES: Dictionary = {}
 var SPECS: Dictionary = {}
 
-var CURRENT_LOBBY: LobbyClass
+var LIVE_LOBBIES: Dictionary = {}
+
+var OPENED_LOBBY: LobbyClass
 
 func _ready():
 	addAIPlayers()
@@ -12,6 +15,7 @@ func _ready():
 # Resets the LOBBIES dictionary
 func LOBBIES_reset():
 	LOBBIES.clear()
+	LIVE_LOBBIES.clear()
 
 func LOBBIES_remove_absent(received_ids):
 	var ids_to_remove = []
@@ -21,14 +25,27 @@ func LOBBIES_remove_absent(received_ids):
 	for id in ids_to_remove:
 		LOBBIES.erase(id)
 
-func LOBBIES_add(data,steamIDs):
-	for l in data:
-		var id = l.id
-		var new_lobby: LobbyClass = LobbyClass.new(l, "lobby",steamIDs)
+#from the fresh data, may have duplicates
+#TODO add logic for handling duplicates
+func LOBBIES_create(data):
+	for d in data:
+		var id = d.id
+		var new_lobby: LobbyClass = LobbyClass.new(d)
 		LOBBIES[id] = new_lobby
+		LIVE_LOBBIES[id] = true
 		#if the lobby was refreshed:
-		if CURRENT_LOBBY and CURRENT_LOBBY.id == id:
-			CURRENT_LOBBY = new_lobby
+		if OPENED_LOBBY and OPENED_LOBBY.id == id:
+			OPENED_LOBBY = new_lobby
+
+func LOBBIES_refresh(data, steamIDs):
+	for d in data:
+		var id = d.id
+		if LOBBIES.has(id):
+			var existing_lobby = LOBBIES[id]
+			existing_lobby.loadDetails(d, steamIDs)
+		else:
+			var new_lobby: LobbyClass = LobbyClass.new(d)
+			LOBBIES[id] = new_lobby
 
 # Resets the PLAYERS dictionary
 func PLAYERS_reset():
@@ -58,48 +75,6 @@ func LIST_findInIndex(search: String, list: Dictionary) -> LobbyClass:
 		if lobby.index.contains(search):
 			return lobby
 	return null
-
-# Resets the SPECS dictionary
-func SPECS_reset():
-	SPECS.clear()
-
-# remove specs from the data
-func SPECS_remove(lobby_ids):
-	for i in lobby_ids:
-		if Storage.SPECS.has(i):
-			var l = Storage.SPECS[i]
-			l.associatedNode.queue_free()
-			Storage.SPECS.erase(i)
-
-func SPECS_removeOne(lobby_id):
-	if Storage.SPECS.has(lobby_id):
-		var l = Storage.SPECS[lobby_id]
-		l.associatedNode.queue_free()
-		Storage.SPECS.erase(lobby_id)
-
-
-# Adds specs from the data
-func SPECS_changeOne(id, data):
-	if data:
-		var new_spec: LobbyClass = LobbyClass.new(data, "spec")
-		SPECS[new_spec.id] = new_spec
-		return new_spec
-	else:
-		SPECS_removeOne(id)
-
-func SPECS_refresh(data):
-	for id in data:
-		var s = data[id]
-		if SPECS.has(id):
-			pass
-			#print("Updating spec")
-			# Update existing spec
-			#var existing_spec = SPECS[id]
-			#existing_spec.update(s)
-		else:
-			# Add new spec
-			var new_spec: LobbyClass = LobbyClass.new(s, "spec")
-			SPECS[id] = new_spec
 
 func addAIPlayers():
 	#var AIs: Dictionary

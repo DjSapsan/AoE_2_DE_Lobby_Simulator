@@ -18,6 +18,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 8.854362e-05
+mouse_force_pass_scroll_events = false
+mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n6lat")
 script = ExtResource("1_yjoqd")
 
@@ -80,10 +82,5 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="LobbyButton" type="Button" parent="." unique_id=1666791108]
-layout_mode = 2
-flat = true
-
-[connection signal="gui_input" from="LobbyButton" to="." method="_on_pressed"]
-[connection signal="mouse_entered" from="LobbyButton" to="." method="_on_lobby_button_mouse_entered"]
-[connection signal="mouse_exited" from="LobbyButton" to="." method="_on_lobby_button_mouse_exited"]
+[connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_mouse_exited"]

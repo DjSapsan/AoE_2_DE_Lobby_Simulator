@@ -1,32 +1,43 @@
 extends PanelContainer
 
+static var lobbyTabPath = "/root/Control/MainContainer/Sections/TabsNode/Lobby"
+
 var associatedLobby
-var _base_self_modulate: Color = 0xffffffff
-var _is_hovered := false
 
 const HOVER_SELF_MODULATE: Color = 0x000020a0
 
-@onready var finder = get_node("/root/Control/MainContainer/Sections/TopElements/FindButton")
-@onready var main = get_node("/root/Control")
+func _ready() -> void:
+	add_to_group("lobbyItems")
 
-func _on_pressed(event):
-	
-	if event is InputEventMouseButton and Input.is_physical_key_pressed(KEY_ALT):
-		main.openAge(associatedLobby)
-		
-	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		finder.openSelectedLobby(associatedLobby)
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.alt_pressed:
+			var cmd: String = ""
+			#var joinOrSpec = Global.ACTIVE_BROWSER_ID
+			if Global.OStype == "Windows":
+				cmd = associatedLobby.getRegularURL()
+				#print("Attempting to open ",cmd)
+				OS.shell_open(cmd)
+			elif Global.OStype == "Linux/BSD":
+				cmd = "xdg-open " + associatedLobby.getSteamURL()
+				#print("Attempting to open ",cmd)
+				OS.execute("sh", ["-c", cmd], [], false)
+		else:
+			var node = get_node(lobbyTabPath)
+			node.openSelectedLobby(associatedLobby)
 
-func set_row_self_modulate(color: Color):
-	_base_self_modulate = color
-	if not _is_hovered:
-		self_modulate = _base_self_modulate
+func refreshDetails():
+	var lobby = associatedLobby as LobbyClass
+	var fields:Array = get_children()[0].get_children()
+	fields[0].text = lobby.title
+	fields[1].text = "%d/%d" % [lobby.totalPlayers, lobby.maxPlayers]
+	fields[2].text = lobby.map
+	fields[3].text = lobby.gameModeName
+	fields[4].text = "X" if lobby.password else ""
 
-func _on_lobby_button_mouse_entered():
-	_is_hovered = true
+
+func _mouse_entered() -> void:
 	self_modulate = HOVER_SELF_MODULATE
 
-func _on_lobby_button_mouse_exited():
-	_is_hovered = false
-	self_modulate = _base_self_modulate
-	
+func _mouse_exited() -> void:
+	self_modulate = 0xffffffff

@@ -20,11 +20,11 @@ func closeCurrentLobby():
 
 func openSelectedLobby(selected):
 	tabsNode.current_tab = 1
-	if Storage.CURRENT_LOBBY == selected:
+	if Storage.OPENED_LOBBY == selected:
 		return
 	else:
 		closeCurrentLobby()
-		Storage.CURRENT_LOBBY = selected
+		Storage.OPENED_LOBBY = selected
 		populateLobby()
 		if Global.ACTIVE_BROWSER_ID == 0:
 			balanceButton.startBalancing()
@@ -32,13 +32,13 @@ func openSelectedLobby(selected):
 			main.removeTeamDisplay()
 
 func refreshLobby():
-	if Storage.CURRENT_LOBBY and (tabsNode.current_tab > 0):
+	if Storage.OPENED_LOBBY and (tabsNode.current_tab > 0):
 		populateLobby()
 		if Global.ACTIVE_BROWSER_ID == 0:
 			balanceButton.startBalancing()
 
 func populateLobby():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	if not lobby:
 		return
 	lobbyLabel.text = "> " + lobby.title + " <"
@@ -54,7 +54,7 @@ func populateLobby():
 	#lobbyPlayersList.refreshAllSmurfs()
 
 func populateSpecLobby():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	if not lobby:
 		return
 	for slot in lobbyPlayersList.get_children():

@@ -14,7 +14,6 @@
 [ext_resource type="Theme" uid="uid://dwpvf6cranlsf" path="res://styles/main_button_theme.tres" id="11_en781"]
 [ext_resource type="Texture2D" uid="uid://bnifervyccru2" path="res://img/icons8-balance-64.png" id="11_nio3w"]
 [ext_resource type="Script" uid="uid://b2ls1vihfplob" path="res://Scripts/balanceButton.gd" id="12_s7mkd"]
-[ext_resource type="Script" uid="uid://df0qsych4gepa" path="res://Scripts/autoFind.gd" id="12_xt3t0"]
 [ext_resource type="PackedScene" uid="uid://dml1mycatvgxa" path="res://scenes/lobbyOrSpec.tscn" id="13_vkma3"]
 [ext_resource type="Script" uid="uid://cbg3k1vof28x1" path="res://Scripts/aboutButton.gd" id="14_fsqxs"]
 [ext_resource type="StyleBox" uid="uid://bne00adfvtnye" path="res://styles/TabSelected.tres" id="14_ro1px"]
@@ -23,11 +22,11 @@
 [ext_resource type="Script" uid="uid://bt65w1x4w1k1k" path="res://Scripts/tabsNode.gd" id="16_84o23"]
 [ext_resource type="Texture2D" uid="uid://bofcoonv0ffll" path="res://img/314692_lock_icon.png" id="16_wx1bx"]
 [ext_resource type="Script" uid="uid://b2uxv7txvskoe" path="res://Scripts/browseList.gd" id="17_7ktkv"]
+[ext_resource type="Script" uid="uid://bcxtbt2dta0ky" path="res://Scripts/searchField.gd" id="17_u6to3"]
 [ext_resource type="Texture2D" uid="uid://dy5ayayqwlop7" path="res://img/icons8-update-120.png" id="18_4wnb8"]
 [ext_resource type="Shader" uid="uid://c46xr4obv7o4v" path="res://lobbySimulatorGUI.gdshader" id="19_34r52"]
 [ext_resource type="LabelSettings" uid="uid://cllurjxw4b4js" path="res://styles/top_label_style.tres" id="20_vone5"]
 [ext_resource type="Texture2D" uid="uid://clffmvyf8rghl" path="res://img/binocular/frame_00_delay-0.04s.png" id="20_wp5n7"]
-[ext_resource type="Script" uid="uid://fvpkdsfhsgy1" path="res://Scripts/browseHeaders.gd" id="21_gs31j"]
 [ext_resource type="Texture2D" uid="uid://jciqgncjngoy" path="res://img/binocular/frame_01_delay-0.04s.png" id="21_uakty"]
 [ext_resource type="Texture2D" uid="uid://cdhkc8ni2ge23" path="res://img/binocular/frame_02_delay-0.16s.png" id="22_2c0hb"]
 [ext_resource type="PackedScene" uid="uid://botmig5ns8yk8" path="res://scenes/playerItem.tscn" id="22_ek3il"]
@@ -98,14 +97,14 @@
 [ext_resource type="Script" uid="uid://ldj5j3u8bjy" path="res://Scripts/checkTab.gd" id="94_v8aya"]
 [ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 [ext_resource type="Script" uid="uid://ltqq5oeiyl48" path="res://Scripts/checkPlayerList.gd" id="95_f7twt"]
-[ext_resource type="Script" uid="uid://dyjgch3dtl8po" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
+[ext_resource type="Script" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
 [ext_resource type="PackedScene" uid="uid://chsa7sqergkst" path="res://scenes/presenceItem.tscn" id="95_v8aya"]
 [ext_resource type="Script" uid="uid://d0w3sg8gv8te3" path="res://Scripts/Drop_Victory_Conditions.gd" id="97_m7e32"]
 [ext_resource type="Texture2D" uid="uid://dqxtgiqmrs4l" path="res://img/checkbox_no.png" id="100_q6gd4"]
-[ext_resource type="Script" uid="uid://cemonjcjm6yvb" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
-[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editNumber.gd" id="102_2pmrl"]
+[ext_resource type="Script" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
+[ext_resource type="Script" path="res://Scripts/editElo.gd" id="102_2pmrl"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="104_kmo78"]
-[ext_resource type="Script" uid="uid://bw1bclp67u0u8" path="res://Scripts/codeButton.gd" id="105_37hnv"]
+[ext_resource type="Script" path="res://Scripts/codeButton.gd" id="105_37hnv"]
 
 [sub_resource type="Theme" id="Theme_pn1ay"]
 
@@ -443,6 +442,7 @@ drag_and_drop_selection_enabled = false
 select_all_on_focus = true
 caret_blink = true
 caret_blink_interval = 0.4
+script = ExtResource("17_u6to3")
 
 [node name="LoadNameButton" type="Button" parent="MainContainer/Sections/HBoxContainer" unique_id=571276691]
 unique_name_in_owner = true
@@ -501,20 +501,6 @@ script = ExtResource("14_fsqxs")
 layout_mode = 2
 size_flags_vertical = 0
 focus_behavior_recursive = 1
-
-[node name="AutoFind" type="Button" parent="MainContainer/Sections/TopElements" unique_id=320874695]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-tooltip_text = "Auto-refresh every 5 sec"
-focus_behavior_recursive = 1
-text = "II"
-script = ExtResource("12_xt3t0")
-
-[node name="Timer" type="Timer" parent="MainContainer/Sections/TopElements/AutoFind" unique_id=1926474455]
-wait_time = 10.0
 
 [node name="FindButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=827122051]
 unique_name_in_owner = true
@@ -662,12 +648,10 @@ focus_behavior_recursive = 1
 theme_override_constants/separation = 0
 
 [node name="BrowseHeaders" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List" unique_id=686218837]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_behavior_recursive = 1
 theme_override_constants/separation = 4
-script = ExtResource("21_gs31j")
 
 [node name="BrowseFilterTitles" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=2045139589]
 custom_minimum_size = Vector2(0, 30)
@@ -1112,7 +1096,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RealLobbyLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=688256572 groups=["realElements"]]
+[node name="RealLobbyLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=688256572 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -1129,7 +1113,7 @@ text_overrun_behavior = 1
 layout_mode = 2
 theme_override_styles/separator = ExtResource("88_epvut")
 
-[node name="RealLobbySettings" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=63275447 groups=["realElements"]]
+[node name="RealLobbySettings" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=63275447 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -1161,7 +1145,7 @@ text_overrun_behavior = 1
 layout_mode = 2
 theme_override_styles/separator = ExtResource("88_epvut")
 
-[node name="CheckCodeLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=1484920042 groups=["checkElements"]]
+[node name="CheckCodeLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=1484920042 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -1257,7 +1241,7 @@ layout_mode = 2
 [node name="playerSlot8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal/Headers and list/RealPlayersList" unique_id=116547146 instance=ExtResource("22_ek3il")]
 layout_mode = 2
 
-[node name="F_Conditions" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal" unique_id=787536981 groups=["realElements"]]
+[node name="F_Conditions" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyReal" unique_id=787536981 groups=["REAL_ELEMENTS"]]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.39215687)
 custom_minimum_size = Vector2(0, 25)
@@ -1304,7 +1288,7 @@ theme_override_fonts/font = ExtResource("2_7cxyb")
 text = "Mode "
 horizontal_alignment = 2
 
-[node name="F_Mode" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=347169639 groups=["realElements"]]
+[node name="F_Mode" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/DarkerHeaders/LobbyHeaders" unique_id=347169639 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1338,7 +1322,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Location" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=838429114 groups=["realElements"]]
+[node name="F_Location" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=838429114 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1363,7 +1347,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Size" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=391629710 groups=["realElements"]]
+[node name="F_Size" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=391629710 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1387,7 +1371,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_AI" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=892937118 groups=["realElements"]]
+[node name="F_AI" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=892937118 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1411,7 +1395,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Res" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=193748237 groups=["realElements"]]
+[node name="F_Res" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=193748237 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1435,7 +1419,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Pop" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=347623966 groups=["realElements"]]
+[node name="F_Pop" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=347623966 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1459,7 +1443,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Speed" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=1795874520 groups=["realElements"]]
+[node name="F_Speed" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=1795874520 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1483,7 +1467,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Reveal" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=212044254 groups=["realElements"]]
+[node name="F_Reveal" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=212044254 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1507,7 +1491,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_StartIn" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=553352665 groups=["realElements"]]
+[node name="F_StartIn" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=553352665 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1531,7 +1515,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_EndIn" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=1907570010 groups=["realElements"]]
+[node name="F_EndIn" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=1907570010 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1555,7 +1539,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Treaty" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=642717692 groups=["realElements"]]
+[node name="F_Treaty" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=642717692 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1579,7 +1563,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Victory" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=787962247 groups=["realElements"]]
+[node name="F_Victory" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer" unique_id=787962247 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1618,7 +1602,7 @@ grow_vertical = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="F_Mode" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/DarkerHeaders/LobbyHeaders" unique_id=1023246477 groups=["checkElements"]]
+[node name="F_Mode" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/DarkerHeaders/LobbyHeaders" unique_id=1023246477 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1677,7 +1661,7 @@ layout_mode = 2
 theme_override_constants/h_separation = 0
 columns = 2
 
-[node name="F_Location" type="LineEdit" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1502112317 groups=["checkElements"]]
+[node name="F_Location" type="LineEdit" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1502112317 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1699,7 +1683,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Size" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=35257270 groups=["checkElements"]]
+[node name="F_Size" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=35257270 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1740,7 +1724,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_AI" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1826308059 groups=["checkElements"]]
+[node name="F_AI" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1826308059 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1780,7 +1764,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Res" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=545607107 groups=["checkElements"]]
+[node name="F_Res" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=545607107 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1822,7 +1806,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Pop" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1195142716 groups=["checkElements"]]
+[node name="F_Pop" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=1195142716 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1876,7 +1860,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Speed" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=288298624 groups=["checkElements"]]
+[node name="F_Speed" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=288298624 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1912,7 +1896,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Reveal" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=344508346 groups=["checkElements"]]
+[node name="F_Reveal" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=344508346 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1946,7 +1930,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_StartIn" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=588899945 groups=["checkElements"]]
+[node name="F_StartIn" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=588899945 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1986,7 +1970,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_EndIn" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=163786050 groups=["checkElements"]]
+[node name="F_EndIn" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=163786050 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2024,7 +2008,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Treaty" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=151817533 groups=["checkElements"]]
+[node name="F_Treaty" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=151817533 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2078,7 +2062,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Victory" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=713498482 groups=["checkElements"]]
+[node name="F_Victory" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer" unique_id=713498482 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2250,7 +2234,7 @@ layout_mode = 2
 [node name="playerNode8" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list/PresencePlayersList" unique_id=1807086570 instance=ExtResource("95_v8aya")]
 layout_mode = 2
 
-[node name="F_CheckConditions" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=382169985 groups=["checkElements"]]
+[node name="F_CheckConditions" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=382169985 groups=["CHECK_ELEMENTS"]]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.39215687)
 custom_minimum_size = Vector2(0, 25)
@@ -2282,7 +2266,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Type" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=936911224 groups=["realElements"]]
+[node name="F_Type" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=936911224 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2304,7 +2288,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Visible" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=1444330084 groups=["realElements"]]
+[node name="F_Visible" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=1444330084 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2329,7 +2313,7 @@ max_lines_visible = 1
 [node name="PanelContainer" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=1435006800]
 layout_mode = 2
 
-[node name="B_Spec" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/PanelContainer" unique_id=1887538141 groups=["realElements"]]
+[node name="B_Spec" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/PanelContainer" unique_id=1887538141 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 size_flags_horizontal = 0
 mouse_filter = 2
@@ -2337,7 +2321,7 @@ theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 
-[node name="F_Delay" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/PanelContainer" unique_id=765576079 groups=["realElements"]]
+[node name="F_Delay" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/PanelContainer" unique_id=765576079 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2359,7 +2343,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="B_HideCivs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=566638553 groups=["realElements"]]
+[node name="B_HideCivs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=566638553 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_icons/checked = ExtResource("94_ufdfx")
@@ -2376,7 +2360,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Server" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=1364911065 groups=["realElements"]]
+[node name="F_Server" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=1364911065 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2400,7 +2384,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Data" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=933649544 groups=["realElements"]]
+[node name="F_Data" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields" unique_id=933649544 groups=["REAL_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2420,7 +2404,7 @@ size_flags_horizontal = 3
 theme_override_constants/v_separation = -5
 columns = 2
 
-[node name="B_LockTeams" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1664678297 groups=["realElements"]]
+[node name="B_LockTeams" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1664678297 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2433,7 +2417,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Lock teams"
 
-[node name="B_LockSpeed" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=2134146195 groups=["realElements"]]
+[node name="B_LockSpeed" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=2134146195 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2446,7 +2430,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Lock speed"
 
-[node name="B_Together" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=91857798 groups=["realElements"]]
+[node name="B_Together" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=91857798 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2459,7 +2443,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Together"
 
-[node name="B_Cheats" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1039074273 groups=["realElements"]]
+[node name="B_Cheats" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1039074273 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2472,7 +2456,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Cheats"
 
-[node name="B_TeamPos" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1182236876 groups=["realElements"]]
+[node name="B_TeamPos" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1182236876 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2485,7 +2469,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Team position"
 
-[node name="B_Turbo" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1504475212 groups=["realElements"]]
+[node name="B_Turbo" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1504475212 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2498,7 +2482,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Turbo"
 
-[node name="B_SharedExp" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1058922243 groups=["realElements"]]
+[node name="B_SharedExp" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1058922243 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2511,7 +2495,7 @@ theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
 text = "Shared Exp"
 
-[node name="B_FullTech" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=590423198 groups=["realElements"]]
+[node name="B_FullTech" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=590423198 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2527,7 +2511,7 @@ text = "Full tech"
 [node name="Control2" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1860874583]
 layout_mode = 2
 
-[node name="B_EW" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1621749715 groups=["realElements"]]
+[node name="B_EW" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1621749715 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2543,7 +2527,7 @@ text = "Empire wars"
 [node name="Control" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1143117381]
 layout_mode = 2
 
-[node name="B_SD" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1989958380 groups=["realElements"]]
+[node name="B_SD" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1989958380 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2559,7 +2543,7 @@ text = "Sudden death"
 [node name="Control3" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=257319926]
 layout_mode = 2
 
-[node name="B_Regicide" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1969369750 groups=["realElements"]]
+[node name="B_Regicide" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=1969369750 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2575,7 +2559,7 @@ text = "Regicide"
 [node name="Control4" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=890522126]
 layout_mode = 2
 
-[node name="B_Antiquity" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=59630485 groups=["realElements"]]
+[node name="B_Antiquity" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyBoxes" unique_id=59630485 groups=["REAL_ELEMENTS"]]
 layout_mode = 2
 mouse_filter = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2598,7 +2582,7 @@ size_flags_horizontal = 3
 theme_override_constants/v_separation = -5
 columns = 2
 
-[node name="B_LockSpeed" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=622765959 groups=["checkElements"]]
+[node name="B_LockSpeed" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=622765959 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2613,7 +2597,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_LockTeams" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=911877278 groups=["checkElements"]]
+[node name="B_LockTeams" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=911877278 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2628,7 +2612,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_Cheats" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1227024814 groups=["checkElements"]]
+[node name="B_Cheats" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1227024814 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2643,7 +2627,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_Together" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1256987549 groups=["checkElements"]]
+[node name="B_Together" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1256987549 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2658,7 +2642,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_Turbo" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=952863275 groups=["checkElements"]]
+[node name="B_Turbo" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=952863275 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2673,7 +2657,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_TeamPos" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1929848139 groups=["checkElements"]]
+[node name="B_TeamPos" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1929848139 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2688,7 +2672,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_FullTech" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=535862211 groups=["checkElements"]]
+[node name="B_FullTech" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=535862211 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2703,7 +2687,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_SharedExp" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=538213697 groups=["checkElements"]]
+[node name="B_SharedExp" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=538213697 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2718,7 +2702,7 @@ alignment = 2
 icon_alignment = 2
 script = ExtResource("100_udsy2")
 
-[node name="B_EW" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=196972205 groups=["checkElements"]]
+[node name="B_EW" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=196972205 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2736,7 +2720,7 @@ script = ExtResource("100_udsy2")
 [node name="Control4" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1498728675]
 layout_mode = 2
 
-[node name="B_SD" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=468959639 groups=["checkElements"]]
+[node name="B_SD" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=468959639 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2754,7 +2738,7 @@ script = ExtResource("100_udsy2")
 [node name="Control5" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1762531]
 layout_mode = 2
 
-[node name="B_Regicide" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1404189719 groups=["checkElements"]]
+[node name="B_Regicide" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1404189719 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2772,7 +2756,7 @@ script = ExtResource("100_udsy2")
 [node name="Control6" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=817144501]
 layout_mode = 2
 
-[node name="B_Antiquity" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1877456546 groups=["checkElements"]]
+[node name="B_Antiquity" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1877456546 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
@@ -2793,7 +2777,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="F_Type" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1127695681 groups=["checkElements"]]
+[node name="F_Type" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1127695681 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2827,7 +2811,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Visible" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1944575729 groups=["checkElements"]]
+[node name="F_Visible" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1944575729 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2864,7 +2848,7 @@ layout_mode = 2
 size_flags_vertical = 8
 size_flags_stretch_ratio = 2.0
 
-[node name="F_Delay" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=860648497 groups=["checkElements"]]
+[node name="F_Delay" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=860648497 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2894,7 +2878,7 @@ popup/item_5/id = 5
 popup/item_6/text = "10 min"
 popup/item_6/id = 6
 
-[node name="B_Spec" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=423049095 groups=["checkElements"]]
+[node name="B_Spec" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=423049095 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2917,7 +2901,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="B_HideCivs" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1390573352 groups=["checkElements"]]
+[node name="B_HideCivs" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1390573352 groups=["CHECK_ELEMENTS"]]
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -2940,7 +2924,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Server" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=740204946 groups=["checkElements"]]
+[node name="F_Server" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=740204946 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2992,7 +2976,7 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="F_Data" type="LineEdit" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1713151160 groups=["checkElements"]]
+[node name="F_Data" type="LineEdit" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1713151160 groups=["CHECK_ELEMENTS"]]
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -3101,25 +3085,23 @@ size_flags_vertical = 4
 [connection signal="configFileDetected" from="." to="." method="_on_config_file_detected"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="popup_hide" from="PopupPanel" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_popup_panel_popup_hide"]
+[connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/HBoxContainer/SearchField" method="_on_search_field_text_changed"]
 [connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TabsNode" method="_on_search_field_text_changed"]
-[connection signal="text_changed" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TabsNode/Browse/Headers and List/Browser" method="applyFilter"]
 [connection signal="text_submitted" from="MainContainer/Sections/HBoxContainer/SearchField" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/LoadNameButton" to="MainContainer/Sections/HBoxContainer/LoadNameButton" method="_on_pressed"]
 [connection signal="configFileDetected" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="." method="_on_config_file_detected"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="MainContainer/Sections/HBoxContainer/SaveNameButton" method="_save_data"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/AboutButton" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TopElements/AutoFind" to="MainContainer/Sections/TopElements/AutoFind" method="_on_toggled"]
-[connection signal="timeout" from="MainContainer/Sections/TopElements/AutoFind/Timer" to="MainContainer/Sections/TopElements/AutoFind" method="_on_timer_timeout"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/FindButton" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/BalanceButton" to="MainContainer/Sections/TopElements/BalanceButton" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/RebalanceButton" to="MainContainer/Sections/TopElements/RebalanceButton" method="startBalancing"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/UpdateButton" to="." method="_on_update_button_pressed"]
 [connection signal="tab_changed" from="MainContainer/Sections/TabsNode" to="MainContainer/Sections/TabsNode" method="_on_tab_changed"]
-[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterTitles" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_titles_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPlayers" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_players_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterMap" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_map_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterType" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_type_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPassword" to="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" method="_on_browse_filter_password_pressed"]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterTitles" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPlayers" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterMap" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterType" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPassword" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_gui_input"]
 [connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_exited"]

@@ -81,7 +81,7 @@ var dataModName: String = "AoE2 DE"
 var dataModID: int
 var isModded: bool = false
 
-var totalPlayers: int = 0
+var totalPlayers: int = 1
 var isHideCivs: bool = false
 var server: String
 
@@ -102,34 +102,24 @@ var index: String = ""	#text index for searching
 
 var associatedNode: Control
 
-#var host: CorePlayerClass = null
-#var host_id: String = ""
+# three levels of loading:
+# first = .id, .description, 1 / .maxplayers
+# second = everything
+# third = generating the sharing code
 
-# Constructor
-func _init(source, kind, steamIDs:Dictionary = {}):
+var loadingLevel := 0
+var sharingCode := ""
 
-	match kind:
-		"lobby":
-			id = source.id
-			steam_id = steamIDs.get(id,"")
-			totalPlayers = source.matchmembers.size()
-			maxPlayers = source.maxplayers
+# level 1 of loading
+func _init(source):
+	id = source.id
+	title = source.description
+	totalPlayers = source.matchmembers.size()
+	maxPlayers = source.maxplayers
+	index = str(source.id) + title.to_lower()
+	loadingLevel = 1
 
-			#Decode options and parse game/map types
-			slotinfo = JSON.parse_string("["+decode_slots(source.slotinfo)+"]")[1]
-			title = source.description
-			parseOptionBytes(decode_options(source.options))
-			putPlayersInSlotsWithInfo()
-
-			if isModded:
-				title = "🌟 "+title
-			#map = str(source.mapname)
-			server = source.relayserver_region
-			password = source.passwordprotected
-			isVisible = source.visible > 0
-			isObservable = source.isobservable > 0
-			observerDelay = int(source.observerdelay)
-#
+# IMPLEMENT LATER FOR SPECTATORS API
 		#for aoe2lobby
 		#"spec":
 			#id = source.lobbyid
@@ -166,11 +156,35 @@ func _init(source, kind, steamIDs:Dictionary = {}):
 			#translateMembers(source.players)
 			#startgametime = source.last_match
 
+func loadDetails(source, steamIDs:Dictionary = {}):
+	id = source.id
+	steam_id = steamIDs.get(id,"")
+	totalPlayers = source.matchmembers.size()
+	maxPlayers = source.maxplayers
+
+	#Decode options and parse game/map types
+	slotinfo = JSON.parse_string("["+decode_slots(source.slotinfo)+"]")[1]
+	title = source.description
+	parseOptionBytes(decode_options(source.options))
+	putPlayersInSlotsWithInfo()
+
+	if isModded:
+		title = "🌟 "+title
+	#map = str(source.mapname)
+	server = source.relayserver_region
+	password = source.passwordprotected
+	isVisible = source.visible > 0
+	isObservable = source.isobservable > 0
+	observerDelay = int(source.observerdelay)
+
 	index = index + title.to_lower()+map.to_lower()
-	if title == "test":
-		pass
+	# if title == "test":
+	# 	pass
 	#host_id = str(source.host_profile_id)
 	#host = Storage.PLAYERS[int(source.host_profile_id)]
+
+func loadSharingCode(code: String):
+	sharingCode = code
 
 # translates values from the spectators API source into the internal representation
 func translateMembers(source):

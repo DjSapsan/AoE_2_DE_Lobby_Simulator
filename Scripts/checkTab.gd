@@ -9,8 +9,8 @@ extends Node
 
 @onready var lobby_real: VBoxContainer = %LobbyReal
 
-@onready var realElements = get_tree().get_nodes_in_group("realElements")
-@onready var checkElements = get_tree().get_nodes_in_group("checkElements")
+@onready var realElements = get_tree().get_nodes_in_group("REAL_ELEMENTS")
+@onready var checkElements = get_tree().get_nodes_in_group("CHECK_ELEMENTS")
 
 const LOBBY_OPTIONS_TEAMING: Array[String] = ["-", "FFA", "1v1", "TG"]
 const CHECK_LOCATION_INDEX := 2
@@ -256,16 +256,16 @@ func fillrealElements(lobby: LobbyClass) -> void:
 #32 = F_Data
 
 func refreshLobby():
-	if not Storage.CURRENT_LOBBY:
-		return
+	var lobby:LobbyClass = Storage.OPENED_LOBBY
 
-	var lobby:LobbyClass = Storage.CURRENT_LOBBY
+	if not lobby or lobby.loadingLevel < 2:
+		return
 
 	populateCheckLobby(lobby)
 	fillrealElements(lobby)
 	#refreshCheckCodeLabel()
 
-func populateCheckLobby(lobby):
+func populateCheckLobby(lobby: LobbyClass):
 	realElements[0].text = lobby.title
 	realPlayersList.changePlayersInSlots()
 	realPlayersList.refreshAllNames()
@@ -277,12 +277,12 @@ func closeCurrentLobby():
 
 
 func onModOpenInput(event: InputEvent) -> void:
-	if not Storage.CURRENT_LOBBY:
+	if not Storage.OPENED_LOBBY:
 		return
 	if not (event is InputEventMouseButton):
 		return
 
-	var mod_id := Storage.CURRENT_LOBBY.dataModID
+	var mod_id := Storage.OPENED_LOBBY.dataModID
 	if mod_id == 0:
 		return
 		
@@ -308,7 +308,7 @@ func resetSettings():
 	refreshCheckCodeLabel()
 
 func copyLobby():
-	if not Storage.CURRENT_LOBBY:
+	if not Storage.OPENED_LOBBY:
 		return
 
 	var index := -1

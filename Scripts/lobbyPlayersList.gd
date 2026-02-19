@@ -15,7 +15,7 @@ extends VBoxContainer
 @onready var balancer: Button = %BalanceButton
 
 func changePlayersInSlots():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	for i in range(8):
 		var player = lobby.slots[i]
 		var playerSlot = playerSlots[i]
@@ -44,6 +44,6 @@ func refreshAllNames():
 		playerSlots[i].showName()
 
 func refreshAllOtherInfo():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	for i in range(8):
 		playerSlots[i].showOtherInfo(lobby.civs[i], lobby.colors[i], lobby.teams[i])

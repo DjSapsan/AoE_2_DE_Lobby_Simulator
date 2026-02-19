@@ -27,22 +27,6 @@ func removeTeamDisplay():
 	for node in BalanceDisplay.get_children():
 		node.queue_free()
 
-func openAge(lobby):
-
-	if not lobby:
-		return
-
-	#var joinOrSpec = Global.ACTIVE_BROWSER_ID
-
-	if Global.OStype == "Windows":
-		cmd = lobby.getRegularURL()
-		#print("Attempting to open ",cmd)
-		OS.shell_open(cmd)
-	elif Global.OStype == "Linux/BSD":
-		cmd = "xdg-open " + lobby.getSteamURL()
-		#print("Attempting to open ",cmd)
-		OS.execute("sh", ["-c", cmd], [], false)
-
 func _extract_version_parts(version_text: String) -> PackedInt32Array:
 	var version_regex := RegEx.new()
 	version_regex.compile("\\d+(?:\\.\\d+)*")
