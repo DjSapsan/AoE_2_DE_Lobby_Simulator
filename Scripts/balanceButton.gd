@@ -90,11 +90,12 @@ func _player_team_index(p) -> int:
 
 func _apply_current_teams_and_set_players(teams: Dictionary) -> void:
 	current_teams.clear()
-	for k in teams.keys():
-		current_teams[k] = teams[k]
+	for raw_key in teams.keys():
+		var team_key := int(raw_key) + 1
+		current_teams[team_key] = teams[raw_key]
 	for team_key in current_teams.keys():
 		for player in current_teams[team_key]:
-			player.set_team(int(team_key)+1)
+			player.set_team(int(team_key))
 
 # Fills out_caps with per-team capacities. Returns true on success.
 # If enforce_equal is requested and players aren't divisible, sets 'cant' and returns false.
@@ -228,7 +229,7 @@ func balance_teams(playerItems: Array) -> Dictionary:
 	if total_players == 0:
 		current_teams.clear()
 		for x in range(num_teams):
-			current_teams[x] = []
+			current_teams[x + 1] = []
 		return current_teams
 	
 	cant = false
