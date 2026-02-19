@@ -29,6 +29,7 @@ const TURBO_MODE_KEY := 79
 const VICTORY_CONDITION_KEY := 80
 const VICTORY_KEY := 81
 const MAP_REVEAL_KEY := 82
+const HIDDEN_KEY := 85
 const TEAM_POSITION_KEY := 86
 const TEAM_TOGETHER_KEY := 87#?
 const IS_EW_KEY := 89
@@ -586,6 +587,11 @@ static var optionFunctions: Dictionary = {
 
 	MAP_REVEAL_KEY: func(l:LobbyClass,v):
 		l.mapReveal = Tables.LOBBY_MAP_REVEAL_TABLE.get(int(v), "?")
+		pass,
+
+	HIDDEN_KEY: func(l:LobbyClass,v):
+		if v == "1":
+			l.isHideCivs = true
 		pass,
 
 	START_IN_KEY: func(l:LobbyClass,v):
