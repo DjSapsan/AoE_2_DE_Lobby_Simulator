@@ -98,8 +98,14 @@
 [ext_resource type="Script" uid="uid://ldj5j3u8bjy" path="res://Scripts/checkTab.gd" id="94_v8aya"]
 [ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 [ext_resource type="Script" uid="uid://ltqq5oeiyl48" path="res://Scripts/checkPlayerList.gd" id="95_f7twt"]
+[ext_resource type="Script" uid="uid://dyjgch3dtl8po" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
 [ext_resource type="PackedScene" uid="uid://chsa7sqergkst" path="res://scenes/presenceItem.tscn" id="95_v8aya"]
 [ext_resource type="Script" uid="uid://d0w3sg8gv8te3" path="res://Scripts/Drop_Victory_Conditions.gd" id="97_m7e32"]
+[ext_resource type="Texture2D" uid="uid://dqxtgiqmrs4l" path="res://img/checkbox_no.png" id="100_q6gd4"]
+[ext_resource type="Script" uid="uid://cemonjcjm6yvb" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
+[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editNumber.gd" id="102_2pmrl"]
+[ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="104_kmo78"]
+[ext_resource type="Script" uid="uid://bw1bclp67u0u8" path="res://Scripts/codeButton.gd" id="105_37hnv"]
 
 [sub_resource type="Theme" id="Theme_pn1ay"]
 
@@ -365,6 +371,11 @@ base_font = ExtResource("2_7cxyb")
 spacing_glyph = -1
 spacing_space = 1
 
+[sub_resource type="FontVariation" id="FontVariation_2pmrl"]
+base_font = ExtResource("2_7cxyb")
+spacing_glyph = -1
+spacing_space = 1
+
 [node name="Control" type="Control" unique_id=1944486479]
 layout_mode = 3
 anchors_preset = 15
@@ -372,8 +383,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 script = ExtResource("1_fefih")
 
 [node name="PopupPanel" type="PopupPanel" parent="." unique_id=1774850975]
@@ -396,7 +405,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_pn1ay")
@@ -1174,12 +1182,13 @@ tooltip_text = "Copy the code to share it"
 mouse_filter = 1
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = ExtResource("77_0e5ro")
-text = "code"
+text = "sharing code"
 label_settings = ExtResource("24_u1rfu")
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 text_overrun_behavior = 1
+script = ExtResource("95_ha806")
 
 [node name="TopCheck" type="HBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer" unique_id=959211054]
 layout_mode = 2
@@ -2206,8 +2215,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="PresencePlayersList" type="VBoxContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=719386913]
-visible = false
-modulate = Color(1, 1, 1, 0.39215687)
+modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(0, 290)
 layout_mode = 2
 size_flags_vertical = 0
@@ -2239,7 +2247,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="F_CheckConditions" type="OptionButton" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/LobbyCheck/Headers and list" unique_id=382169985 groups=["checkElements"]]
-visible = false
+unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.39215687)
 custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
@@ -2416,7 +2424,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2430,7 +2437,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2444,7 +2450,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2458,7 +2463,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2472,7 +2476,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2486,7 +2489,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2500,7 +2502,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2514,7 +2515,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2531,7 +2531,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2548,7 +2547,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2565,7 +2563,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2582,7 +2579,6 @@ theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843,
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
 theme_override_icons/checked = ExtResource("94_ufdfx")
 theme_override_icons/unchecked = ExtResource("95_1jyxy")
 button_mask = 0
@@ -2598,158 +2594,194 @@ size_flags_horizontal = 3
 theme_override_constants/v_separation = -5
 columns = 2
 
-[node name="B_LockSpeed" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=2036390359 groups=["checkElements"]]
+[node name="B_LockSpeed" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=622765959 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
-text = "Lock speed"
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
+text = "Lock Speed"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_LockTeams" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=911877278 groups=["checkElements"]]
+[node name="B_LockTeams" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=911877278 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Lock teams"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_Cheats" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1227024814 groups=["checkElements"]]
+[node name="B_Cheats" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1227024814 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Cheats"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_Together" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1256987549 groups=["checkElements"]]
+[node name="B_Together" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1256987549 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Together"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_Turbo" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=952863275 groups=["checkElements"]]
+[node name="B_Turbo" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=952863275 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Turbo"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_TeamPos" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1929848139 groups=["checkElements"]]
+[node name="B_TeamPos" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1929848139 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Team position"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_FullTech" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=535862211 groups=["checkElements"]]
+[node name="B_FullTech" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=535862211 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Full tech"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_SharedExp" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=538213697 groups=["checkElements"]]
+[node name="B_SharedExp" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=538213697 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Shared Exp"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
-[node name="B_EW" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=196972205 groups=["checkElements"]]
+[node name="B_EW" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=196972205 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Empire wars"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
 [node name="Control4" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1498728675]
 layout_mode = 2
 
-[node name="B_SD" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=468959639 groups=["checkElements"]]
+[node name="B_SD" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=468959639 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Sudden death"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
 [node name="Control5" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1762531]
 layout_mode = 2
 
-[node name="B_Regicide" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1404189719 groups=["checkElements"]]
+[node name="B_Regicide" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1404189719 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Regicide"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
 [node name="Control6" type="Control" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=817144501]
 layout_mode = 2
 
-[node name="B_Antiquity" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1877456546 groups=["checkElements"]]
+[node name="B_Antiquity" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyBoxes" unique_id=1877456546 groups=["checkElements"]]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
 theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_fonts/font = SubResource("FontVariation_umjfb")
-theme_override_font_sizes/font_size = 16
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
 text = "Antiquity"
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 2
+icon_alignment = 2
+script = ExtResource("100_udsy2")
 
 [node name="CheckLobbyFields" type="GridContainer" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck" unique_id=1650396670]
 unique_name_in_owner = true
@@ -2858,11 +2890,19 @@ popup/item_5/id = 5
 popup/item_6/text = "10 min"
 popup/item_6/id = 6
 
-[node name="B_Spec" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=423049095 groups=["checkElements"]]
+[node name="B_Spec" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/PanelContainer" unique_id=423049095 groups=["checkElements"]]
 layout_mode = 2
 size_flags_horizontal = 8
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 0
+script = ExtResource("100_udsy2")
 
 [node name="L_Spec" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=2089264995]
 custom_minimum_size = Vector2(0, 25)
@@ -2873,13 +2913,19 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="B_HideCivs" type="CheckBox" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1390573352 groups=["checkElements"]]
+[node name="B_HideCivs" type="Button" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1390573352 groups=["checkElements"]]
 layout_mode = 2
 size_flags_horizontal = 8
-size_flags_vertical = 8
-size_flags_stretch_ratio = 2.0
-theme_override_icons/checked = ExtResource("94_ufdfx")
-theme_override_icons/unchecked = ExtResource("95_1jyxy")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(0.6509804, 0.7882353, 0.99607843, 1)
+theme_override_colors/font_outline_color = Color(0.1254902, 0.02745098, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = SubResource("FontVariation_2pmrl")
+button_mask = 7
+icon = ExtResource("100_q6gd4")
+flat = true
+alignment = 0
+script = ExtResource("100_udsy2")
 
 [node name="L_HideCivs" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1380865383]
 custom_minimum_size = Vector2(0, 25)
@@ -2953,9 +2999,9 @@ theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804
 theme_override_constants/outline_size = 3
 theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
-text = "AoE2 DE"
-placeholder_text = "mod name"
+placeholder_text = "mod id"
 alignment = 1
+script = ExtResource("102_2pmrl")
 
 [node name="L_Data" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1659724894]
 custom_minimum_size = Vector2(0, 25)
@@ -2971,7 +3017,9 @@ max_lines_visible = 1
 
 [node name="Status" type="Label" parent="MainContainer/Sections" unique_id=1654180626]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+size_flags_vertical = 8
 theme_override_font_sizes/font_size = 11
 text = "🛈 "
 vertical_alignment = 2
@@ -3017,6 +3065,27 @@ backspace_deletes_composite_character_enabled = true
 clear_button_enabled = true
 select_all_on_focus = true
 
+[node name="CodeButton" type="MenuButton" parent="FloatingContainer" unique_id=1273606463]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 19
+text = "≡"
+icon = ExtResource("104_kmo78")
+clip_text = true
+icon_alignment = 1
+expand_icon = true
+item_count = 2
+popup/item_0/text = "Reset"
+popup/item_0/id = 0
+popup/item_1/text = "Copy from opened Lobby"
+popup/item_1/id = 1
+script = ExtResource("105_37hnv")
+
 [node name="offset2" type="Container" parent="FloatingContainer" unique_id=155711770]
 custom_minimum_size = Vector2(10, 0)
 layout_mode = 2
@@ -3054,6 +3123,9 @@ size_flags_vertical = 4
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/NumberOfTeamsSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_desired_teams_item_selected"]
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/BalanceAlgSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_balance_type_item_selected"]
 [connection signal="value_changed" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings/ShortNamesSetts" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/LobbySettingsPanel/ListOfSettings" method="_on_short_names_setts_changed"]
+[connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer/CheckCodeLabel" method="_on_gui_input"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsReal/RealSettingsContainer/F_Location" to="MainContainer/Sections/TabsNode/Check" method="onModOpenInput"]
 [connection signal="item_selected" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer/F_Victory" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/TopCheck/SettingsCheck/CheckSettingsContainer/F_Victory" method="_on_item_selected"]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/RealLobbyFields/F_Data" to="MainContainer/Sections/TabsNode/Check" method="onModOpenInput" flags=3]
+[connection signal="text_changed" from="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/F_Data" to="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields/F_Data" method="_on_text_changed"]
+[connection signal="text_submitted" from="FloatingContainer/CodeField" to="MainContainer/Sections/TabsNode/Check" method="onCodeInserted"]

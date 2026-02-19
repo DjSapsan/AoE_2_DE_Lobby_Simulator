@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://botmig5ns8yk8"]
 
 [ext_resource type="Script" uid="uid://c0jpwsjib028s" path="res://Scripts/playerItem.gd" id="1_5453o"]
-[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editElo.gd" id="2_5th78"]
+[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editNumber.gd" id="2_5th78"]
 [ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_fo3xy"]
 [ext_resource type="StyleBox" uid="uid://bhy77ejon6t8w" path="res://styles/editableFieldStyle.tres" id="2_kcfxe"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="4_ckqq1"]
@@ -155,9 +155,9 @@ theme_override_font_sizes/font_size = 20
 text = "- empty -"
 horizontal_alignment = 1
 
-[connection signal="gui_input" from="pElo" to="pElo" method="_on_gui_input"]
+[connection signal="gui_input" from="pElo" to="." method="_on_p_elo_gui_input"]
 [connection signal="text_changed" from="pElo" to="pElo" method="_on_text_changed"]
-[connection signal="text_submitted" from="pElo" to="pElo" method="_on_text_submitted"]
+[connection signal="text_submitted" from="pElo" to="." method="onEloChanged"]
 [connection signal="gui_input" from="pTeam/B_team" to="pTeam/B_team" method="_on_change_team"]
 [connection signal="gui_input" from="pName" to="pName" method="_on_gui_input"]
 [connection signal="mouse_entered" from="pName" to="pName" method="_on_mouse_entered"]

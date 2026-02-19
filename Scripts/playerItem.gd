@@ -211,3 +211,16 @@ func showOtherInfo(civID, colorID, team):
 
 func showRealTeam(realTeam):
 	teamButton.set_team(realTeam)
+	
+func onEloChanged(new_text: String):
+	overrideElo(new_text)
+	showElo()
+	balance_button.startBalancing()
+
+func _on_p_elo_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		overrideElo()
+		showElo()
+		balance_button.startBalancing()
+		accept_event()
+	pass # Replace with function body.

@@ -5,7 +5,6 @@ extends Node
 @onready var presencePlayersList := %PresencePlayersList
 
 @onready var lobbyLabelCheck: Label = %RealLobbyLabel
-@onready var checkCodeLabel: Label = %CheckCodeLabel
 @onready var find_button: Button = %FindButton
 
 @onready var lobby_real: VBoxContainer = %LobbyReal
@@ -14,12 +13,26 @@ extends Node
 @onready var checkElements = get_tree().get_nodes_in_group("checkElements")
 
 const LOBBY_OPTIONS_TEAMING: Array[String] = ["-", "FFA", "1v1", "TG"]
+const CHECK_LOCATION_INDEX := 2
+const CHECK_DATA_INDEX := 32
 
 
 func _ready() -> void:
+	connectChangeSignals()
 	pass
 	# for e in checkElements:
 	# 	print(e)
+
+func connectChangeSignals():
+	for element in checkElements:
+		if element is OptionButton:
+			element.connect("item_selected", onSettingsChanged)
+		elif element is CheckBox:
+			element.connect("toggled", onSettingsChanged)
+		elif element is Button:
+			element.connect("pressed", onSettingsChanged)
+		elif element is LineEdit:
+			element.connect("text_changed", onSettingsChanged)
 
 func setText(element: Control, value) -> void:
 	element.text = str(value)
@@ -51,55 +64,82 @@ func setBox(element: Button, value: bool) -> void:
 func onSettingsChanged(_value = null) -> void:
 	call_deferred("refreshCheckCodeLabel")
 
-func _on_check_code_label_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		if checkCodeLabel.text != "":
-			DisplayServer.clipboard_set(checkCodeLabel.text)
+func refreshCheckCodeLabel() -> void:
+	checkElements[0].text = generateCheckShareCode()
 
-# return a string of digits as string or a string as itself
-func encodeAsString(value) -> String:
+# Encodes integer digits as letters (0->a, 1->b, ..., 9->j).
+func encodeAsString(value:String) -> String:
 	var code := ""
 	if value.is_valid_int():
 		for c in value:
-			code += char(97+c)
-	else:
-		code = str(value)
-	
+			code += char(97+int(c))
 	return code
 
+func encodeLocationAsBase64(value: String) -> String:
+	if value == "":
+		return ""
+	return Marshalls.raw_to_base64(value.to_utf8_buffer())
+
+func decodeFromString(value: String) -> String:
+	var decoded := ""
+
+	for c in value:
+		var unicode := c.unicode_at(0)
+		if unicode < 97 or unicode > 106:
+			return ""
+		decoded += str(unicode - 97)
+
+	return decoded
+
 func generateCheckShareCode() -> String:
-	var parts: PackedStringArray = []
-	var id: int = 0
-	var element:Control
+	var encoded_parts := {}
+	var element: Control
 	var encoded_value := ""
-	var txt: String = ""
+	var tri_state: int = 0
+	var selected_index: int = 0
+
 	for i in range(1, checkElements.size()):
 		element = checkElements[i]
 		encoded_value = ""
-		txt = ""
 
-		if element is CheckBox:
-			encoded_value = "y" if element.button_pressed else "n"
-		elif element is OptionButton:
-			id = element.selected
-			if (element.item_count == 0 or id == 0):
+		if i == CHECK_LOCATION_INDEX or i == CHECK_DATA_INDEX:
+			continue
+
+		if element is OptionButton:
+			selected_index = element.selected
+			if (element.item_count == 0 or selected_index == 0):
 				continue
-			encoded_value = char(97 + id)
+			encoded_value = encodeAsString(str(selected_index))
+		elif element is CheckBox:
+			encoded_value = "y" if element.pressed else "n"
+		elif element is Button:
+			tri_state = element.state
+			if tri_state == 2:
+				continue
+			encoded_value = encodeAsString(str(tri_state))
 		elif element is LineEdit:
-			txt = element.text.strip_edges()
-			if txt.length() <= 1:
-				continue
-			encoded_value = encodeAsString(txt)
+			continue
 		else:
 			continue
 
 		if encoded_value != "":
-			parts.append(str(i) + encoded_value)
+			encoded_parts[i] = encoded_value
+
+	var data_edit := checkElements[CHECK_DATA_INDEX] as LineEdit
+	var data_text := data_edit.text.strip_edges()
+	if (data_text != ""):
+		encoded_parts[CHECK_DATA_INDEX] = encodeAsString(data_text)
+
+	var location_edit := checkElements[CHECK_LOCATION_INDEX] as LineEdit
+	if location_edit.text.length()>1:
+		encoded_parts[CHECK_LOCATION_INDEX] = encodeLocationAsBase64(location_edit.text)
+
+	var parts: PackedStringArray = []
+	#for key and value in encoded_parts:
+	for i in encoded_parts.keys():
+		parts.append(str(i) + encoded_parts[i])
 
 	return "".join(parts)
-
-func refreshCheckCodeLabel() -> void:
-	checkCodeLabel.text = generateCheckShareCode()
 
 func getTeaming(lobby: LobbyClass) -> String:
 	var team_counts := {}
@@ -154,7 +194,7 @@ func fillrealElements(lobby: LobbyClass) -> void:
 	setText(realElements[10], lobby.mapReveal) #F_Reveal
 	setText(realElements[11], lobby.startIn) #F_StartIn
 	setText(realElements[12], lobby.endIn) #F_EndIn
-	setText(realElements[13], "[None]" if lobby.treaty == "0" else lobby.treaty) #F_Treaty
+	setText(realElements[13], "[None]" if lobby.treaty == "0" else lobby.treaty + " Minutes") #F_Treaty
 	setText(realElements[14], lobby.victory) #F_Victory
 	changeVictoryConditions(lobby.victory, int(lobby.victoryCondition))
 
@@ -247,3 +287,106 @@ func onModOpenInput(event: InputEvent) -> void:
 		return
 		
 	OS.shell_open(Global.URL_MODS + str(mod_id))
+
+func resetSettings():
+	for i in range(1, checkElements.size()):
+		var element = checkElements[i]
+
+		if element is LineEdit:
+			element.text = ""
+		elif element is OptionButton:
+			element.select(0)
+		elif element is CheckBox:
+			element.button_pressed = false
+		elif element is Button:
+			element.setState(2)
+
+	var victory_option = checkElements[12]
+	if victory_option and victory_option.has_method("_on_item_selected"):
+		victory_option._on_item_selected(0)
+
+	refreshCheckCodeLabel()
+
+func copyLobby():
+	if not Storage.CURRENT_LOBBY:
+		return
+
+	var index := -1
+	index = Tables.LobbyOptions_Mode.find(realElements[3].text); if index != -1: (checkElements[1] as OptionButton).select(index)
+	(checkElements[2] as LineEdit).text = realElements[4].text
+	index = Tables.LobbyOptions_MapSize.find(realElements[5].text); if index != -1: (checkElements[3] as OptionButton).select(index)
+	index = Tables.LobbyOptions_AI.find(realElements[6].text); if index != -1: (checkElements[4] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Res.find(realElements[7].text); if index != -1: (checkElements[5] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Pop.find(realElements[8].text); if index != -1: (checkElements[6] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Speed.find(realElements[9].text); if index != -1: (checkElements[7] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Reveal.find(realElements[10].text); if index != -1: (checkElements[8] as OptionButton).select(index)
+	index = Tables.LobbyOptions_StartIn.find(realElements[11].text); if index != -1: (checkElements[9] as OptionButton).select(index)
+	index = Tables.LobbyOptions_EndIn.find(realElements[12].text); if index != -1: (checkElements[10] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Treaty.find(realElements[13].text); if index != -1: (checkElements[11] as OptionButton).select(index)
+	index = Tables.LobbyOptions_Victory.find(realElements[14].text); if index != -1: (checkElements[12] as OptionButton).select(index)
+	if index != -1 and checkElements[12].has_method("_on_item_selected"): checkElements[12]._on_item_selected(index)
+	if realElements[14].text == "Time Limit": index = Tables.LobbyOptions_TimeLimit_Conditions.find(realElements[2].text); if index != -1: (checkElements[13] as OptionButton).select(index)
+	elif realElements[14].text == "Score": index = Tables.LobbyOptions_Score_Conditions.find(realElements[2].text); if index != -1: (checkElements[13] as OptionButton).select(index)
+	(checkElements[14] as Button).setState(1 if (realElements[23] as CheckBox).button_pressed else 0)
+	(checkElements[15] as Button).setState(1 if (realElements[22] as CheckBox).button_pressed else 0)
+	(checkElements[16] as Button).setState(1 if (realElements[25] as CheckBox).button_pressed else 0)
+	(checkElements[17] as Button).setState(1 if (realElements[24] as CheckBox).button_pressed else 0)
+	(checkElements[18] as Button).setState(1 if (realElements[27] as CheckBox).button_pressed else 0)
+	(checkElements[19] as Button).setState(1 if (realElements[26] as CheckBox).button_pressed else 0)
+	(checkElements[20] as Button).setState(1 if (realElements[29] as CheckBox).button_pressed else 0)
+	(checkElements[21] as Button).setState(1 if (realElements[28] as CheckBox).button_pressed else 0)
+	(checkElements[22] as Button).setState(1 if (realElements[30] as CheckBox).button_pressed else 0)
+	(checkElements[23] as Button).setState(1 if (realElements[31] as CheckBox).button_pressed else 0)
+	(checkElements[24] as Button).setState(1 if (realElements[32] as CheckBox).button_pressed else 0)
+	(checkElements[25] as Button).setState(1 if (realElements[33] as CheckBox).button_pressed else 0)
+	index = Tables.LobbyOptions_TypeRanked.find(realElements[15].text); if index != -1: (checkElements[26] as OptionButton).select(index)
+	index = Tables.LobbyOptions_VisibleLobby.find(realElements[16].text); if index != -1: (checkElements[27] as OptionButton).select(index)
+	index = Tables.LobbyOptions_SpecDelay.find(realElements[18].text); if index != -1: (checkElements[28] as OptionButton).select(index)
+	(checkElements[29] as Button).setState(1 if (realElements[17] as CheckBox).button_pressed else 0)
+	(checkElements[30] as Button).setState(1 if (realElements[19] as CheckBox).button_pressed else 0)
+	index = Tables.LobbyOptions_Server.find(realElements[20].text); if index != -1: (checkElements[31] as OptionButton).select(index)
+	(checkElements[32] as LineEdit).text = realElements[21].tooltip_text
+	refreshCheckCodeLabel()
+
+
+func onCodeInserted(new_text: String) -> void:
+	resetSettings()
+
+	var code := new_text.strip_edges()
+	if code == "":
+		return
+
+	var pos := 0
+	while pos < code.length():
+		var index_text := ""
+		while pos < code.length() and code.substr(pos, 1).is_valid_int():
+			index_text += code.substr(pos, 1)
+			pos += 1
+
+		var index := int(index_text)
+
+		if index == CHECK_LOCATION_INDEX:
+			var raw: PackedByteArray = Marshalls.base64_to_raw(code.substr(pos))
+			(checkElements[index] as LineEdit).text = raw.get_string_from_utf8()
+			break
+
+		var encoded_value := ""
+		while pos < code.length() and not code.substr(pos, 1).is_valid_int():
+			encoded_value += code.substr(pos, 1)
+			pos += 1
+
+		var element = checkElements[index]
+
+		if element is OptionButton:
+			var decoded_index := int(decodeFromString(encoded_value))
+			element.select(decoded_index)
+			if index == 12:
+				element._on_item_selected(decoded_index)
+		elif element is CheckBox:
+			element.button_pressed = encoded_value == "y"
+		elif element is Button:
+			element.setState(int(decodeFromString(encoded_value)))
+		elif element is LineEdit:
+			element.text = decodeFromString(encoded_value)
+
+	refreshCheckCodeLabel()
