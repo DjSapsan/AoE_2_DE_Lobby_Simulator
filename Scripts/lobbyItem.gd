@@ -2,9 +2,7 @@ extends PanelContainer
 
 static var lobbyTabPath = "/root/Control/MainContainer/Sections/TabsNode/Lobby"
 
-var associatedLobby
-
-const HOVER_SELF_MODULATE: Color = 0x000020a0
+var associatedLobby: LobbyClass
 
 func _ready() -> void:
 	add_to_group("lobbyItems")
@@ -37,7 +35,7 @@ func refreshDetails():
 
 
 func _mouse_entered() -> void:
-	self_modulate = HOVER_SELF_MODULATE
+	self_modulate = 0x000020a0
 
 func _mouse_exited() -> void:
 	self_modulate = 0xffffffff

@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://bt65w1x4w1k1k" path="res://Scripts/tabsNode.gd" id="16_84o23"]
 [ext_resource type="Texture2D" uid="uid://bofcoonv0ffll" path="res://img/314692_lock_icon.png" id="16_wx1bx"]
 [ext_resource type="Script" uid="uid://b2uxv7txvskoe" path="res://Scripts/browseList.gd" id="17_7ktkv"]
-[ext_resource type="Script" uid="uid://bcxtbt2dta0ky" path="res://Scripts/searchField.gd" id="17_u6to3"]
+[ext_resource type="Script" path="res://Scripts/searchField.gd" id="17_u6to3"]
 [ext_resource type="Texture2D" uid="uid://dy5ayayqwlop7" path="res://img/icons8-update-120.png" id="18_4wnb8"]
 [ext_resource type="Shader" uid="uid://c46xr4obv7o4v" path="res://lobbySimulatorGUI.gdshader" id="19_34r52"]
 [ext_resource type="LabelSettings" uid="uid://cllurjxw4b4js" path="res://styles/top_label_style.tres" id="20_vone5"]
@@ -97,14 +97,13 @@
 [ext_resource type="Script" uid="uid://ldj5j3u8bjy" path="res://Scripts/checkTab.gd" id="94_v8aya"]
 [ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 [ext_resource type="Script" uid="uid://ltqq5oeiyl48" path="res://Scripts/checkPlayerList.gd" id="95_f7twt"]
-[ext_resource type="Script" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
+[ext_resource type="Script" uid="uid://dyjgch3dtl8po" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
 [ext_resource type="PackedScene" uid="uid://chsa7sqergkst" path="res://scenes/presenceItem.tscn" id="95_v8aya"]
 [ext_resource type="Script" uid="uid://d0w3sg8gv8te3" path="res://Scripts/Drop_Victory_Conditions.gd" id="97_m7e32"]
 [ext_resource type="Texture2D" uid="uid://dqxtgiqmrs4l" path="res://img/checkbox_no.png" id="100_q6gd4"]
-[ext_resource type="Script" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
-[ext_resource type="Script" path="res://Scripts/editElo.gd" id="102_2pmrl"]
+[ext_resource type="Script" uid="uid://cemonjcjm6yvb" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="104_kmo78"]
-[ext_resource type="Script" path="res://Scripts/codeButton.gd" id="105_37hnv"]
+[ext_resource type="Script" uid="uid://bw1bclp67u0u8" path="res://Scripts/codeButton.gd" id="105_37hnv"]
 
 [sub_resource type="Theme" id="Theme_pn1ay"]
 
@@ -2989,7 +2988,6 @@ theme_override_fonts/font = ExtResource("2_7cxyb")
 theme_override_font_sizes/font_size = 12
 placeholder_text = "mod id"
 alignment = 1
-script = ExtResource("102_2pmrl")
 
 [node name="L_Data" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/BottomCheck/CheckLobbyFields" unique_id=1659724894]
 custom_minimum_size = Vector2(0, 25)
@@ -3092,7 +3090,6 @@ size_flags_vertical = 4
 [connection signal="configFileDetected" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="." method="_on_config_file_detected"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/SaveNameButton" to="MainContainer/Sections/HBoxContainer/SaveNameButton" method="_save_data"]
 [connection signal="pressed" from="MainContainer/Sections/HBoxContainer/AboutButton" to="MainContainer/Sections/HBoxContainer/AboutButton" method="_on_pressed"]
-[connection signal="pressed" from="MainContainer/Sections/TopElements/FindButton" to="MainContainer/Sections/TopElements/FindButton" method="_on_find_button_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/BalanceButton" to="MainContainer/Sections/TopElements/BalanceButton" method="_on_pressed"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/RebalanceButton" to="MainContainer/Sections/TopElements/RebalanceButton" method="startBalancing"]
 [connection signal="pressed" from="MainContainer/Sections/TopElements/UpdateButton" to="." method="_on_update_button_pressed"]

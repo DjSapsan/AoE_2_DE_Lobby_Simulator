@@ -267,26 +267,23 @@ func openLobby(justRefresh: bool = true):
 func openSelectedLobby(selected):
 	lobbyTab.openSelectedLobby(selected)
 
-func _on_find_button_pressed(isAuto: bool = false):
+func _pressed() -> void:
 	if disabled:
 		return
 
 	disabled = true
-
 	await downloadAllLobbies()
-
-	var is_lobby_tab := tabs_node.current_tab == TAB_LOBBY
-	var is_check_tab := tabs_node.current_tab == TAB_CHECK
-	var is_lobby_context := is_lobby_tab or is_check_tab
-	openLobby(isAuto or not is_lobby_context)
-
 	disabled = false
+
+	openLobby(tabs_node.current_tab == TAB_LOBBY)
+
 	status.showAmountOfLobbies()
 	refresh_completed.emit()
 
+# hotkey
 func _unhandled_input(event):
 	if event.is_action_pressed("StartSearch"):
-		_on_find_button_pressed()
+		_pressed()
 
 ##for aoe2lobby
 #func initFUNCTIONS_TABLE():
