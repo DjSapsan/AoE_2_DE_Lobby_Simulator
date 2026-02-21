@@ -107,19 +107,14 @@ func requestLobbies():
 		players = jsonCache[loop].avatars
 
 		Storage.PLAYERS_add(players)
-		Storage.LOBBIES_create(lobbies)
-
-		refreshActiveTab()
+		Storage.LOBBIES_add(lobbies)
 
 		browser.ammendLobbiesList(lobbies)
 
 		loop += 1
 	#============== end loading loop ==============
-
-	status.showAmountOfLobbies()
-
-	get_tree().call_group("lobbyItems", "")
-	
+	updateAllLobbyItems()
+	status.showAmountOfLobbies()	
 	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
 
 func extract_id_and_lobby(json_text: String) -> Dictionary:
@@ -169,8 +164,17 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 			lobbyTab.on_elo_updated()
 	else:
 		status.changeStatus("! Error fetching Elo")
-		#print("Error ", rawResults[1])
 
+func updateAllLobbyItems():
+	var lobby: LobbyClass
+	var lobbyItems = browser.getLobbiesItems()
+	for item in lobbyItems:
+		lobby = item.associatedLobby
+		if Storage.LIVE_LOBBIES.has(lobby):
+			#lobby.updateDetails()
+			item.refreshUI()
+		else:
+			item.queue_free()
 
 # func requestPlayerSmurfs() -> void:
 # 	var lobby = Storage.OPENED_LOBBY

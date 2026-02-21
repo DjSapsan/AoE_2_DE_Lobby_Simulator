@@ -24,7 +24,7 @@ func _gui_input(event: InputEvent) -> void:
 			var node = get_node(lobbyTabPath)
 			node.openSelectedLobby(associatedLobby)
 
-func refreshDetails():
+func refreshUI():
 	var lobby = associatedLobby as LobbyClass
 	var fields:Array = get_children()[0].get_children()
 	fields[0].text = lobby.title
@@ -39,3 +39,8 @@ func _mouse_entered() -> void:
 
 func _mouse_exited() -> void:
 	self_modulate = 0xffffffff
+
+
+func _on_tree_exiting() -> void:
+	if associatedLobby and associatedLobby.associatedNode == self:
+		associatedLobby.associatedNode = null

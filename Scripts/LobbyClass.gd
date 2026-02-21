@@ -466,8 +466,8 @@ func _read_u32_le(data: PackedByteArray, offset: int) -> int:
 # static var debug_baseline_by_lobby: Dictionary = {}
 
 func parseOptionBytes(data: PackedByteArray):
-	var debugStringK = ""
-	var debugStringV = ""
+	# var debugStringK = ""
+	# var debugStringV = ""
 	#if title == "test":
 		#pass
 		
@@ -492,14 +492,14 @@ func parseOptionBytes(data: PackedByteArray):
 		var key := int(s.substr(0, sep))
 		var val_str := s.substr(sep + 1)
 		
-		debugStringK += "%d, " % [key]
-		debugStringV += val_str + ", "
+		# debugStringK += "%d, " % [key]
+		# debugStringV += val_str + ", "
 		
 		if optionFunctions.has(key):
 			optionFunctions[key].call(self, val_str)
 		
-	if id==457229479:
-		pass
+	# if id==457229479:
+	# 	pass
 	#if title == "test":
 		#pass		
 		#print("\nParsed options: ")

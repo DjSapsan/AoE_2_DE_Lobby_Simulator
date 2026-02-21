@@ -18,7 +18,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 8.854362e-05
-mouse_force_pass_scroll_events = false
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n6lat")
 script = ExtResource("1_yjoqd")

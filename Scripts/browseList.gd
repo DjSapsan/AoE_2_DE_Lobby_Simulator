@@ -1,31 +1,41 @@
 extends Container
 
-const lobbyItem: PackedScene = preload("res://scenes/lobbyItem.tscn")
+const lobbyItemScene: PackedScene = preload("res://scenes/lobbyItem.tscn")
 
 @onready var searchField: LineEdit = %SearchField
 
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
 
-func clearLobbiesList():
+func clearLobbiesItems():
 	for l in lobbiesListNode.get_children():
 		l.queue_free()
-				
-func ammendLobbiesList(source: Array = []):
-	var id:float = 0
-	var lobby: LobbyClass
-	for source_lobby in source:
-		id = source_lobby.id
-		lobby = Storage.LOBBIES[id]
-		if not searchField.filterLobby(lobby):
-			continue
-		var lobbyNode = lobbyItem.instantiate()
-		lobbyNode.associatedLobby = lobby
-		lobby.associatedNode = lobbyNode
-		setupLobbyItem(lobbyNode, lobby)
-		lobbiesListNode.add_child(lobbyNode)
 
-	applySort()
+func getLobbiesItems():
+	return lobbiesListNode.get_children()
+
+func ammendLobbiesList(source: Array = []):
+	var id: int
+	var lobby: LobbyClass
+	var lobbyItem: Control
+	for source_lobby in source:
+		id = int(source_lobby.id)
+		lobby = Storage.LOBBIES[id]
+		lobbyItem = Storage.LIVE_LOBBIES.get(lobby)
+		if lobbyItem:
+			lobbyItem.refreshUI()
+			continue
+
+		lobbyItem = lobbyItemScene.instantiate()
+		lobbiesListNode.add_child(lobbyItem)
+		lobbyItem.associatedLobby = lobby
+		lobby.associatedNode = lobbyItem
+		Storage.LIVE_LOBBIES[lobby] = lobbyItem
+		lobbyItem.refreshUI()
+		if not searchField.filterLobby(lobby):
+			lobbyItem.visible = false
+
+	#applySort()
 
 func removeAbsentLobbies(received_lobby_ids: Array):
 	for lItem in lobbiesListNode.get_children():
@@ -33,15 +43,7 @@ func removeAbsentLobbies(received_lobby_ids: Array):
 			lItem.queue_free()
 	applySort()
 
-func setupLobbyItem(lItem, lobby):
-	var obj = lItem.get_child(0)
-	obj.get_child(0).text = lobby.title
-	obj.get_child(1).text = "%d/%d" % [lobby.totalPlayers, lobby.maxPlayers]
-	obj.get_child(2).text = lobby.map
-	obj.get_child(3).text = lobby.gameModeName
-	obj.get_child(4).text = "X" if lobby.password else ""
-
-func applyFilter(_null = null):
+func applyFilter():
 	searchField.applyFilter()
 
 func applySort():
