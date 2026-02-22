@@ -44,6 +44,7 @@ var password: bool = false
 var maxPlayers: int = 8
 
 var startgametime: int
+var fresh: bool = false
 
 var gameModeName: String
 var map: String = "-"
@@ -85,7 +86,6 @@ var totalPlayers: int = 1
 var isHideCivs: bool = false
 var server: String
 
-var slotinfo
 var slots: Array [CorePlayerClass] = [null,null,null,null,null,null,null,null]
 var teams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
 var realTeams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -99,6 +99,9 @@ var isCheckSmurfs := 0
 var isOngoging := false
 
 var index: String = ""	#text index for searching
+
+#only temporarely to load the details iteratively
+var sourceCache
 
 var associatedNode: Control
 
@@ -116,6 +119,7 @@ func _init(source):
 	title = source.description
 	totalPlayers = source.matchmembers.size()
 	maxPlayers = source.maxplayers
+	password = source.passwordprotected
 	index = str(source.id) + title.to_lower()
 	loadingLevel = 1
 
@@ -156,33 +160,32 @@ func _init(source):
 			#translateMembers(source.players)
 			#startgametime = source.last_match
 
-func loadDetails(source, steamIDs:Dictionary = {}):
-	id = source.id
-	steam_id = steamIDs.get(id,"")
-	totalPlayers = source.matchmembers.size()
-	maxPlayers = source.maxplayers
-
-	#Decode options and parse game/map types
-	slotinfo = JSON.parse_string("["+decode_slots(source.slotinfo)+"]")[1]
-	title = source.description
-	parseOptionBytes(decode_options(source.options))
-	putPlayersInSlotsWithInfo()
-
-	if isModded:
-		title = "🌟 "+title
-	#map = str(source.mapname)
-	server = source.relayserver_region
-	password = source.passwordprotected
-	isVisible = source.visible > 0
-	isObservable = source.isobservable > 0
-	observerDelay = int(source.observerdelay)
-
-	index = index + title.to_lower()+map.to_lower()
+#level 2 of loading - for the list
+func loadBasicDetails():
+	parseOptionBytes(decode_options(sourceCache.options))
+	if isModded: title = "🌟 "+title
+	loadingLevel = 2
 	# if title == "test":
 	# 	pass
-	#host_id = str(source.host_profile_id)
-	#host = Storage.PLAYERS[int(source.host_profile_id)]
 
+#level 3 of loading - for searching and filtering
+func loadAllDetails(steamIDs:Dictionary = {}):
+	steam_id = steamIDs.get(id,"")
+	server = sourceCache.relayserver_region
+	isVisible = sourceCache.visible > 0
+	isObservable = sourceCache.isobservable > 0
+	observerDelay = int(sourceCache.observerdelay)
+	#TODO - parse players inside, but without details, only put names to the index
+	loadingLevel = 3
+
+#level 4 of loading - only when opening the lobby
+func loadInternalDetails():
+	var slotinfo: Dictionary = JSON.parse_string("["+decode_slots(sourceCache.slotinfo)+"]")[1]
+	putPlayersInSlotsWithInfo(slotinfo)
+	loadingLevel = 4
+	sourceCache = null
+
+#only on demand
 func loadSharingCode(code: String):
 	sharingCode = code
 
@@ -370,7 +373,7 @@ func getDictionary(packed_array: PackedByteArray) -> Dictionary:
 	return dictionary
 
 # Function to parse slot information and assign players to slots
-func putPlayersInSlotsWithInfo():
+func putPlayersInSlotsWithInfo(slotinfo: Dictionary):
 	var position := 0
 	var c := 0
 	var profile_id := 0

@@ -14,8 +14,6 @@ signal refresh_completed
 @onready var lobbyTabCheck: PanelContainer = %Check
 @onready var tabs_node: TabContainer = %TabsNode
 
-var jsonCache: Dictionary = {}
-
 static var regex_lobby: RegEx
 static var regex_steamID: RegEx
 
@@ -76,19 +74,19 @@ func request_advertisements_debug(start: int) -> Array:
 	return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), file_data.to_utf8_buffer()]
 
 func requestLobbies():
+	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
+	
 	var loop: int = 0
 	var rawResults: Array
 	var lobbies: Array
 	var players: Array
 	var json_string: String
-
+	var json: Dictionary
+	steamIDs = {}
 	status.changeStatus("Loading lobbies...", 0)
 
-	Storage.LIVE_LOBBIES.clear()  # Clear live lobbies before loading new batch
-
-	var matchesSize: int = 1
 	#============== start loading loop ==============
-	while matchesSize > 0:
+	while true:
 		rawResults = await request_advertisements(loop * 100)
 		if rawResults[1] != 200:
 			status.changeStatus("Error " + str(rawResults[1]), 1)
@@ -96,15 +94,12 @@ func requestLobbies():
 			return
 
 		json_string = rawResults[3].get_string_from_utf8()
-		jsonCache[loop] = JSON.parse_string(json_string)
-		matchesSize = jsonCache[loop].matches.size()
-		if matchesSize == 0:
+		steamIDs.merge(extract_id_and_lobby(json_string))
+		json = JSON.parse_string(json_string)
+		lobbies = json.matches
+		if lobbies.size() == 0:
 			break
-
-		steamIDs = extract_id_and_lobby(json_string)
-
-		lobbies = jsonCache[loop].matches
-		players = jsonCache[loop].avatars
+		players = json.avatars
 
 		Storage.PLAYERS_add(players)
 		Storage.LOBBIES_add(lobbies)
@@ -113,9 +108,9 @@ func requestLobbies():
 
 		loop += 1
 	#============== end loading loop ==============
-	updateAllLobbyItems()
-	status.showAmountOfLobbies()	
-	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
+	browser.set_process(true)
+	status.showAmountOfLobbies()
+	
 
 func extract_id_and_lobby(json_text: String) -> Dictionary:
 	var id_to_steamID : Dictionary = {}
@@ -164,17 +159,6 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 			lobbyTab.on_elo_updated()
 	else:
 		status.changeStatus("! Error fetching Elo")
-
-func updateAllLobbyItems():
-	var lobby: LobbyClass
-	var lobbyItems = browser.getLobbiesItems()
-	for item in lobbyItems:
-		lobby = item.associatedLobby
-		if Storage.LIVE_LOBBIES.has(lobby):
-			#lobby.updateDetails()
-			item.refreshUI()
-		else:
-			item.queue_free()
 
 # func requestPlayerSmurfs() -> void:
 # 	var lobby = Storage.OPENED_LOBBY
@@ -232,7 +216,6 @@ func updateAllLobbyItems():
 func downloadAllLobbies():
 	#Storage.PLAYERS_reset()
 	await requestLobbies()
-	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
 
 func refreshActiveTab() -> void:
 	if tabs_node.current_tab == TAB_CHECK:

@@ -5,7 +5,8 @@ static var lobbyTabPath = "/root/Control/MainContainer/Sections/TabsNode/Lobby"
 var associatedLobby: LobbyClass
 
 func _ready() -> void:
-	add_to_group("lobbyItems")
+	#add_to_group("lobbyItems")
+	pass
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

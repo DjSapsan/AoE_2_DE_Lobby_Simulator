@@ -1,7 +1,5 @@
 extends LineEdit
 
-const ROW_DARK := 0xffffffff
-const ROW_LIGHT := 0xffffff80
 const SORT_NONE := 0
 const SORT_DESC := -1
 const SORT_ASC := 1
@@ -115,24 +113,19 @@ static func sortByMap(a, b, direction: int) -> bool:
 	return direction * (str(a.associatedLobby.map).casecmp_to(str(b.associatedLobby.map))) < 0
 
 func applyFilter():
-	var isVisible: bool
+	var toShow: bool
 	var lobby: LobbyClass
 	if tabsNode.current_tab == 0:
 		var active_browser = Global.ACTIVE_BROWSER
 		if not active_browser:
 			return
 
-		var visible_index := 0
 		for lItem in active_browser.get_children():
 			lobby = lItem.associatedLobby
-			isVisible = true
+			toShow = true
 			if lowerTextCache == "":
-				isVisible = not (hidePasswords and lobby.password)
+				toShow = not (hidePasswords and lobby.password)
 			else:
-				isVisible = lobby.index.contains(lowerTextCache) and not (hidePasswords and lobby.password)
+				toShow = lobby.index.contains(lowerTextCache) and not (hidePasswords and lobby.password)
 
-			lItem.visible = isVisible
-			if isVisible:
-				var row_color = ROW_DARK if visible_index == 0 else ROW_LIGHT
-				lItem.set_row_self_modulate(row_color)
-				visible_index = 1 - visible_index
+			lItem.visible = toShow
