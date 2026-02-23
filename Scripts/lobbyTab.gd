@@ -21,15 +21,16 @@ func closeCurrentLobby():
 func openSelectedLobby(selected):
 	tabsNode.current_tab = 1
 	if Storage.OPENED_LOBBY == selected:
+		refreshLobby()
 		return
+
+	closeCurrentLobby()
+	Storage.OPENED_LOBBY = selected
+	populateLobby()
+	if Global.ACTIVE_BROWSER_ID == 0:
+		balanceButton.startBalancing()
 	else:
-		closeCurrentLobby()
-		Storage.OPENED_LOBBY = selected
-		populateLobby()
-		if Global.ACTIVE_BROWSER_ID == 0:
-			balanceButton.startBalancing()
-		else:
-			main.removeTeamDisplay()
+		main.removeTeamDisplay()
 
 func refreshLobby():
 	if Storage.OPENED_LOBBY and (tabsNode.current_tab > 0):
@@ -41,6 +42,10 @@ func populateLobby():
 	var lobby = Storage.OPENED_LOBBY
 	if not lobby:
 		return
+
+	if lobby.loadingLevel > 2:
+		lobby.loadInternalDetails()
+
 	lobbyLabel.text = "> " + lobby.title + " <"
 	map_and_mode.text = lobby.map + " (" + lobby.gameModeName + ")"
 

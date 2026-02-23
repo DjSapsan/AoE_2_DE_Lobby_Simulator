@@ -3,6 +3,7 @@ extends Container
 const lobbyItemScene: PackedScene = preload("res://scenes/lobbyItem.tscn")
 
 @onready var searchField: LineEdit = %SearchField
+@onready var findButton = %FindButton
 
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
@@ -34,11 +35,6 @@ func ammendLobbiesList(source: Array = []):
 			lobby.associatedNode = lobbyItem
 			Storage.LOBBIES[id] = lobby
 			lobbyItem.refreshUI()
-			if not searchField.filterLobby(lobby):
-				lobbyItem.visible = false
-		else:
-			pass
-			#lobbyItem.refreshUI()
 	applySort()
 
 func applyFilter():
@@ -50,19 +46,32 @@ func applySort():
 #braindead solution to load details over several frames
 func _process(_delta: float) -> void:
 	var lobby: LobbyClass
-	toContinue = true
+	var openedLobby: LobbyClass = Storage.OPENED_LOBBY
+	var refreshOpenedLobby := false
+	var refreshBrowseList := false
+	toContinue = false
 	for id in Storage.LOBBIES.keys():
 		lobby = Storage.LOBBIES[id]
 		if not lobby.fresh:
 			Storage.LOBBIES.erase(id)
 			lobby.associatedNode.queue_free()
+			refreshBrowseList = true
 		else:
-			lobby.fresh = false
 			if lobby.loadingLevel == 1:
 				lobby.loadBasicDetails()
+				lobby.associatedNode.refreshUI()
+				refreshBrowseList = true
+				toContinue = true
 				continue
 			elif lobby.loadingLevel == 2:
 				lobby.loadAllDetails()
-				toContinue = false
+				lobby.associatedNode.refreshUI()
+				refreshBrowseList = true
+				if openedLobby and lobby == openedLobby:
+					refreshOpenedLobby = true
 				continue
+	if refreshOpenedLobby and Storage.OPENED_LOBBY == openedLobby:
+		findButton.refreshActiveTab()
+	if refreshBrowseList:
+		applySort()
 	set_process(toContinue)

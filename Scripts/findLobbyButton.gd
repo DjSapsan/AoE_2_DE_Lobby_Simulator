@@ -19,6 +19,7 @@ static var regex_steamID: RegEx
 
 const TAB_LOBBY := 1
 const TAB_CHECK := 2
+const TAB_BROWSE := 0
 const DEBUG_LOBBIES_PATH_PATTERN := "res://txt/debug_lobbies%d.json"
 const EMPTY_ADVERTISEMENT_PAGE := "{\"result\":{\"code\":0,\"message\":\"SUCCESS\"},\"matches\":[],\"avatars\":[]}"
 
@@ -26,7 +27,6 @@ var isAutorefresh: bool = false
 
 # holds functions to process data about ongoing matches for spectating
 #var FUNCTIONS_TABLE: Dictionary
-var steamIDs: Dictionary
 
 #var _pending_smurf_requests = {}
 
@@ -48,7 +48,9 @@ static func find_cases(s: String) -> String:
 
 #https://aoe-api.worldsedgelink.com/community/advertisement/findAdvertisements?title=age2&start=0
 func request_advertisements(start:int=0):
-	if OS.is_debug_build():
+	var use_debug_lobbies := OS.is_debug_build()
+	use_debug_lobbies = false # Uncomment to load real lobbies even in debug builds.
+	if use_debug_lobbies:
 		return request_advertisements_debug(start)
 
 	var endpoint: String = "/community/advertisement/findAdvertisements"
@@ -82,8 +84,10 @@ func requestLobbies():
 	var players: Array
 	var json_string: String
 	var json: Dictionary
-	steamIDs = {}
+	Storage.STEAM_IDS = {}
 	status.changeStatus("Loading lobbies...", 0)
+	for lobby in Storage.LOBBIES.values():
+		lobby.fresh = false
 
 	#============== start loading loop ==============
 	while true:
@@ -94,7 +98,7 @@ func requestLobbies():
 			return
 
 		json_string = rawResults[3].get_string_from_utf8()
-		steamIDs.merge(extract_id_and_lobby(json_string))
+		Storage.STEAM_IDS.merge(extract_id_and_lobby(json_string))
 		json = JSON.parse_string(json_string)
 		lobbies = json.matches
 		if lobbies.size() == 0:
@@ -234,19 +238,11 @@ func openLobby(justRefresh: bool = true):
 	match find_cases(txt):
 		"general":
 			lobby = Storage.LIST_findInIndex(txt, Storage.LOBBIES)
-			searchField.text = ""
 		"lobby_id":
 			var id = int(Global.GetDigits(txt))
 			lobby = Storage.LOBBIES.get(id)
 		_:
-			#if Storage.OPENED_LOBBY:
-			#	lobbyTab.closeCurrentLobby()
 			return
-
-	if not lobby:
-		lobbyTab.closeCurrentLobby()
-		lobbyTabCheck.closeCurrentLobby()
-		return
 
 	Storage.OPENED_LOBBY = lobby
 	refreshActiveTab()
@@ -262,8 +258,9 @@ func _pressed() -> void:
 	await downloadAllLobbies()
 	disabled = false
 
-	openLobby(tabs_node.current_tab == TAB_LOBBY)
-
+	openLobby(tabs_node.current_tab == TAB_BROWSE)
+	if tabs_node.current_tab > TAB_BROWSE:
+		searchField.text = ""
 	status.showAmountOfLobbies()
 	refresh_completed.emit()
 

@@ -72,10 +72,12 @@ func onBrowseHeaderAction(header: Control):
 
 func applySort(sortBy: String = ""):
 	var active_browser = Global.ACTIVE_BROWSER
-	if not active_browser or not currentHeader:
+
+	if not currentHeader:
+		applyFilter()
 		return
 
-	if sortBy == "" and currentHeader:
+	if sortBy == "":
 		sortBy = currentHeader.name
 
 	if sortDirection == SORT_NONE or sortBy == "":
@@ -83,6 +85,7 @@ func applySort(sortBy: String = ""):
 		return
 
 	var newOrder = active_browser.get_children()
+
 	match sortBy:
 		"BrowseFilterTitles":
 			newOrder.sort_custom(func(a, b): return sortByTitle(a, b, sortDirection))
@@ -93,10 +96,8 @@ func applySort(sortBy: String = ""):
 		"BrowseFilterMap":
 			newOrder.sort_custom(func(a, b): return sortByMap(a, b, sortDirection))
 
-	for node in active_browser.get_children():
-		active_browser.remove_child(node)
-	for node in newOrder:
-		active_browser.add_child(node)
+	for i in newOrder.size():
+		active_browser.move_child(newOrder[i], i)
 
 	applyFilter()
 
@@ -113,19 +114,10 @@ static func sortByMap(a, b, direction: int) -> bool:
 	return direction * (str(a.associatedLobby.map).casecmp_to(str(b.associatedLobby.map))) < 0
 
 func applyFilter():
-	var toShow: bool
-	var lobby: LobbyClass
 	if tabsNode.current_tab == 0:
 		var active_browser = Global.ACTIVE_BROWSER
 		if not active_browser:
 			return
 
 		for lItem in active_browser.get_children():
-			lobby = lItem.associatedLobby
-			toShow = true
-			if lowerTextCache == "":
-				toShow = not (hidePasswords and lobby.password)
-			else:
-				toShow = lobby.index.contains(lowerTextCache) and not (hidePasswords and lobby.password)
-
-			lItem.visible = toShow
+			lItem.visible = filterLobby(lItem.associatedLobby)

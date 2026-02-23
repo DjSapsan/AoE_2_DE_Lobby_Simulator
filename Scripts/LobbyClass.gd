@@ -163,24 +163,30 @@ func _init(source):
 #level 2 of loading - for the list
 func loadBasicDetails():
 	parseOptionBytes(decode_options(sourceCache.options))
-	if isModded: title = "🌟 "+title
 	loadingLevel = 2
 	# if title == "test":
 	# 	pass
 
 #level 3 of loading - for searching and filtering
-func loadAllDetails(steamIDs:Dictionary = {}):
-	steam_id = steamIDs.get(id,"")
+func loadAllDetails():
+	steam_id = Storage.STEAM_IDS.get(id,"")
 	server = sourceCache.relayserver_region
 	isVisible = sourceCache.visible > 0
 	isObservable = sourceCache.isobservable > 0
 	observerDelay = int(sourceCache.observerdelay)
-	#TODO - parse players inside, but without details, only put names to the index
+	totalPlayers = sourceCache.matchmembers.size()
+	var player: CorePlayerClass
+	for member in sourceCache.matchmembers:
+		player = Storage.PLAYERS.get(int(member.profile_id))
+		if player:
+			index += player.alias.to_lower()
 	loadingLevel = 3
 
 #level 4 of loading - only when opening the lobby
 func loadInternalDetails():
-	var slotinfo: Dictionary = JSON.parse_string("["+decode_slots(sourceCache.slotinfo)+"]")[1]
+	if not sourceCache:
+		return
+	var slotinfo: Array = JSON.parse_string("["+decode_slots(sourceCache.slotinfo)+"]")[1]
 	putPlayersInSlotsWithInfo(slotinfo)
 	loadingLevel = 4
 	sourceCache = null
@@ -275,71 +281,6 @@ func decode_slots(input: String) -> String:
 	var unzipped: PackedByteArray = decoded.decompress(16384, 1)
 	return unzipped.get_string_from_ascii()
 
-# func set_match_type_from_options(decoded_options: Dictionary):
-# 	var game_type = get_option_value(decoded_options, GAME_TYPE_KEY, null)
-# 	if game_type == null:
-# 		return
-
-# 	var game_type_id := int(game_type)
-# 	gameModeName = Tables.GAME_TYPE_TABLE.get(game_type_id, "Other type")
-
-# func set_isHideCivs_from_options(decoded_options: Dictionary):
-# 	if get_option_int(decoded_options, HIDDEN_KEY, 0) == 1:
-# 		isHideCivs = true
-
-# func set_modded_from_options(decoded_options: Dictionary):
-# 	var modded_value = get_option_value(decoded_options, MODDED_KEY, null)
-# 	if modded_value != null and str(modded_value) != "0":
-# 		isModded = true
-
-# func get_map_from_options(decoded_options: Dictionary) -> String:
-# 	var map_name := ""
-# 	var map_type = get_option_value(decoded_options, MAP_TYPE_KEY, null)
-# 	if map_type:
-# 		map_name = Tables.MAPS_TABLE.get(int(map_type), "")
-
-# 	if map_name == "":
-# 		var rms_name = get_option_value(decoded_options, IS_RMS_NAME, null)
-# 		if rms_name != null:
-# 			map_name = str(rms_name).get_file().get_basename()
-# 		#elif decoded_options.has(MAP_CUSTOM_KEY):
-# 		#	var custom_map = decoded_options[MAP_CUSTOM_KEY].get_file().get_basename()
-# 		#	map_name = custom_map
-# 		else:
-# 			map_name = "other map"
-
-# 	return map_name
-	
-# taking options from the decoded byte array in the loop to avoid allocating memory and work
-# func processOptionKV(K:int, V):
-# 	if title == "test":
-# 		pass
-
-# 	var t	# temp var
-
-# 	t = options.get(CUSTOM_MAP_KEY, "") 
-# 	if t == "y":
-# 		map = Tables.MAPS_TABLE.get(int(t), "unknown map")
-# 		gameModeName = "Random Map"
-# 	elif t == "n":
-# 		pass
-# 	elif t == "":
-# 		map = "unknown map"
-
-# 	t = options.get(SCENARIO_KEY, "")
-# 	if t == "n":
-# 		pass
-# 	if t == "y":
-# 		map = "scenario"
-# 		gameModeName = "Scenario"
-# 	elif t == "":
-# 		pass
-# 	else:
-# 		dataModName = t
-# 		dataModID = options.get(DATA_MOD_ID_KEY, 0)
-# 		isModded = true
-
-
 # Extract dictionary from packed array
 func getDictionary(packed_array: PackedByteArray) -> Dictionary:
 	var printable_array := PackedByteArray()
@@ -373,7 +314,7 @@ func getDictionary(packed_array: PackedByteArray) -> Dictionary:
 	return dictionary
 
 # Function to parse slot information and assign players to slots
-func putPlayersInSlotsWithInfo(slotinfo: Dictionary):
+func putPlayersInSlotsWithInfo(slotinfo: Array):
 	var position := 0
 	var c := 0
 	var profile_id := 0
@@ -535,8 +476,10 @@ static var optionFunctions: Dictionary = {
 	
 	DATA_MOD_ID_KEY: func(l:LobbyClass,v):
 		if (v!="0"):
-			l.dataModID = int(v)
-			l.isModded = true
+			if not l.isModded:	# only applies on the the first load
+				l.dataModID = int(v)
+				l.isModded = true
+				l.title = "🌟 " + l.title
 		pass,
 
 	SCENARIO_NAME_KEY: func(l:LobbyClass,v):

@@ -4,6 +4,7 @@ var PLAYERS: Dictionary = {}
 
 var LOBBIES: Dictionary = {}
 var SPECS: Dictionary = {}
+var STEAM_IDS: Dictionary = {}
 
 var OPENED_LOBBY: LobbyClass
 
@@ -22,12 +23,14 @@ func LOBBIES_add(source: Array):
 		id = int(s.id)
 
 		if LOBBIES.has(id):
+			#this duplicates initialization
 			lobby = LOBBIES[id]
-			lobby.title = s.description
+			lobby.title = "🌟 " + s.description if lobby.isModded else s.description
 			lobby.totalPlayers = s.matchmembers.size()
 			lobby.maxPlayers = s.maxplayers
+			lobby.password = s.passwordprotected
 			lobby.index = str(id) + lobby.title.to_lower()
-
+			lobby.loadingLevel = 1
 		else:
 			lobby = LobbyClass.new(s)
 			LOBBIES[id] = lobby

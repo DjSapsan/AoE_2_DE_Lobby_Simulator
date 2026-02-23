@@ -34,7 +34,6 @@ func refreshUI():
 	fields[3].text = lobby.gameModeName
 	fields[4].text = "X" if lobby.password else ""
 
-
 func _mouse_entered() -> void:
 	self_modulate = 0x000020a0
 

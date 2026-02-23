@@ -590,6 +590,7 @@ const LobbyOptions_VisibleLobby: Array[String] = [
 
 const LobbyOptions_SpecDelay: Array[String] = [
 	"-",
+	"0 min",
 	"1 min",
 	"2 min",
 	"3 min",
