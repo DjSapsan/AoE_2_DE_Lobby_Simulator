@@ -5,19 +5,17 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n6lat"]
 content_margin_left = 2.0
-content_margin_top = 4.0
 content_margin_right = 0.0
-content_margin_bottom = 4.0
-bg_color = Color(1, 1, 1, 0.1882353)
+bg_color = Color(1, 1, 1, 0.19607843)
 anti_aliasing = false
+draw_center = false
 
 [node name="LobbyItem" type="PanelContainer" unique_id=1838745488]
-anchors_preset = 15
+custom_minimum_size = Vector2(0, 34)
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 34.0
 grow_horizontal = 2
-grow_vertical = 2
-rotation = 8.854362e-05
 mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n6lat")
 script = ExtResource("1_yjoqd")

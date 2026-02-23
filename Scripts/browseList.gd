@@ -1,6 +1,13 @@
-extends Container
+extends ScrollContainer
 
 const lobbyItemScene: PackedScene = preload("res://scenes/lobbyItem.tscn")
+const BROWSER_ROW_ALPHA_SHADER: Shader = preload("res://styles/browse_item_alpha_stripe.gdshader")
+
+const SHADER_PARAM_ROW_HEIGHT := "row_height_px"
+const SHADER_PARAM_VIEWPORT_HEIGHT := "viewport_height_px"
+const SHADER_PARAM_SCROLL_OFFSET := "scroll_offset_px"
+const SHADER_PARAM_DARK_ALPHA := "dark_row_alpha"
+const SHADER_PARAM_LIGHT_ALPHA := "light_row_alpha"
 
 @onready var searchField: LineEdit = %SearchField
 @onready var findButton = %FindButton
@@ -8,10 +15,20 @@ const lobbyItemScene: PackedScene = preload("res://scenes/lobbyItem.tscn")
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
 
+
+
 var toContinue := false
+var stripeMaterial: ShaderMaterial
 
 func _ready() -> void:
-	set_process(false) 
+	set_process(false)
+	_setupBrowserStripeShader()
+
+	var v_scroll_bar := get_v_scroll_bar()
+	if v_scroll_bar:
+		v_scroll_bar.value_changed.connect(_on_scroll_value_changed)
+
+	resized.connect(_on_browser_resized)
 
 func clearAllLobbiesItems():
 	for l in lobbiesListNode.get_children():
@@ -42,6 +59,30 @@ func applyFilter():
 
 func applySort():
 	searchField.applySort()
+
+func _setupBrowserStripeShader() -> void:
+	stripeMaterial = ShaderMaterial.new()
+	stripeMaterial.shader = BROWSER_ROW_ALPHA_SHADER
+	material = stripeMaterial
+	_updateStripeShaderUniforms()
+	queue_redraw()
+
+func _updateStripeShaderUniforms() -> void:
+	if stripeMaterial == null:
+		return
+
+	stripeMaterial.set_shader_parameter(SHADER_PARAM_VIEWPORT_HEIGHT, size.y)
+	stripeMaterial.set_shader_parameter(SHADER_PARAM_SCROLL_OFFSET, float(scroll_vertical))
+	queue_redraw()
+
+func _on_scroll_value_changed(_value: float) -> void:
+	_updateStripeShaderUniforms()
+
+func _on_browser_resized() -> void:
+	_updateStripeShaderUniforms()
+
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), Color.WHITE, true)
 
 #braindead solution to load details over several frames
 func _process(_delta: float) -> void:

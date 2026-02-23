@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://botmig5ns8yk8"]
 
 [ext_resource type="Script" uid="uid://c0jpwsjib028s" path="res://Scripts/playerItem.gd" id="1_5453o"]
-[ext_resource type="Script" path="res://Scripts/editElo.gd" id="2_5th78"]
 [ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_fo3xy"]
 [ext_resource type="StyleBox" uid="uid://bhy77ejon6t8w" path="res://styles/editableFieldStyle.tres" id="2_kcfxe"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="4_ckqq1"]
@@ -60,7 +59,6 @@ middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
 select_all_on_focus = true
 virtual_keyboard_type = 2
-script = ExtResource("2_5th78")
 
 [node name="pWrate" type="Label" parent="." unique_id=625432144]
 visible = false
