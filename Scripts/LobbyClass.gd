@@ -482,8 +482,8 @@ static var optionFunctions: Dictionary = {
 				l.title = "🌟 " + l.title
 		pass,
 
-	SCENARIO_NAME_KEY: func(l:LobbyClass,v):
-		l.map = v.left(-13)
+	SCENARIO_NAME_KEY: func(l:LobbyClass,v:String):
+		l.map = v.trim_suffix(".aoe2scenario")
 		l.gameModeName = "Scenario"
 		l.size = "-"
 		pass,
