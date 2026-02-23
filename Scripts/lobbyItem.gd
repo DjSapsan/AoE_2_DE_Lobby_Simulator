@@ -8,10 +8,9 @@ var panelStylebox: StyleBoxFlat
 func _ready() -> void:
 	# Use a per-instance stylebox so hover highlight does not affect all rows.
 	var stylebox := get_theme_stylebox("panel")
-	if stylebox is StyleBoxFlat:
-		panelStylebox = stylebox.duplicate() as StyleBoxFlat
-		add_theme_stylebox_override("panel", panelStylebox)
-		panelStylebox.draw_center = false
+	panelStylebox = stylebox.duplicate() as StyleBoxFlat
+	add_theme_stylebox_override("panel", panelStylebox)
+	panelStylebox.draw_center = false
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -40,12 +39,10 @@ func refreshUI():
 	fields[4].text = "X" if lobby.password else ""
 
 func _mouse_entered() -> void:
-	if panelStylebox:
-		panelStylebox.draw_center = true
+	panelStylebox.draw_center = true
 
 func _mouse_exited() -> void:
-	if panelStylebox:
-		panelStylebox.draw_center = false
+	panelStylebox.draw_center = false
 
 
 func _on_tree_exiting() -> void:

@@ -98,13 +98,13 @@
 [ext_resource type="Script" uid="uid://ldj5j3u8bjy" path="res://Scripts/checkTab.gd" id="94_v8aya"]
 [ext_resource type="Texture2D" uid="uid://3yti2xodbari" path="res://img/checkbox_back.png" id="95_1jyxy"]
 [ext_resource type="Script" uid="uid://ltqq5oeiyl48" path="res://Scripts/checkPlayerList.gd" id="95_f7twt"]
-[ext_resource type="Script" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
+[ext_resource type="Script" uid="uid://dyjgch3dtl8po" path="res://Scripts/checkCodeLabel.gd" id="95_ha806"]
 [ext_resource type="PackedScene" uid="uid://chsa7sqergkst" path="res://scenes/presenceItem.tscn" id="95_v8aya"]
 [ext_resource type="Script" uid="uid://d0w3sg8gv8te3" path="res://Scripts/Drop_Victory_Conditions.gd" id="97_m7e32"]
 [ext_resource type="Texture2D" uid="uid://dqxtgiqmrs4l" path="res://img/checkbox_no.png" id="100_q6gd4"]
 [ext_resource type="Script" uid="uid://cemonjcjm6yvb" path="res://Scripts/checkBox3.gd" id="100_udsy2"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="104_kmo78"]
-[ext_resource type="Script" path="res://Scripts/codeButton.gd" id="105_37hnv"]
+[ext_resource type="Script" uid="uid://bw1bclp67u0u8" path="res://Scripts/codeButton.gd" id="105_37hnv"]
 
 [sub_resource type="Theme" id="Theme_pn1ay"]
 

@@ -6,8 +6,6 @@ const BROWSER_ROW_ALPHA_SHADER: Shader = preload("res://styles/browse_item_alpha
 const SHADER_PARAM_ROW_HEIGHT := "row_height_px"
 const SHADER_PARAM_VIEWPORT_HEIGHT := "viewport_height_px"
 const SHADER_PARAM_SCROLL_OFFSET := "scroll_offset_px"
-const SHADER_PARAM_DARK_ALPHA := "dark_row_alpha"
-const SHADER_PARAM_LIGHT_ALPHA := "light_row_alpha"
 
 @onready var searchField: LineEdit = %SearchField
 @onready var findButton = %FindButton
