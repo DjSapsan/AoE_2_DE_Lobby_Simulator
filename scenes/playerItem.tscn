@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://botmig5ns8yk8"]
 
 [ext_resource type="Script" uid="uid://c0jpwsjib028s" path="res://Scripts/playerItem.gd" id="1_5453o"]
-[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editNumber.gd" id="2_5th78"]
+[ext_resource type="Script" path="res://Scripts/editElo.gd" id="2_5th78"]
 [ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_fo3xy"]
 [ext_resource type="StyleBox" uid="uid://bhy77ejon6t8w" path="res://styles/editableFieldStyle.tres" id="2_kcfxe"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="4_ckqq1"]
@@ -17,10 +17,6 @@ custom_minimum_size = Vector2(100, 30)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -190.0
-offset_top = -2.0
-offset_right = 180.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -123,13 +119,14 @@ visible = false
 clip_contents = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 3
 mouse_filter = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = ExtResource("11_r5ubx")
 text = "nameф3"
 label_settings = ExtResource("5_fo3xy")
 vertical_alignment = 1
+clip_text = true
 max_lines_visible = 1
 script = ExtResource("6_0624c")
 selectedStyle = ExtResource("10_w01b7")

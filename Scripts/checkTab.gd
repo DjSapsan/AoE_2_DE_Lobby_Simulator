@@ -258,8 +258,11 @@ func fillrealElements(lobby: LobbyClass) -> void:
 func refreshLobby():
 	var lobby:LobbyClass = Storage.OPENED_LOBBY
 
-	if not lobby or lobby.loadingLevel < 2:
+	if not lobby:
 		return
+
+	if lobby.loadingLevel > 2:
+		lobby.loadInternalDetails()
 
 	populateCheckLobby(lobby)
 	fillrealElements(lobby)
@@ -279,14 +282,12 @@ func closeCurrentLobby():
 func onModOpenInput(event: InputEvent) -> void:
 	if not Storage.OPENED_LOBBY:
 		return
-	if not (event is InputEventMouseButton):
-		return
-
-	var mod_id := Storage.OPENED_LOBBY.dataModID
-	if mod_id == 0:
-		return
-		
-	OS.shell_open(Global.URL_MODS + str(mod_id))
+	if (event is InputEventMouseButton and event.is_pressed()):
+		var mod_id := Storage.OPENED_LOBBY.dataModID
+		if mod_id == 0:
+			return
+			
+		OS.shell_open(Global.URL_MODS + str(mod_id))
 
 func resetSettings():
 	for i in range(1, checkElements.size()):

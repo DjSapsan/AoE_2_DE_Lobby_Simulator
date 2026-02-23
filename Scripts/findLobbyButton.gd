@@ -236,6 +236,7 @@ func refreshActiveTab() -> void:
 		lobbyTabCheck.refreshLobby()
 	elif tabs_node.current_tab == TAB_LOBBY:
 		lobbyTab.refreshLobby()
+		lobbyTabCheck.refreshLobby()
 
 func openLobby(justRefresh: bool = true):
 	var txt = searchField.text
