@@ -637,11 +637,10 @@ theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_selected = ExtResource("14_ro1px")
 theme_override_styles/tab_disabled = SubResource("StyleBoxFlat_hg8t4")
 theme_override_styles/tab_focus = ExtResource("14_ro1px")
-current_tab = 2
+current_tab = 0
 script = ExtResource("16_84o23")
 
 [node name="Browse" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=2068362470]
-visible = false
 layout_mode = 2
 focus_behavior_recursive = 1
 theme_override_styles/panel = ExtResource("74_qt3p3")
@@ -1088,6 +1087,7 @@ layout_mode = 2
 
 [node name="Check" type="PanelContainer" parent="MainContainer/Sections/TabsNode" unique_id=404776476]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("74_qt3p3")
 script = ExtResource("94_v8aya")

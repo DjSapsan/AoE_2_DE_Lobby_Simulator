@@ -16,6 +16,12 @@ const LOBBY_OPTIONS_TEAMING: Array[String] = ["-", "FFA", "1v1", "TG"]
 const CHECK_LOCATION_INDEX := 2
 const CHECK_DATA_INDEX := 32
 
+var CHECK_TO_REAL_INDEX := PackedInt32Array([
+	-1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+	2, 23, 22, 25, 24, 27, 26, 29, 28, 30, 31, 32, 33,
+	15, 16, 18, 17, 19, 20, 21
+])
+
 
 func _ready() -> void:
 	connectChangeSignals()
@@ -43,6 +49,19 @@ func setTooltip(element: Control, value) -> void:
 func setBox(element: Button, value: bool) -> void:
 	element.button_pressed = bool(value)
 
+func getTreatyText(treaty: String) -> String:
+	return "[None]" if treaty == "0" else treaty + " Minutes"
+
+func getObserverDelayText(delay_seconds: int) -> String:
+	var delay_minutes := int(delay_seconds / 60)
+	return "None" if delay_minutes <= 0 else str(delay_minutes) + " min"
+
+func getOptionIndexByText(option: OptionButton, text: String) -> int:
+	for i in range(option.item_count):
+		if option.get_item_text(i) == text:
+			return i
+	return -1
+
 # func getCheckCodeFieldNames() -> Array[String]:
 # 	var fields: Array[String] = []
 
@@ -66,6 +85,41 @@ func onSettingsChanged(_value = null) -> void:
 
 func refreshCheckCodeLabel() -> void:
 	checkElements[0].text = generateCheckShareCode()
+	var check_element: Control
+	var real_element: Control
+	var selected := 0
+	var text_value := ""
+
+	for i in range(1, checkElements.size()):
+		real_element = realElements[CHECK_TO_REAL_INDEX[i]]
+		real_element.modulate = 0xffffffff
+		check_element = checkElements[i]
+
+		if check_element is OptionButton:
+			selected = check_element.selected
+			if check_element.item_count == 0 or selected < 0:
+				continue
+			if selected == 0 and check_element.get_item_text(0) == "-":
+				continue
+			if check_element.get_item_text(selected) != real_element.text:
+				real_element.modulate = 0xff0000ff
+		elif check_element is Button:
+			if check_element.state == 2:
+				continue
+			if real_element is CheckBox and (check_element.state == 1) != real_element.button_pressed:
+				real_element.modulate = 0xff0000ff
+		elif check_element is LineEdit:
+			text_value = check_element.text.strip_edges()
+			if text_value == "" or text_value == "-":
+				continue
+			if i == CHECK_DATA_INDEX:
+				if text_value != real_element.tooltip_text:
+					real_element.modulate = 0xff0000ff
+			elif text_value != real_element.text:
+				real_element.modulate = 0xff0000ff
+		elif check_element is CheckBox:
+			if real_element is CheckBox and check_element.button_pressed != real_element.button_pressed:
+				real_element.modulate = 0xff0000ff
 
 # Encodes integer digits as letters (0->a, 1->b, ..., 9->j).
 func encodeAsString(value:String) -> String:
@@ -194,14 +248,14 @@ func fillrealElements(lobby: LobbyClass) -> void:
 	setText(realElements[10], lobby.mapReveal) #F_Reveal
 	setText(realElements[11], lobby.startIn) #F_StartIn
 	setText(realElements[12], lobby.endIn) #F_EndIn
-	setText(realElements[13], "[None]" if lobby.treaty == "0" else lobby.treaty + " Minutes") #F_Treaty
+	setText(realElements[13], getTreatyText(lobby.treaty)) #F_Treaty
 	setText(realElements[14], lobby.victory) #F_Victory
 	changeVictoryConditions(lobby.victory, int(lobby.victoryCondition))
 
 	setText(realElements[15], lobby.rankedType) #F_Type
 	setText(realElements[16], "Public" if lobby.isVisible else "Private") #F_Visible
 	setBox(realElements[17], lobby.isObservable) #B_Spec
-	setText(realElements[18], str(lobby.observerDelay/60) + " min") #F_Delay
+	setText(realElements[18], getObserverDelayText(lobby.observerDelay)) #F_Delay
 	setBox(realElements[19], lobby.isHideCivs) #B_HideCivs
 	setText(realElements[20], lobby.server) #F_Server
 	setText(realElements[21], lobby.dataModName) #F_Data
@@ -266,7 +320,7 @@ func refreshLobby():
 
 	populateCheckLobby(lobby)
 	fillrealElements(lobby)
-	#refreshCheckCodeLabel()
+	refreshCheckCodeLabel()
 
 func populateCheckLobby(lobby: LobbyClass):
 	realElements[0].text = lobby.title
@@ -342,7 +396,7 @@ func copyLobby():
 	(checkElements[25] as Button).setState(1 if (realElements[33] as CheckBox).button_pressed else 0)
 	index = Tables.LobbyOptions_TypeRanked.find(realElements[15].text); if index != -1: (checkElements[26] as OptionButton).select(index)
 	index = Tables.LobbyOptions_VisibleLobby.find(realElements[16].text); if index != -1: (checkElements[27] as OptionButton).select(index)
-	index = Tables.LobbyOptions_SpecDelay.find(realElements[18].text); if index != -1: (checkElements[28] as OptionButton).select(index)
+	index = getOptionIndexByText((checkElements[28] as OptionButton), realElements[18].text); if index != -1: (checkElements[28] as OptionButton).select(index)
 	(checkElements[29] as Button).setState(1 if (realElements[17] as CheckBox).button_pressed else 0)
 	(checkElements[30] as Button).setState(1 if (realElements[19] as CheckBox).button_pressed else 0)
 	index = Tables.LobbyOptions_Server.find(realElements[20].text); if index != -1: (checkElements[31] as OptionButton).select(index)
