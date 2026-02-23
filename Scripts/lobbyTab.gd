@@ -2,47 +2,52 @@ extends Node
 
 #@onready var b_smurfs: CheckBox = %B_Smurfs
 @onready var tabsNode = %TabsNode
-@onready var lobbyPlayersList = %LobbyPlayersList
+@onready var lobbyPlayersList := %LobbyPlayersList
+@onready var checkTab: PanelContainer = %Check
+
 @onready var balanceButton = %BalanceButton
 @onready var map_and_mode: Label = %MapAndMode
-@onready var lobby_label: Label = %Lobby_Label
+@onready var lobbyLabel: Label = %LobbyLabel
 @onready var main = get_node("/root/Control")
 @onready var find_button: Button = %FindButton
 # Link back to the find button script for data requests
 @export var find_button_path: NodePath
 
 func closeCurrentLobby():
-	lobby_label.text = "no lobby"
+	lobbyLabel.text = "no lobby"
 	main.removeTeamDisplay()
-	for index in range(8):
-		var child = lobbyPlayersList.get_child(index)
-		child.changePlayer()
+	lobbyPlayersList.reset()
 
 func openSelectedLobby(selected):
 	tabsNode.current_tab = 1
-	if Storage.CURRENT_LOBBY == selected:
+	if Storage.OPENED_LOBBY == selected:
+		refreshLobby()
 		return
+
+	closeCurrentLobby()
+	Storage.OPENED_LOBBY = selected
+	populateLobby()
+	if Global.ACTIVE_BROWSER_ID == 0:
+		balanceButton.startBalancing()
 	else:
-		closeCurrentLobby()
-		Storage.CURRENT_LOBBY = selected
-		populateLobby()
-		if Global.ACTIVE_BROWSER_ID == 0:
-			balanceButton.startBalancing()
-		else:
-			main.removeTeamDisplay()
+		main.removeTeamDisplay()
 
 func refreshLobby():
-	if Storage.CURRENT_LOBBY and tabsNode.current_tab == 1:
+	if Storage.OPENED_LOBBY and (tabsNode.current_tab > 0):
 		populateLobby()
 		if Global.ACTIVE_BROWSER_ID == 0:
 			balanceButton.startBalancing()
 
 func populateLobby():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	if not lobby:
 		return
-	lobby_label.text = "> " + lobby.title + " <"
-	map_and_mode.text = lobby.map + " (" + lobby.match_type + ")"
+
+	if lobby.loadingLevel > 2:
+		lobby.loadInternalDetails()
+
+	lobbyLabel.text = ">%s< " % lobby.title
+	map_and_mode.text = "%s (%s)" % [lobby.map, lobby.gameModeName]
 
 	lobbyPlayersList.changePlayersInSlots()
 
@@ -54,7 +59,7 @@ func populateLobby():
 	#lobbyPlayersList.refreshAllSmurfs()
 
 func populateSpecLobby():
-	var lobby = Storage.CURRENT_LOBBY
+	var lobby = Storage.OPENED_LOBBY
 	if not lobby:
 		return
 	for slot in lobbyPlayersList.get_children():
@@ -70,7 +75,7 @@ func populateSpecLobby():
 			player.team = int(item.get("team"))
 			player.civ = str(item.get("civ"))
 			player.country = str(item.get("country"))
-			playerSlot.changePlayer(player)
+			playerSlot.changePlayer(player, 2)
 
 func on_elo_updated():
 	lobbyPlayersList.refreshAllElo()

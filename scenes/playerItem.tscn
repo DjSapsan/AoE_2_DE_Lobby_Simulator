@@ -1,27 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://botmig5ns8yk8"]
+[gd_scene format=3 uid="uid://botmig5ns8yk8"]
 
 [ext_resource type="Script" uid="uid://c0jpwsjib028s" path="res://Scripts/playerItem.gd" id="1_5453o"]
-[ext_resource type="Script" uid="uid://c1no7e1etd7gr" path="res://Scripts/editElo.gd" id="2_5th78"]
+[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_fo3xy"]
 [ext_resource type="StyleBox" uid="uid://bhy77ejon6t8w" path="res://styles/editableFieldStyle.tres" id="2_kcfxe"]
-[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="2_ntdx1"]
 [ext_resource type="Texture2D" uid="uid://dc7neaswhddjw" path="res://img/Button.png" id="4_ckqq1"]
+[ext_resource type="LabelSettings" uid="uid://dhb0x8acrg666" path="res://styles/player_item_label.tres" id="5_fo3xy"]
 [ext_resource type="Script" uid="uid://bkinleyhmicaj" path="res://Scripts/p_name.gd" id="6_0624c"]
+[ext_resource type="Script" uid="uid://djq33xm0v1gja" path="res://Scripts/p_team.gd" id="8_tukpa"]
+[ext_resource type="Texture2D" uid="uid://wpoypd5qcl73" path="res://fonts/png/🌐.png" id="8_w01b7"]
+[ext_resource type="StyleBox" uid="uid://chg2sibas03pe" path="res://styles/selected_name_style.tres" id="10_w01b7"]
+[ext_resource type="StyleBox" uid="uid://cs6li453wf2k1" path="res://styles/name_label_unselected.tres" id="11_r5ubx"]
 
-[node name="playerNode" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+[node name="playerItem" type="HBoxContainer" unique_id=245079504]
+custom_minimum_size = Vector2(100, 30)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -190.0
-offset_top = -2.0
-offset_right = 180.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 script = ExtResource("1_5453o")
-color_index = 4294967295
 
-[node name="pColor" type="ColorRect" parent="."]
+[node name="pColor" type="ColorRect" parent="." unique_id=1499786992]
 visible = false
 custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
@@ -29,7 +29,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 color = Color(1, 1, 1, 0.2)
 
-[node name="pElo" type="LineEdit" parent="."]
+[node name="pElo" type="LineEdit" parent="." unique_id=478211839]
 visible = false
 custom_minimum_size = Vector2(60, 30)
 layout_mode = 2
@@ -43,33 +43,33 @@ Blue = Estimated Elo.
 Black = Actual Elo."
 focus_mode = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 0.39215687)
+theme_override_constants/outline_size = -1
 theme_override_constants/minimum_character_width = 3
-theme_override_fonts/font = ExtResource("2_ntdx1")
+theme_override_fonts/font = ExtResource("2_fo3xy")
 theme_override_font_sizes/font_size = 15
 theme_override_styles/normal = ExtResource("2_kcfxe")
-text = "1000"
+text = "1234"
 alignment = 2
 max_length = 4
 context_menu_enabled = false
 emoji_menu_enabled = false
-virtual_keyboard_type = 2
 shortcut_keys_enabled = false
 middle_mouse_paste_enabled = false
 drag_and_drop_selection_enabled = false
 select_all_on_focus = true
-script = ExtResource("2_5th78")
+virtual_keyboard_type = 2
 
-[node name="pWrate" type="Label" parent="."]
+[node name="pWrate" type="Label" parent="." unique_id=625432144]
 visible = false
 custom_minimum_size = Vector2(60, 30)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
-theme_override_font_sizes/font_size = 21
 text = "50%"
+label_settings = ExtResource("5_fo3xy")
+vertical_alignment = 1
 
-[node name="pTeam" type="TextureButton" parent="."]
+[node name="pTeam" type="TextureButton" parent="." unique_id=84487048]
 visible = false
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
@@ -80,74 +80,80 @@ texture_normal = ExtResource("4_ckqq1")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="P_label" type="Label" parent="pTeam"]
-custom_minimum_size = Vector2(30, 30)
-layout_mode = 0
-offset_right = 30.0
-offset_bottom = 30.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.501961)
-theme_override_font_sizes/font_size = 21
-text = "1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Button" type="Button" parent="pTeam"]
+[node name="B_team" type="Button" parent="pTeam" unique_id=1068691434]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("2_fo3xy")
+theme_override_font_sizes/font_size = 20
 action_mode = 0
 button_mask = 3
 shortcut_feedback = false
 shortcut_in_tooltip = false
+text = "1"
 flat = true
+script = ExtResource("8_tukpa")
 
-[node name="pFlag" type="TextureRect" parent="."]
+[node name="pFlag" type="TextureRect" parent="." unique_id=1360031446]
 visible = false
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+texture = ExtResource("8_w01b7")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="pName" type="Label" parent="."]
+[node name="pName" type="Label" parent="." unique_id=1964437105]
 visible = false
-custom_minimum_size = Vector2(250, 30)
+clip_contents = true
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
-theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = ExtResource("11_r5ubx")
 text = "nameф3"
+label_settings = ExtResource("5_fo3xy")
+vertical_alignment = 1
 clip_text = true
+max_lines_visible = 1
 script = ExtResource("6_0624c")
+selectedStyle = ExtResource("10_w01b7")
+unselectedStyle = ExtResource("11_r5ubx")
 
-[node name="pCiv" type="Label" parent="."]
+[node name="pCiv" type="Label" parent="." unique_id=1290645854]
 visible = false
-custom_minimum_size = Vector2(150, 30)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_colors/font_color = Color(0.288518, 0.288518, 0.288518, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
 theme_override_font_sizes/font_size = 20
 text = "Random"
+vertical_alignment = 1
 
-[node name="pEmpty" type="Label" parent="."]
+[node name="pEmpty" type="Label" parent="." unique_id=94319301]
 modulate = Color(0, 0, 0, 0.188235)
-custom_minimum_size = Vector2(737, 32)
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
-text = "------------------------ empty ------------------------"
+text = "- empty -"
+horizontal_alignment = 1
 
-[connection signal="gui_input" from="pElo" to="pElo" method="_on_gui_input"]
+[connection signal="gui_input" from="pElo" to="." method="_on_p_elo_gui_input"]
 [connection signal="text_changed" from="pElo" to="pElo" method="_on_text_changed"]
-[connection signal="text_submitted" from="pElo" to="pElo" method="_on_text_submitted"]
-[connection signal="gui_input" from="pTeam/Button" to="." method="_on_change_team"]
+[connection signal="text_submitted" from="pElo" to="." method="onEloChanged"]
+[connection signal="gui_input" from="pTeam/B_team" to="pTeam/B_team" method="_on_change_team"]
 [connection signal="gui_input" from="pName" to="pName" method="_on_gui_input"]
+[connection signal="mouse_entered" from="pName" to="pName" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="pName" to="pName" method="_on_mouse_exited"]

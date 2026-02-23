@@ -1,10 +1,12 @@
 extends Node
 
-var LOBBIES: Dictionary = {}
 var PLAYERS: Dictionary = {}
-var SPECS: Dictionary = {}
 
-var CURRENT_LOBBY: LobbyClass
+var LOBBIES: Dictionary = {}
+var SPECS: Dictionary = {}
+var STEAM_IDS: Dictionary = {}
+
+var OPENED_LOBBY: LobbyClass
 
 func _ready():
 	addAIPlayers()
@@ -13,33 +15,46 @@ func _ready():
 func LOBBIES_reset():
 	LOBBIES.clear()
 
-func LOBBIES_remove_absent(received_ids):
-	var ids_to_remove = []
-	for id in LOBBIES.keys():
-		if id not in received_ids:
-			ids_to_remove.append(id)
-	for id in ids_to_remove:
-		LOBBIES.erase(id)
+#from the fresh data, may have duplicates
+func LOBBIES_add(source: Array):
+	var id: int
+	var lobby: LobbyClass
+	for s in source:
+		id = int(s.id)
 
-func LOBBIES_add(data,steamIDs):
-	for l in data:
-		var id = l.id
-		var new_lobby: LobbyClass = LobbyClass.new(l, "lobby",steamIDs)
-		LOBBIES[id] = new_lobby
-		#if the lobby was refreshed:
-		if CURRENT_LOBBY and CURRENT_LOBBY.id == id:
-			CURRENT_LOBBY = new_lobby
+		if LOBBIES.has(id):
+			#this duplicates initialization
+			lobby = LOBBIES[id]
+			lobby.title = "🌟 " + s.description if lobby.isModded else s.description
+			lobby.totalPlayers = s.matchmembers.size()
+			lobby.maxPlayers = s.maxplayers
+			lobby.password = s.passwordprotected
+			lobby.index = str(id) + lobby.title.to_lower()
+			lobby.loadingLevel = 1
+		else:
+			lobby = LobbyClass.new(s)
+			LOBBIES[id] = lobby
+		
+		lobby.sourceCache = s
+		lobby.fresh = true
+
+func LOBBIES_update(s:Dictionary):
+	var lobby = LOBBIES[s.id]
+	#CONTINUE
 
 # Resets the PLAYERS dictionary
 func PLAYERS_reset():
 	PLAYERS.clear()
 
 # Adds new players from the data
-func PLAYERS_add(data):
-	for p in data:
-		if not PLAYERS.has(int(p.profile_id)):
-			var new_player: CorePlayerClass = CorePlayerClass.new(p)
-			PLAYERS[new_player.id] = new_player
+func PLAYERS_add(source: Array):
+	var id: int
+	var player: CorePlayerClass
+	for p in source:
+		id = int(p.profile_id)
+		if not PLAYERS.has(id):
+			player = CorePlayerClass.new(p)
+			PLAYERS[player.id] = player
 
 # Adds new players from the data
 func PLAYERS_addOne(p):
@@ -58,48 +73,6 @@ func LIST_findInIndex(search: String, list: Dictionary) -> LobbyClass:
 		if lobby.index.contains(search):
 			return lobby
 	return null
-
-# Resets the SPECS dictionary
-func SPECS_reset():
-	SPECS.clear()
-
-# remove specs from the data
-func SPECS_remove(lobby_ids):
-	for i in lobby_ids:
-		if Storage.SPECS.has(i):
-			var l = Storage.SPECS[i]
-			l.associatedNode.queue_free()
-			Storage.SPECS.erase(i)
-
-func SPECS_removeOne(lobby_id):
-	if Storage.SPECS.has(lobby_id):
-		var l = Storage.SPECS[lobby_id]
-		l.associatedNode.queue_free()
-		Storage.SPECS.erase(lobby_id)
-
-
-# Adds specs from the data
-func SPECS_changeOne(id, data):
-	if data:
-		var new_spec: LobbyClass = LobbyClass.new(data, "spec")
-		SPECS[new_spec.id] = new_spec
-		return new_spec
-	else:
-		SPECS_removeOne(id)
-
-func SPECS_refresh(data):
-	for id in data:
-		var s = data[id]
-		if SPECS.has(id):
-			pass
-			#print("Updating spec")
-			# Update existing spec
-			#var existing_spec = SPECS[id]
-			#existing_spec.update(s)
-		else:
-			# Add new spec
-			var new_spec: LobbyClass = LobbyClass.new(s, "spec")
-			SPECS[id] = new_spec
 
 func addAIPlayers():
 	#var AIs: Dictionary

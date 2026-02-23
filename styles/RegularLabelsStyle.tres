@@ -1,4 +1,4 @@
-[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://chq866uvw2nc"]
+[gd_resource type="LabelSettings" format=3 uid="uid://chq866uvw2nc"]
 
 [sub_resource type="SystemFont" id="SystemFont_mxrr4"]
 font_names = PackedStringArray("Noto Color Emoji")

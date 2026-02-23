@@ -157,6 +157,46 @@ const MAPS_TABLE: Dictionary = {
 	10965 : "Wade" ,
 	10966 : "Morass" ,
 	10967 : "Shoals" ,
+	10968 : "Cliffbound" ,
+	10969 : "Isthmus" ,
+	10970 : "Dunesprings" ,
+	10971 : "GoldenStream" ,
+	10972 : "MountainDunes" ,
+	10973 : "RiverDivide" ,
+	10974 : "Sandrift" ,
+	10975 : "Shrubland" ,
+	10976 : "Passage" ,
+	10977 : "HollowWoodlands" ,
+	10978 : "Karsts" ,
+	10979 : "Glade" ,
+	10980 : "FortifiedClearing" ,
+	10981 : "QpArabia" ,
+	10982 : "QpFortifiedClearing" ,
+	10983 : "QpGlade" ,
+	10984 : "QpNomad" ,
+	11000 : "Stranded" ,
+	11005 : "QpRunestones" ,
+	11006 : "QpArena" ,
+	11007 : "QpBlackForest" ,
+	11008 : "RealWorldManchuria" ,
+	11009 : "Sardis" ,
+	11010 : "Aquarena" ,
+	11011 : "SpecialMapForestBreach" ,
+	11012 : "BorderDispute" ,
+	11013 : "Graupel" ,
+	11014 : "Chaos pit" ,
+	11015 : "Mired" ,
+	11016 : "Murkwood" ,
+	10990 : "Moats" ,
+	11017 : "Crownwood" ,
+	11018 : "DorotheaQuarry" ,
+	11019 : "Glacis" ,
+	11020 : "Hengehold" ,
+	11021 : "LochNess" ,
+	11022 : "Rampart" ,
+	11023 : "Stonefront" ,
+	11024 : "Thames" ,
+	11025 : "Vulpine" ,
 	}
 
 const GAME_TYPE_TABLE: Dictionary = {
@@ -234,6 +274,11 @@ const CIVS_TABLE: Dictionary = {
 	52 : "Jurchens",
 	53 : "Wu",
 
+	56 : "Puru",
+	58: "Mapuche",
+	57: "Muisca",
+	59: "Tupi",
+
 	65537: "Random",
 	65538: "Mirror",
 	65539: "Full RNG",}
@@ -299,6 +344,273 @@ const REVERSE_CIVS_TABLE = {
 	"Jurchens" : 52,
 	"Khitans" : 53,
 
+	"Puru" : 56,
+	"Mapuche" : 58,
+	"Muisca" : 57,
+	"Tupi" : 59,
+
 	"Random" : 65537,
 	"Mirror" : 65538,
 	"Full RNG" : 65539};
+
+const MAP_SIZES_TABLE: Dictionary = {
+	120: "Tiny (2 p) [120]",
+	144: "Small (3 p) [144]",
+	168: "Medium (4 p) [168]",
+	200: "Normal (6 p) [200]",
+	220: "Large (8 p) [220]",
+	240: "Huge [240]",
+	480: "Ludicrous [480]"
+}
+
+const LOBBY_AI_DIFFICULTY_TABLE: Dictionary = {
+	-1: "Extreme",
+	0: "Hardest",
+	1: "Hard",
+	2: "Moderate",
+	3: "Standard",
+	4: "Easiest",
+}
+
+const LOBBY_RESOURCES_TABLE: Dictionary = {
+	0: "Standard",
+	1: "Low",
+	2: "Medium",
+	3: "High",
+	4: "Ultra High",
+	5: "Infinite",
+	6: "Random",
+}
+
+const LOBBY_SPEED_TABLE: Dictionary = {
+	0: "Slow",
+	1: "Casual",
+	2: "Normal",
+	3: "Fast",
+}
+
+const LOBBY_MAP_REVEAL_TABLE: Dictionary = {
+	0: "Normal",
+	1: "Explored",
+	2: "All Visible",
+}
+
+const LOBBY_START_IN_TABLE: Dictionary = {
+	0: "Standard",
+	2: "Dark Age",
+	3: "Feudal Age",
+	4: "Castle Age",
+	5: "Imperial Age",
+	6: "Post-Imperial Age",
+}
+
+const LOBBY_END_IN_TABLE: Dictionary = {
+	0: "Standard",
+	2: "Dark Age",
+	3: "Feudal Age",
+	4: "Castle Age",
+	5: "Imperial Age",
+	6: "Post-Imperial Age",
+}
+
+const LOBBY_VICTORY_TABLE: Dictionary = {
+	9: "Standard",
+	1: "Conquest",
+	7: "Time Limit",
+	8: "Score",
+	11: "Last Man Standing",
+}
+
+const LOBBY_CONDITION_TIME_TABLE: Dictionary = {
+	15000: "1,500 years (2:00 hr)",
+	13000: "1,300 years (1:45 hr)",
+	11000: "1,100 years (1:30 hr)",
+	9000: "900 years (1:15 hr)",
+	7000: "700 years (60 min)",
+	5000: "500 years (40 min)",
+	3000: "300 years (25 min)"
+}
+
+const LobbyOptions_Mode: Array[String] = [
+	"-",
+	"Random Map",
+	"Empire Wars",
+	"Regicide",
+	"King of the Hill",
+	"Death Match",
+	"Battle Royale",
+	"Sudden Death",
+	"Capture the Relic",
+	"Defend the Wonder",
+	"Wonder Race",
+	"Scenario"
+]
+
+const LobbyOptions_MapSize: Array[String] = [
+	"-",
+	"Tiny (2 p) [120]",
+	"Small (3 p) [144]",
+	"Medium (4 p) [168]",
+	"Normal (6 p) [200]",
+	"Large (8 p) [220]",
+	"Huge [240]",
+	"Ludicrous [480]"
+]
+
+const LobbyOptions_AI: Array[String] = [
+	"-",
+	"Easiest",
+	"Standard",
+	"Moderate",
+	"Hard",
+	"Hardest",
+	"Extreme"
+]
+
+const LobbyOptions_Res: Array[String] = [
+	"-",
+	"Standard",
+	"Low",
+	"Medium",
+	"High",
+	"Ultra High",
+	"Infinite",
+	"Random"
+]
+
+const LobbyOptions_Pop: Array[String] = [
+	"-",
+	"25",
+	"50",
+	"75",
+	"100",
+	"125",
+	"150",
+	"175",
+	"200",
+	"225",
+	"250",
+	"300",
+	"400",
+	"500"
+]
+
+const LobbyOptions_Speed: Array[String] = [
+	"-",
+	"Slow",
+	"Casual",
+	"Normal",
+	"Fast"
+]
+
+const LobbyOptions_Reveal: Array[String] = [
+	"-",
+	"Normal",
+	"Explored",
+	"All Visible"
+]
+
+const LobbyOptions_StartIn: Array[String] = [
+	"-",
+	"Standard",
+	"Dark Age",
+	"Feudal Age",
+	"Castle Age",
+	"Imperial Age",
+	"Post-Imperial Age"
+]
+
+const LobbyOptions_EndIn: Array[String] = [
+	"-",
+	"Standard",
+	"Dark Age",
+	"Feudal Age",
+	"Castle Age",
+	"Imperial Age"
+]
+
+const LobbyOptions_Treaty: Array[String] = [
+	"-",
+	"[None]",
+	"5 Minutes",
+	"10 Minutes",
+	"15 Minutes",
+	"20 Minutes",
+	"25 Minutes",
+	"30 Minutes",
+	"35 Minutes",
+	"40 Minutes",
+	"45 Minutes",
+	"50 Minutes",
+	"60 Minutes",
+	"90 Minutes"
+]
+
+const LobbyOptions_Victory: Array[String] = [
+	"-",
+	"Standard",
+	"Conquest",
+	"Time Limit",
+	"Score",
+	"Last Man Standing"
+]
+
+const LobbyOptions_TimeLimit_Conditions: Array[String] = [
+	"1,500 years (2:00 hr)",
+	"1,300 years (1:45 hr)",
+	"1,100 years (1:30 hr)",
+	"900 years (1:15 hr)",
+	"700 years (60 min)",
+	"500 years (40 min)",
+	"300 years (25 min)"
+]
+
+const LobbyOptions_Score_Conditions: Array[String] = [
+	"14000",
+	"13000",
+	"12000",
+	"11000",
+	"10000",
+	"9000",
+	"8000"
+]
+
+const LobbyOptions_TypeRanked: Array[String] = [
+	"-",
+	"Unkraned",
+	"1v1 DM",
+	"TG DM"
+]
+
+const LobbyOptions_VisibleLobby: Array[String] = [
+	"-",
+	"Public",
+	"Private"
+]
+
+const LobbyOptions_SpecDelay: Array[String] = [
+	"-",
+	"0 min",
+	"1 min",
+	"2 min",
+	"3 min",
+	"4 min",
+	"5 min",
+	"10 min"
+]
+
+const LobbyOptions_Server: Array[String] = [
+	"-",
+	"brazilsouth",
+	"centralindia",
+	"australiasoutheast",
+	"ukwest",
+	"southeastasia",
+	"westus3",
+	"westeurope",
+	"southcentralus",
+	"eastus",
+	"koreacentral",
+	"chilecentral",
+	"LAN"
+]

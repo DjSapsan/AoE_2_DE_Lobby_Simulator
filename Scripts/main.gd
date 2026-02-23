@@ -27,36 +27,66 @@ func removeTeamDisplay():
 	for node in BalanceDisplay.get_children():
 		node.queue_free()
 
-func openAge(lobby):
+func _extract_version_parts(version_text: String) -> PackedInt32Array:
+	var version_regex := RegEx.new()
+	version_regex.compile("\\d+(?:\\.\\d+)*")
+	var match := version_regex.search(version_text)
+	if match == null:
+		return PackedInt32Array()
 
-	if not lobby:
-		return
+	var version_parts := PackedInt32Array()
+	for segment in match.get_string(0).split("."):
+		version_parts.append(int(segment))
+	return version_parts
 
-	#var joinOrSpec = Global.ACTIVE_BROWSER_ID
+func _is_remote_version_newer(remote_tag: String, local_version_text: String) -> bool:
+	var remote_parts := _extract_version_parts(remote_tag)
+	var local_parts := _extract_version_parts(local_version_text)
+	if remote_parts.is_empty() or local_parts.is_empty():
+		return false
 
-	if Global.OStype == "Windows":
-		cmd = lobby.getRegularURL()
-		#print("Attempting to open ",cmd)
-		OS.shell_open(cmd)
-	elif Global.OStype == "Linux/BSD":
-		cmd = "xdg-open " + lobby.getSteamURL()
-		#print("Attempting to open ",cmd)
-		OS.execute("sh", ["-c", cmd], [], false)
+	var max_size := maxi(remote_parts.size(), local_parts.size())
+	for i in range(max_size):
+		var remote_part := remote_parts[i] if i < remote_parts.size() else 0
+		var local_part := local_parts[i] if i < local_parts.size() else 0
+		if remote_part > local_part:
+			return true
+		if remote_part < local_part:
+			return false
+	return false
 
 func checkUpdates():
-	var numRegex = RegEx.new()
-	numRegex.compile("[0-9]*\\.[0-9]+")
-
-	var http_request = HTTPRequest.new()
+	var http_request := HTTPRequest.new()
 	add_child(http_request)
-	http_request.request(Global.URL_API_Updates)
-	var rawResults = await http_request.request_completed
-	if rawResults[1] == 403:
-		return
-	var jsonResults = JSON.parse_string(rawResults[3].get_string_from_utf8())
 
-	var remoteVersion = numRegex.search(jsonResults.tag_name).get_string().to_float()
-	if float(remoteVersion) > Global.VERSION:
+	var request_error := http_request.request(Global.URL_API_Updates)
+	if request_error != OK:
+		http_request.queue_free()
+		return
+
+	var raw_results: Array = await http_request.request_completed
+	if raw_results.size() < 4:
+		http_request.queue_free()
+		return
+
+	var result_code: int = int(raw_results[0])
+	var http_code: int = int(raw_results[1])
+	var body := raw_results[3] as PackedByteArray
+	http_request.queue_free()
+
+	if result_code != HTTPRequest.RESULT_SUCCESS:
+		return
+	if http_code < 200 or http_code >= 300:
+		return
+
+	var json_results = JSON.parse_string(body.get_string_from_utf8())
+	if typeof(json_results) != TYPE_DICTIONARY:
+		return
+	if not json_results.has("tag_name"):
+		return
+
+	var remote_tag := str(json_results.get("tag_name"))
+	if _is_remote_version_newer(remote_tag, str(Global.VERSION)):
 		updateButton.visible = true
 
 

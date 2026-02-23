@@ -4,7 +4,7 @@ signal configFileDetected
 
 func _save_data():
 	var config = ConfigFile.new()
-	config.set_value("MAIN","SEARCH_TEXT",%searchField.text)
+	config.set_value("MAIN","SEARCH_TEXT",%SearchField.text)
 	config.save(Global.SETTINGS_FILE_PATH)
 
 	var err = config.load(Global.SETTINGS_FILE_PATH)

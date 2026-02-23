@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = 1.98
+const VERSION = 1.99
 
 # Define color index with explicit colors
 const ColorIndex: Dictionary = {
@@ -17,11 +17,12 @@ const ColorIndex: Dictionary = {
 
 # Define team index with textual descriptions
 const TeamIndex = [
-	"-",
-	"1",
-	"2",
-	"3",
-	"4",
+	"-", #0
+	"1", #1
+	"2", #2
+	"3", #3
+	"4", #4
+	"?", #5
 ]
 
 const SETTINGS_FILE_PATH = "user://BalanceAge.cfg"
@@ -35,7 +36,8 @@ const URL_API_ELO: String = "/community/leaderboard/getpersonalstat"
 const URL_HALF_ELO = URL_AOE_API + URL_API_ELO + "?title=age2&profile_names="
 #const URL_CHECK_SMURF = "https://smurf.new-chapter.eu/api/check_player?player_id="
 #const URL_PLAYER_STATS = "https://www.aoe2insights.com/user/"
-const URL_PLAYER_STATS = "https://www.aoe2companion.com/profile/"
+const URL_PLAYER_STATS = "https://www.aoe2companion.com/players/"
+const URL_MODS = "https://www.ageofempires.com/mods/details/"
 
 var ELO_ZERO: float = 1100
 var ELO_FACTOR: float = 110

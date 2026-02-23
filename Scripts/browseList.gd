@@ -1,98 +1,116 @@
-extends Container
+extends ScrollContainer
 
-const lobbyItem: PackedScene = preload("res://scenes/lobbyItem.tscn")
+const lobbyItemScene: PackedScene = preload("res://scenes/lobbyItem.tscn")
+const BROWSER_ROW_ALPHA_SHADER: Shader = preload("res://styles/browse_item_alpha_stripe.gdshader")
 
-@onready var searchField = %searchField
-@onready var finder = %FindButton
-@onready var browseHeaders = %BrowseHeaders
+const SHADER_PARAM_ROW_HEIGHT := "row_height_px"
+const SHADER_PARAM_VIEWPORT_HEIGHT := "viewport_height_px"
+const SHADER_PARAM_SCROLL_OFFSET := "scroll_offset_px"
+
+@onready var searchField: LineEdit = %SearchField
+@onready var findButton = %FindButton
 
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
-@onready var tabsNode = %TabsNode
 
-func clearLobbiesList():
+
+
+var toContinue := false
+var stripeMaterial: ShaderMaterial
+
+func _ready() -> void:
+	set_process(false)
+	_setupBrowserStripeShader()
+
+	var v_scroll_bar := get_v_scroll_bar()
+	if v_scroll_bar:
+		v_scroll_bar.value_changed.connect(_on_scroll_value_changed)
+
+	resized.connect(_on_browser_resized)
+
+func clearAllLobbiesItems():
 	for l in lobbiesListNode.get_children():
 		l.queue_free()
 
-func populateLobbiesList():
-	var lobbies = Storage.LOBBIES
+func getLobbiesItems():
+	return lobbiesListNode.get_children()
 
-	clearLobbiesList()
+func ammendLobbiesList(source: Array = []):
+	var id: int
+	var lobby: LobbyClass
+	var lobbyItem: Control
+	for source_lobby in source:
+		id = int(source_lobby.id)
+		lobby = Storage.LOBBIES[id]
+		lobbyItem = lobby.associatedNode
+		if not lobbyItem:
+			lobbyItem = lobbyItemScene.instantiate()
+			lobbiesListNode.add_child(lobbyItem)
+			lobbyItem.associatedLobby = lobby
+			lobby.associatedNode = lobbyItem
+			Storage.LOBBIES[id] = lobby
+			lobbyItem.refreshUI()
+	applySort()
 
-	# Add or replace lobby items
-	for id in lobbies:
-		var lobby = lobbies[id]
-		var lItem = lobbyItem.instantiate()
-		lItem.associatedLobby = lobby
-		lobby.associatedNode = lItem
-		setupLobbyItem(lItem, lobby)
-		lobbiesListNode.add_child(lItem)
+func applyFilter():
+	searchField.applyFilter()
 
-	browseHeaders.applySort()
-	applyFilter()
+func applySort():
+	searchField.applySort()
 
-func setupLobbyItem(lItem, lobby):
-	var obj = lItem.get_child(0)
-	obj.get_child(0).text = lobby.title
-	obj.get_child(1).text = "%d/%d" % [lobby.totalPlayers, lobby.maxPlayers]
-	obj.get_child(2).text = lobby.map
-	obj.get_child(3).text = lobby.server
-	obj.get_child(4).text = "X" if lobby.password else ""
-	
-func clearSpecList():
-	for l in specListNode.get_children():
-		l.queue_free()
+func _setupBrowserStripeShader() -> void:
+	stripeMaterial = ShaderMaterial.new()
+	stripeMaterial.shader = BROWSER_ROW_ALPHA_SHADER
+	material = stripeMaterial
+	_updateStripeShaderUniforms()
+	queue_redraw()
 
-func populateSpecList():
-	var specs = Storage.SPECS
-
-	clearSpecList()
-
-	# Add spec items
-	for id in specs:
-		var spec = specs[id]
-		var lItem = lobbyItem.instantiate()
-		lItem.associatedLobby = spec
-		spec.associatedNode = lItem
-		setupSpecItem(lItem, spec)
-		specListNode.add_child(lItem)
-
-	applyFilter()
-	browseHeaders.applySort()
-
-#TODO integrate with regular lobbies
-func setupSpecItem(lItem, spec):
-	var obj = lItem.get_child(0)
-	obj.get_child(0).text = spec.title
-	obj.get_child(1).text = "%d/%d" % [spec.totalPlayers, spec.maxPlayers]
-	obj.get_child(2).text = spec.map
-	obj.get_child(3).text = spec.server
-	#obj.get_child(4).text = "X" if spec.password else ""
-
-func applyFilter(_null=null):
-	if tabsNode.current_tab == 1:
+func _updateStripeShaderUniforms() -> void:
+	if stripeMaterial == null:
 		return
-	var text = searchField.text
-	var case_type: String = finder.find_cases(text)
-	var toHide = browseHeaders.hidePasswords
-	
-	var active_browser = Global.ACTIVE_BROWSER
-	if not active_browser:
-		return  # Ensure active_browser is valid
 
-	for lItem in active_browser.get_children():
-		var lobby = lItem.associatedLobby
-		match case_type:
-			"empty":
-				lItem.visible = true and not (toHide and lobby.password)
-			"lobby_id":
-				var lobby_id = lobby.id
-				if lobby_id == Global.GetDigits(text):
-					lItem.visible = true and not (toHide and lobby.password)
-				else:
-					lItem.visible = false
-			_:
-				if lobby.index.contains(text.to_lower()):
-					lItem.visible = true and not (toHide and lobby.password)
-				else:
-					lItem.visible = false
+	stripeMaterial.set_shader_parameter(SHADER_PARAM_VIEWPORT_HEIGHT, size.y)
+	stripeMaterial.set_shader_parameter(SHADER_PARAM_SCROLL_OFFSET, float(scroll_vertical))
+	queue_redraw()
+
+func _on_scroll_value_changed(_value: float) -> void:
+	_updateStripeShaderUniforms()
+
+func _on_browser_resized() -> void:
+	_updateStripeShaderUniforms()
+
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), Color.WHITE, true)
+
+#braindead solution to load details over several frames
+func _process(_delta: float) -> void:
+	var lobby: LobbyClass
+	var openedLobby: LobbyClass = Storage.OPENED_LOBBY
+	var refreshOpenedLobby := false
+	var refreshBrowseList := false
+	toContinue = false
+	for id in Storage.LOBBIES.keys():
+		lobby = Storage.LOBBIES[id]
+		if not lobby.fresh:
+			Storage.LOBBIES.erase(id)
+			lobby.associatedNode.queue_free()
+			refreshBrowseList = true
+		else:
+			if lobby.loadingLevel == 1:
+				lobby.loadBasicDetails()
+				lobby.associatedNode.refreshUI()
+				refreshBrowseList = true
+				toContinue = true
+				continue
+			elif lobby.loadingLevel == 2:
+				lobby.loadAllDetails()
+				lobby.associatedNode.refreshUI()
+				refreshBrowseList = true
+				if openedLobby and lobby == openedLobby:
+					refreshOpenedLobby = true
+				continue
+	if refreshOpenedLobby and Storage.OPENED_LOBBY == openedLobby:
+		findButton.refreshActiveTab()
+	if refreshBrowseList:
+		applySort()
+	set_process(toContinue)

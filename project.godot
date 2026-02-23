@@ -8,19 +8,23 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Lobby Simulator"
 config/description="See all open lobbies from the AoE2 DE game.
 Connect to a lobby you want.
 Balance players in team games."
-config/version="1.98"
+config/version="1.991"
 run/main_scene="res://scenes/lobbySimulatorGUI.tscn"
 config/use_hidden_project_data_directory=false
-config/features=PackedStringArray("4.5", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0.31, 0.08432, 0.0682, 1)
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/use_filter=false
 boot_splash/image="res://img/aoe.png"
 config/icon="uid://du1axs6mhpp46"

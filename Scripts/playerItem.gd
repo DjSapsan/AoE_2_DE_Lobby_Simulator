@@ -2,10 +2,6 @@ extends HBoxContainer
 
 var associatedPlayer : CorePlayerClass
 
-@export var color_index = 0
-@export var team_index = 0
-@export var slotID:int
-
 @onready var colorSquare = $pColor
 @onready var eloField = $pElo
 #@onready var smurfLabel = $pSmurf
@@ -14,7 +10,7 @@ var associatedPlayer : CorePlayerClass
 @onready var flagIcon = $pFlag
 @onready var nameLabel = $pName
 @onready var emptyLabel = $pEmpty
-@onready var teamLabel = $pTeam/P_label
+@onready var teamButton: Button = $pTeam/B_team
 @onready var eloSelector = %L_elo
 @onready var estimate_elo_setts: CheckBox = %EstimateEloSetts
 @onready var short_names_setts: HSlider = %ShortNamesSetts
@@ -22,12 +18,14 @@ var associatedPlayer : CorePlayerClass
 @onready var balance_button: Button = %BalanceButton
 
 var lockTeam = false		# Locks when loaded
+var color_index = 0
+var team_index = 0
 
 func _ready():
 	flagIcon.tooltip_text = ""
 	colorSquare.color = Global.ColorIndex[color_index]
-	teamLabel.text = Global.TeamIndex[0]
 	nameLabel.associatedPlayer = null
+	teamButton.balance_button = balance_button
 
 func getFlag():
 	return associatedPlayer.country.to_upper()
@@ -40,45 +38,67 @@ func getFlag():
 		#flag += char(offset)
 	#return flag
 
-func changePlayer(player:CorePlayerClass = null):
+func changePlayer(player:CorePlayerClass = null, levelOfDetails:int = 0):
 	associatedPlayer = player
 	nameLabel.associatedPlayer = player
 	showName()
 
 	if !player:
-		colorSquare.visible = false
-		eloField.visible = false
-		wrateLabel.visible = false
-		teamSquare.visible = false
-		flagIcon.visible = false
-		nameLabel.visible = false
-		emptyLabel.visible = true
-		p_civ.visible = false
-		#smurfLabel.visible = false
-		#smurfLabel.tooltip_text = ""
+		showDetails(0)
 		nameLabel.associatedPlayer = null
 		change_color(0)
 		set_team(0)
 		return
 
-	#if player.has("color"):
-	#	change_color(player.color)
-
-	#f player.has("team"):
-	#	change_team(player.team+1)
-	colorSquare.visible = true
-	eloField.visible = true
-	wrateLabel.visible = true
-	teamSquare.visible = true
-	flagIcon.visible = true
-	nameLabel.visible = true
-	emptyLabel.visible = false
-	p_civ.visible = true
+	showDetails(levelOfDetails)
 
 	flagIcon.texture = load("res://fonts/png/" + associatedPlayer.flag + ".png")
 	flagIcon.tooltip_text = getFlag()
-	showElo()
-	#showSmurf()
+
+#0 = empty, 1 = minimal, 2 = full
+func showDetails(level:int = 0):
+	match level:
+		0:
+			colorSquare.visible = false
+			eloField.visible = false
+			wrateLabel.visible = false
+			teamSquare.visible = false
+			flagIcon.visible = false
+			nameLabel.visible = false
+			p_civ.visible = false
+			#smurfLabel.visible = false
+			#smurfLabel.tooltip_text = ""
+			lockTeam = true
+			emptyLabel.visible = true
+
+		1:
+			colorSquare.visible = false
+			eloField.visible = false
+			wrateLabel.visible = false
+			teamSquare.visible = true
+			lockTeam = true
+			flagIcon.visible = false
+			nameLabel.visible = true
+			p_civ.visible = false
+			#smurfLabel.visible = false
+			#smurfLabel.tooltip_text = ""
+			lockTeam = true
+			emptyLabel.visible = false
+
+		2:
+			colorSquare.visible = true
+			eloField.visible = true
+			wrateLabel.visible = true
+			teamSquare.visible = true
+			lockTeam = false
+			flagIcon.visible = true
+			nameLabel.visible = true
+			p_civ.visible = true
+			#smurfLabel.visible = true
+			lockTeam = false
+			emptyLabel.visible = false
+			#showSmurf()
+			showElo()
 
 func change_color(index: int):
 	if Global.ColorIndex.has(index):
@@ -87,22 +107,8 @@ func change_color(index: int):
 		colorSquare.color = Global.ColorIndex[4294967295]
 
 func set_team(t:int=0):
-	team_index = t
-	teamLabel.text = Global.TeamIndex[team_index]
-
-func next_team(plus:int=1):
-	team_index = (team_index + 1*plus) % Global.TeamIndex.size()
-	teamLabel.text = Global.TeamIndex[team_index]
-
-func _on_change_team(event):
-	if event is InputEventMouseButton and event.pressed:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			next_team(1)
-		elif event.button_index == MOUSE_BUTTON_RIGHT:
-			next_team(-1)
-
-		balance_button.manual_refresh_teams()
-
+	teamButton.set_team(t)
+	
 func getElo(LB_ID= null):
 	if not associatedPlayer:
 		return
@@ -116,7 +122,10 @@ func getElo(LB_ID= null):
 	else:
 		return associatedPlayer.getElo(LB)
 
-	return Global.ELO_ZERO
+	#return Global.ELO_ZERO
+
+func getTeam() -> int:
+	return teamButton.team_index
 
 func overrideElo(e=null):
 	if associatedPlayer:
@@ -199,3 +208,19 @@ func showOtherInfo(civID, colorID, team):
 
 	change_color(colorID)
 	set_team(team)
+
+func showRealTeam(realTeam):
+	teamButton.set_team(realTeam)
+	
+func onEloChanged(new_text: String):
+	overrideElo(new_text)
+	showElo()
+	balance_button.startBalancing()
+
+func _on_p_elo_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		overrideElo()
+		showElo()
+		balance_button.startBalancing()
+		accept_event()
+	pass # Replace with function body.

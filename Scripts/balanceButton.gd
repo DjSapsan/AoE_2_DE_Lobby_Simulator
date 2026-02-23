@@ -46,15 +46,21 @@ func refresh_team_display():
 	var sorted_keys = current_teams.keys()
 	sorted_keys.sort()
 
-	for i in sorted_keys:
+	for raw_team_key in sorted_keys:
+		var team_key: int = int(raw_team_key)
 		var listTxt := ""
 		var sumElo := 0.0
-		for playerNode in current_teams[i]:
+		for playerNode in current_teams[team_key]:
 			listTxt += playerNode.nameLabel.text + "\n"
 			sumElo += float(playerNode.eloField.text)
 
 		var newBalancedTeamPanel = teamPanel.instantiate()
-		newBalancedTeamPanel.text = template.format({"team": i + 1, "players": listTxt, "elo": String.num(sumElo, 0)})
+		var global_team_index := team_key
+		newBalancedTeamPanel.text = template.format({
+			"team": Global.TeamIndex[global_team_index],
+			"players": listTxt,
+			"elo": String.num(sumElo, 0)
+		})
 		balanceDisplay.add_child(newBalancedTeamPanel)
 
 	disabled = false
@@ -64,12 +70,12 @@ func manual_refresh_teams():
 	var playerNodes = lobbyPlayersList.get_children().filter(func(slot): return slot.associatedPlayer != null)
 	current_teams.clear()
 	for p in playerNodes:
-		if p.team_index > 0:
-			var team_key = p.team_index - 1
-			if !current_teams.has(team_key):
-				current_teams[team_key] = []
-			if p not in current_teams[team_key]:
-				current_teams[team_key].push_back(p)
+		var global_team_index := _player_team_index(p)
+		var team_key = global_team_index
+		if !current_teams.has(team_key):
+			current_teams[team_key] = []
+		if p not in current_teams[team_key]:
+			current_teams[team_key].push_back(p)
 	refresh_team_display()
 
 # ---------- helpers ----------
@@ -77,13 +83,19 @@ func manual_refresh_teams():
 func _player_elo(p) -> float:
 	return float(p.eloField.text)
 
+func _player_team_index(p) -> int:
+	if p.has_method("getTeam"):
+		return int(p.getTeam())
+	return int(p.team_index)
+
 func _apply_current_teams_and_set_players(teams: Dictionary) -> void:
 	current_teams.clear()
-	for k in teams.keys():
-		current_teams[k] = teams[k]
+	for raw_key in teams.keys():
+		var team_key := int(raw_key) + 1
+		current_teams[team_key] = teams[raw_key]
 	for team_key in current_teams.keys():
 		for player in current_teams[team_key]:
-			player.set_team(team_key + 1)
+			player.set_team(int(team_key))
 
 # Fills out_caps with per-team capacities. Returns true on success.
 # If enforce_equal is requested and players aren't divisible, sets 'cant' and returns false.
@@ -217,7 +229,7 @@ func balance_teams(playerItems: Array) -> Dictionary:
 	if total_players == 0:
 		current_teams.clear()
 		for x in range(num_teams):
-			current_teams[x] = []
+			current_teams[x + 1] = []
 		return current_teams
 	
 	cant = false
@@ -251,13 +263,15 @@ func format_player_list(input_text: String) -> String:
 	return ", ".join(players)
 
 func _on_pressed():
-	if !Storage.CURRENT_LOBBY:
+	if !Storage.OPENED_LOBBY:
 		return
 	var out := ""
 	var sorted_keys := current_teams.keys()
 	sorted_keys.sort()
 	var children := balanceDisplay.get_children()
 	for idx in range(sorted_keys.size()):
+		var team_key: int = int(sorted_keys[idx])
+		var global_team_index := team_key
 		var team_node = children[idx]
-		out += ("T%d: " % (idx + 1)) + format_player_list(team_node.text) + " | "
+		out += ("T%s: " % Global.TeamIndex[global_team_index]) + format_player_list(team_node.text) + " | "
 	DisplayServer.clipboard_set(out)

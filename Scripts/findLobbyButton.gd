@@ -1,22 +1,34 @@
-extends Button
+extends MenuButton
 
 @onready var http_request_lobbies: HTTPRequest = $HTTPRequest_lobbies
 @onready var http_request_elo: HTTPRequest = $HTTPRequest_elo
 @onready var http_request_smurf: HTTPRequest = $HTTPRequest_smurf
 @onready var request_spec_node: Node = $WebSocket_spec
 
-@onready var searchField: LineEdit = %searchField
+@onready var searchField: LineEdit = %SearchField
 @onready var browser = %Browser
 @onready var status = %Status
-@onready var lobby_tab: PanelContainer = %Lobby
+@onready var lobbyTab: PanelContainer = %Lobby
+@onready var lobbyTabCheck: PanelContainer = %Check
 @onready var tabs_node: TabContainer = %TabsNode
+@onready var popup: PopupMenu = get_popup()
 
 static var regex_lobby: RegEx
 static var regex_steamID: RegEx
 
+const TAB_LOBBY := 1
+const TAB_CHECK := 2
+const TAB_BROWSE := 0
+const RELOAD_ICON := preload("res://img/icons8-reload-64.png")
+const DEFAULT_ICON := preload("res://img/icons8-search-64.png")
+#const DEBUG_LOBBIES_PATH_PATTERN := "res://txt/debug_lobbies%d.json"
+#const EMPTY_ADVERTISEMENT_PAGE := "{\"result\":{\"code\":0,\"message\":\"SUCCESS\"},\"matches\":[],\"avatars\":[]}"
+
+var isAutorefresh: bool = false
+var autorefresh_time := 0.0
+
 # holds functions to process data about ongoing matches for spectating
 #var FUNCTIONS_TABLE: Dictionary
-var steamIDs: Dictionary
 
 #var _pending_smurf_requests = {}
 
@@ -25,20 +37,32 @@ func _ready() -> void:
 	regex_steamID = RegEx.new()
 	regex_lobby.compile("^(\\d{9,}|aoe2de://0/\\d+)$")
 	regex_steamID.compile(r'"id":(\d+),"steamlobbyid":(\d*)')
-	#regex_steamID.compile("\"id\"\\s*:\\s*(\\d+)\\s*,\\s*\"steamlobbyid\"\\s*:\\s*(\\d+)")
 
-	_on_find_button_pressed()
-	#initFUNCTIONS_TABLE()
+	popup.id_pressed.connect(_on_popup_id_pressed)
+	onLeftClick()
+	set_process(false)
 
-func find_cases(_str: String) -> String:
-	if _str.length() == 0:
+func _on_popup_id_pressed(_id:int) -> void:
+	isAutorefresh = !isAutorefresh
+	popup.set_item_checked(0, isAutorefresh)
+	icon = RELOAD_ICON if isAutorefresh else DEFAULT_ICON
+	autorefresh_time = 0.0
+	set_process(isAutorefresh)
+
+static func find_cases(s: String) -> String:
+	if s.length() == 0:
 		return "empty"
-	if regex_lobby.search(_str) != null:
+	if regex_lobby.search(s) != null:
 		return "lobby_id"
 	return "general"
 
 #https://aoe-api.worldsedgelink.com/community/advertisement/findAdvertisements?title=age2&start=0
 func request_advertisements(start:int=0):
+	#var use_debug_lobbies := OS.is_debug_build()
+	#use_debug_lobbies = false # Uncomment to load real lobbies even in debug builds.
+	#if use_debug_lobbies:
+	#	return request_advertisements_debug(start)
+
 	var endpoint: String = "/community/advertisement/findAdvertisements"
 	var query_string: String = "title=age2&start=%d" % start
 	var url = Global.URL_AOE_API + endpoint + "?" + query_string
@@ -46,56 +70,61 @@ func request_advertisements(start:int=0):
 	var results = await http_request_lobbies.request_completed
 	return results
 
+# func request_advertisements_debug(start: int) -> Array:
+# 	var page_index := int(start / 100) + 1
+# 	var path := DEBUG_LOBBIES_PATH_PATTERN % page_index
+
+# 	if not FileAccess.file_exists(path):
+# 		return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), EMPTY_ADVERTISEMENT_PAGE.to_utf8_buffer()]
+
+# 	var file := FileAccess.open(path, FileAccess.READ)
+# 	if file == null:
+# 		return [HTTPRequest.RESULT_REQUEST_FAILED, 500, PackedStringArray(), PackedByteArray()]
+
+# 	var file_data := file.get_as_text()
+# 	file.close()
+# 	return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), file_data.to_utf8_buffer()]
+
 func requestLobbies():
-	var start: int = 0
+	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
+	
+	var loop: int = 0
 	var rawResults: Array
-	var jsonResults: Dictionary
 	var lobbies: Array
 	var players: Array
-	var received_lobby_ids: Array = []
 	var json_string: String
-
+	var json: Dictionary
+	Storage.STEAM_IDS = {}
 	status.changeStatus("Loading lobbies...", 0)
+	for lobby in Storage.LOBBIES.values():
+		lobby.fresh = false
 
-	var repeat := true
-	var matchesSize: int = 0
-	while repeat:
-		rawResults = await request_advertisements(start)
+	#============== start loading loop ==============
+	while true:
+		rawResults = await request_advertisements(loop * 100)
 		if rawResults[1] != 200:
 			status.changeStatus("Error " + str(rawResults[1]), 1)
 			#print("Error ", rawResults[1])
 			return
 
 		json_string = rawResults[3].get_string_from_utf8()
-		steamIDs = extract_id_and_lobby(json_string)
-		jsonResults = JSON.parse_string(json_string)
-		matchesSize = jsonResults.matches.size()
-		if matchesSize == 0:
+		Storage.STEAM_IDS.merge(extract_id_and_lobby(json_string))
+		json = JSON.parse_string(json_string)
+		lobbies = json.matches
+		if lobbies.size() == 0:
 			break
-		elif matchesSize < 100:
-			repeat = false
-
-		lobbies = jsonResults.matches
-		players = jsonResults.avatars
+		players = json.avatars
 
 		Storage.PLAYERS_add(players)
-		Storage.LOBBIES_add(lobbies,steamIDs)
+		Storage.LOBBIES_add(lobbies)
 
-		lobby_tab.refreshLobby()
+		browser.ammendLobbiesList(lobbies)
 
-		for lobby_data in lobbies:
-			received_lobby_ids.append(lobby_data.id)
-
-		browser.populateLobbiesList()
-
-		start += 100
-
-	if received_lobby_ids.size() > 0:
-		Storage.LOBBIES_remove_absent(received_lobby_ids)
-		browser.populateLobbiesList()
-
+		loop += 1
+	#============== end loading loop ==============
+	browser.set_process(true)
 	status.showAmountOfLobbies()
-	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
+	
 
 func extract_id_and_lobby(json_text: String) -> Dictionary:
 	var id_to_steamID : Dictionary = {}
@@ -141,14 +170,12 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 					p.updateElo(stat)
 
 		if doRefresh:
-			lobby_tab.on_elo_updated()
+			lobbyTab.on_elo_updated()
 	else:
 		status.changeStatus("! Error fetching Elo")
-		#print("Error ", rawResults[1])
-
 
 # func requestPlayerSmurfs() -> void:
-# 	var lobby = Storage.CURRENT_LOBBY
+# 	var lobby = Storage.OPENED_LOBBY
 # 	var slots = lobby.slots
 # 	var unchecked_players: Array = slots.filter(
 # 		func(p): return p and p.lastTimeSmurfs < 0 and not p.isAI and p.id
@@ -197,61 +224,82 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 # 	else:
 # 		lobby.isCheckSmurfs = 0
 # 	gatheredSmurfs.clear()
-# 	lobby_tab.on_smurfs_updated()
+# 	lobbyTab.on_smurfs_updated()
 # 	req.queue_free()
 
 func downloadAllLobbies():
 	#Storage.PLAYERS_reset()
 	await requestLobbies()
-	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
+
+func refreshActiveTab() -> void:
+	if tabs_node.current_tab == TAB_CHECK:
+		lobbyTabCheck.refreshLobby()
+	elif tabs_node.current_tab == TAB_LOBBY:
+		lobbyTab.refreshLobby()
+		lobbyTabCheck.refreshLobby()
 
 func openLobby(justRefresh: bool = true):
 	var txt = searchField.text
 
-	if justRefresh or (Storage.CURRENT_LOBBY and txt.is_empty()):
-		lobby_tab.refreshLobby()
+	if justRefresh or (Storage.OPENED_LOBBY and txt.is_empty()):
+		refreshActiveTab()
 		return
 
 	var lobby
 	match find_cases(txt):
 		"general":
 			lobby = Storage.LIST_findInIndex(txt, Storage.LOBBIES)
-			searchField.text = ""
 		"lobby_id":
 			var id = int(Global.GetDigits(txt))
 			lobby = Storage.LOBBIES.get(id)
 		_:
-			#if Storage.CURRENT_LOBBY:
-			#	lobby_tab.closeCurrentLobby()
 			return
 
-	if not lobby:
-		lobby_tab.closeCurrentLobby()
-		return
-
-	Storage.CURRENT_LOBBY = lobby
-	lobby_tab.refreshLobby()
+	Storage.OPENED_LOBBY = lobby
+	refreshActiveTab()
 
 func openSelectedLobby(selected):
-	lobby_tab.openSelectedLobby(selected)
+	lobbyTab.openSelectedLobby(selected)
 
-func _on_find_button_pressed(isAuto: bool = false):
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		var mb := event as InputEventMouseButton
+
+		if mb.button_index == MOUSE_BUTTON_RIGHT:
+			show_popup()
+			accept_event()
+			return
+
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			accept_event()
+			onLeftClick()
+			return
+
+
+func onLeftClick() -> void:
+	
 	if disabled:
 		return
 
 	disabled = true
-
 	await downloadAllLobbies()
-
-	var is_lobby_tab := tabs_node.current_tab == 1
-	openLobby(isAuto or not is_lobby_tab)
-
 	disabled = false
+
+	openLobby(tabs_node.current_tab == TAB_BROWSE)
+	if tabs_node.current_tab > TAB_BROWSE:
+		searchField.text = ""
 	status.showAmountOfLobbies()
 
+func _process(delta: float) -> void:
+	autorefresh_time += delta
+	if autorefresh_time >= 10.0:
+		autorefresh_time = 0.0
+		onLeftClick()
+
+# hotkey
 func _unhandled_input(event):
 	if event.is_action_pressed("StartSearch"):
-		_on_find_button_pressed()
+		onLeftClick()
 
 ##for aoe2lobby
 #func initFUNCTIONS_TABLE():

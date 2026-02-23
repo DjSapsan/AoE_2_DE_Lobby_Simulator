@@ -1,7 +1,8 @@
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://nplginui37s7"]
 
 [resource]
-content_margin_left = 20.0
+content_margin_left = 10.0
+content_margin_right = 10.0
 bg_color = Color(0, 0, 0, 0.25098)
 border_width_left = 4
 border_width_top = 4

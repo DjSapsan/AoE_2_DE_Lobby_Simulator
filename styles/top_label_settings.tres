@@ -1,8 +1,0 @@
-[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://cllurjxw4b4js"]
-
-[ext_resource type="FontFile" uid="uid://dige8501rbskh" path="res://fonts/Bion-Bold.otf" id="1_1meof"]
-
-[resource]
-font = ExtResource("1_1meof")
-outline_size = 4
-outline_color = Color(0, 0, 0, 0.5019608)

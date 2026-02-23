@@ -244,16 +244,10 @@ func makeShortNames() -> void:
 func getFlagCode(_country: String):
 	if _country == "AI":
 		return "🤖"
-	elif _country == "NO":
+	if _country == "NO":
 		return "🌐"
 	var code = _country.to_upper()
-	var f = ""
-	var offset
-	offset = code[0].unicode_at(0) - 65 + 0x1F1E6
-	f += char(offset)
-	offset = code[1].unicode_at(0) - 65 + 0x1F1E6
-	f += char(offset)
-	return f
+	return char(code[0].unicode_at(0) - 65 + 0x1F1E6) + char(code[1].unicode_at(0) - 65 + 0x1F1E6)
 
 func getStatProperty(lb, property):
 	if stat.has(lb):
