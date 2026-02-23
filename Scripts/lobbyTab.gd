@@ -46,8 +46,8 @@ func populateLobby():
 	if lobby.loadingLevel > 2:
 		lobby.loadInternalDetails()
 
-	lobbyLabel.text = "> " + lobby.title + " <"
-	map_and_mode.text = lobby.map + " (" + lobby.gameModeName + ")"
+	lobbyLabel.text = ">%s< " % lobby.title
+	map_and_mode.text = "%s (%s)" % [lobby.map, lobby.gameModeName]
 
 	lobbyPlayersList.changePlayersInSlots()
 

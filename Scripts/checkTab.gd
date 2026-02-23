@@ -30,7 +30,7 @@ func connectChangeSignals():
 		elif element is CheckBox:
 			element.connect("toggled", onSettingsChanged)
 		elif element is Button:
-			element.connect("pressed", onSettingsChanged)
+			element.connect("state_changed", onSettingsChanged)
 		elif element is LineEdit:
 			element.connect("text_changed", onSettingsChanged)
 

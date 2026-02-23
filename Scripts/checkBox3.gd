@@ -4,39 +4,39 @@ extends Button
 @onready var textureTrue: Texture2D = preload("res://img/checkbox_mark.png")
 @onready var textureAny: Texture2D = preload("res://img/checkbox_no.png")
 
-var state: int = 0 # 0 = false, 1 = true, 2 = any
+signal state_changed(new_state: int)
+
+var state: int = 2 # 0 = false, 1 = true, 2 = any
 
 func _ready() -> void:
-	state = 2
+	setState(2)
 
-func setState(new_state: int) -> void:
-	state = new_state
+func setState(new_state: int, emit_change: bool = false) -> void:
+	state = clampi(new_state, 0, 2)
 	match state:
 		0:
-			self.icon = textureFalse
+			icon = textureFalse
 		1:
-			self.icon = textureTrue
+			icon = textureTrue
 		2:
-			self.icon = textureAny
+			icon = textureAny
+	if emit_change:
+		state_changed.emit(state)
 
 #cycles through the three states on click
 #if the right mouse click the set to any
 func _gui_input(event: InputEvent) -> void:
-	if Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_RIGHT):
-		state = 2
-		self.icon = textureAny
+	if not (event is InputEventMouseButton and event.pressed):
 		return
-	elif Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_MIDDLE):
-		state = 0
-		self.icon = textureFalse
-		return
-	elif Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_LEFT):
-		state = (state + 1) % 3
-		match state:
-			0:
-				self.icon = textureFalse
-			1:
-				self.icon = textureTrue
-			2:
-				self.icon = textureAny
-	
+
+	match (event as InputEventMouseButton).button_index:
+		MouseButton.MOUSE_BUTTON_LEFT:
+			setState((state + 1) % 3, true)
+		MouseButton.MOUSE_BUTTON_RIGHT:
+			setState(2, true)
+		MouseButton.MOUSE_BUTTON_MIDDLE:
+			setState(0, true)
+		_:
+			return
+
+	accept_event()

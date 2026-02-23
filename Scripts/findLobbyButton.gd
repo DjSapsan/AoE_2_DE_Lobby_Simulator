@@ -1,6 +1,4 @@
-extends Button
-
-signal refresh_completed
+extends MenuButton
 
 @onready var http_request_lobbies: HTTPRequest = $HTTPRequest_lobbies
 @onready var http_request_elo: HTTPRequest = $HTTPRequest_elo
@@ -13,6 +11,7 @@ signal refresh_completed
 @onready var lobbyTab: PanelContainer = %Lobby
 @onready var lobbyTabCheck: PanelContainer = %Check
 @onready var tabs_node: TabContainer = %TabsNode
+@onready var popup: PopupMenu = get_popup()
 
 static var regex_lobby: RegEx
 static var regex_steamID: RegEx
@@ -20,10 +19,13 @@ static var regex_steamID: RegEx
 const TAB_LOBBY := 1
 const TAB_CHECK := 2
 const TAB_BROWSE := 0
-const DEBUG_LOBBIES_PATH_PATTERN := "res://txt/debug_lobbies%d.json"
-const EMPTY_ADVERTISEMENT_PAGE := "{\"result\":{\"code\":0,\"message\":\"SUCCESS\"},\"matches\":[],\"avatars\":[]}"
+const RELOAD_ICON := preload("res://img/icons8-reload-64.png")
+const DEFAULT_ICON := preload("res://img/icons8-search-64.png")
+#const DEBUG_LOBBIES_PATH_PATTERN := "res://txt/debug_lobbies%d.json"
+#const EMPTY_ADVERTISEMENT_PAGE := "{\"result\":{\"code\":0,\"message\":\"SUCCESS\"},\"matches\":[],\"avatars\":[]}"
 
 var isAutorefresh: bool = false
+var autorefresh_time := 0.0
 
 # holds functions to process data about ongoing matches for spectating
 #var FUNCTIONS_TABLE: Dictionary
@@ -35,9 +37,17 @@ func _ready() -> void:
 	regex_steamID = RegEx.new()
 	regex_lobby.compile("^(\\d{9,}|aoe2de://0/\\d+)$")
 	regex_steamID.compile(r'"id":(\d+),"steamlobbyid":(\d*)')
-	#regex_steamID.compile("\"id\"\\s*:\\s*(\\d+)\\s*,\\s*\"steamlobbyid\"\\s*:\\s*(\\d+)")
 
-	#initFUNCTIONS_TABLE()
+	popup.id_pressed.connect(_on_popup_id_pressed)
+	onLeftClick()
+	set_process(false)
+
+func _on_popup_id_pressed(_id:int) -> void:
+	isAutorefresh = !isAutorefresh
+	popup.set_item_checked(0, isAutorefresh)
+	icon = RELOAD_ICON if isAutorefresh else DEFAULT_ICON
+	autorefresh_time = 0.0
+	set_process(isAutorefresh)
 
 static func find_cases(s: String) -> String:
 	if s.length() == 0:
@@ -48,10 +58,10 @@ static func find_cases(s: String) -> String:
 
 #https://aoe-api.worldsedgelink.com/community/advertisement/findAdvertisements?title=age2&start=0
 func request_advertisements(start:int=0):
-	var use_debug_lobbies := OS.is_debug_build()
-	use_debug_lobbies = false # Uncomment to load real lobbies even in debug builds.
-	if use_debug_lobbies:
-		return request_advertisements_debug(start)
+	#var use_debug_lobbies := OS.is_debug_build()
+	#use_debug_lobbies = false # Uncomment to load real lobbies even in debug builds.
+	#if use_debug_lobbies:
+	#	return request_advertisements_debug(start)
 
 	var endpoint: String = "/community/advertisement/findAdvertisements"
 	var query_string: String = "title=age2&start=%d" % start
@@ -60,20 +70,20 @@ func request_advertisements(start:int=0):
 	var results = await http_request_lobbies.request_completed
 	return results
 
-func request_advertisements_debug(start: int) -> Array:
-	var page_index := int(start / 100) + 1
-	var path := DEBUG_LOBBIES_PATH_PATTERN % page_index
+# func request_advertisements_debug(start: int) -> Array:
+# 	var page_index := int(start / 100) + 1
+# 	var path := DEBUG_LOBBIES_PATH_PATTERN % page_index
 
-	if not FileAccess.file_exists(path):
-		return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), EMPTY_ADVERTISEMENT_PAGE.to_utf8_buffer()]
+# 	if not FileAccess.file_exists(path):
+# 		return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), EMPTY_ADVERTISEMENT_PAGE.to_utf8_buffer()]
 
-	var file := FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		return [HTTPRequest.RESULT_REQUEST_FAILED, 500, PackedStringArray(), PackedByteArray()]
+# 	var file := FileAccess.open(path, FileAccess.READ)
+# 	if file == null:
+# 		return [HTTPRequest.RESULT_REQUEST_FAILED, 500, PackedStringArray(), PackedByteArray()]
 
-	var file_data := file.get_as_text()
-	file.close()
-	return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), file_data.to_utf8_buffer()]
+# 	var file_data := file.get_as_text()
+# 	file.close()
+# 	return [HTTPRequest.RESULT_SUCCESS, 200, PackedStringArray(), file_data.to_utf8_buffer()]
 
 func requestLobbies():
 	Global.LAST_LOBBY_UPDATE = Time.get_unix_time_from_system()
@@ -250,7 +260,23 @@ func openLobby(justRefresh: bool = true):
 func openSelectedLobby(selected):
 	lobbyTab.openSelectedLobby(selected)
 
-func _pressed() -> void:
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		var mb := event as InputEventMouseButton
+
+		if mb.button_index == MOUSE_BUTTON_RIGHT:
+			show_popup()
+			accept_event()
+			return
+
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			accept_event()
+			onLeftClick()
+			return
+
+
+func onLeftClick() -> void:
+	
 	if disabled:
 		return
 
@@ -262,12 +288,17 @@ func _pressed() -> void:
 	if tabs_node.current_tab > TAB_BROWSE:
 		searchField.text = ""
 	status.showAmountOfLobbies()
-	refresh_completed.emit()
+
+func _process(delta: float) -> void:
+	autorefresh_time += delta
+	if autorefresh_time >= 10.0:
+		autorefresh_time = 0.0
+		onLeftClick()
 
 # hotkey
 func _unhandled_input(event):
 	if event.is_action_pressed("StartSearch"):
-		_pressed()
+		onLeftClick()
 
 ##for aoe2lobby
 #func initFUNCTIONS_TABLE():
