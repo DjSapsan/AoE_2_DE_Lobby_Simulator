@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = 1.99
+const VERSION = 1.991
 
 # Define color index with explicit colors
 const ColorIndex: Dictionary = {
