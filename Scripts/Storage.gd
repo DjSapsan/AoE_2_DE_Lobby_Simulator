@@ -25,6 +25,7 @@ func LOBBIES_add(source: Array):
 		if LOBBIES.has(id):
 			#this duplicates initialization
 			lobby = LOBBIES[id]
+			lobby.steam_id = STEAM_IDS.get(id, "")
 			lobby.title = "🌟 " + s.description if lobby.isModded else s.description
 			lobby.totalPlayers = s.matchmembers.size()
 			lobby.maxPlayers = s.maxplayers

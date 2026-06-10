@@ -15,13 +15,7 @@ func _ready() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.alt_pressed:
-			var url: String = ""
-			if Global.OStype == "Windows":
-				url = associatedLobby.getRegularURL()
-			elif Global.OStype == "Linux/BSD":
-				url = associatedLobby.getSteamURL()
-			if url != "":
-				OS.shell_open(url)
+			associatedLobby.join()
 		else:
 			var node = get_node(lobbyTabPath)
 			node.openSelectedLobby(associatedLobby)

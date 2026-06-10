@@ -1,7 +1,5 @@
 extends Label
 
-@onready var main = get_node("/root/Control")
-
 func isLobby():
 	return Storage.OPENED_LOBBY
 
@@ -16,6 +14,6 @@ func _on_mouse_exited():
 func _on_gui_input(event: InputEvent) -> void:
 	if isLobby() and event is InputEventMouseButton:
 		if Input.is_physical_key_pressed(KEY_ALT):
-			main.openAge(Storage.OPENED_LOBBY)
+			Storage.OPENED_LOBBY.join()
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			DisplayServer.clipboard_set(Storage.OPENED_LOBBY.getRegularURL())
