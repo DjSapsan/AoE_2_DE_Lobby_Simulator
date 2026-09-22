@@ -1,6 +1,6 @@
 extends Node
 
-const VERSION = 1.992
+const VERSION = 1.993
 
 # Define color index with explicit colors
 const ColorIndex: Dictionary = {
@@ -55,6 +55,8 @@ var OStype:String
 
 var regex_end_number
 func _ready():
+	# controls without label_settings use the built-in theme font, which has no emoji
+	ThemeDB.fallback_font.fallbacks = [preload("res://fonts/NotoColorEmoji-subset.ttf")]
 	regex_end_number = RegEx.new()
 	regex_end_number.compile("(\\d+)$")
 	match OS.get_name():

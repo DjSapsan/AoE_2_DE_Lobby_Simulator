@@ -197,6 +197,7 @@ const MAPS_TABLE: Dictionary = {
 	11023 : "Stonefront" ,
 	11024 : "Thames" ,
 	11025 : "Vulpine" ,
+	11026 : "ArabianDesert" ,
 	}
 
 const GAME_TYPE_TABLE: Dictionary = {
@@ -269,15 +270,20 @@ const CIVS_TABLE: Dictionary = {
 	48 : "Spartans",
 
 	49 : "Shu",
-	50 : "Khitans",
+	50 : "Wu",
 	51 : "Wei",
 	52 : "Jurchens",
-	53 : "Wu",
+	53 : "Khitans",
 
+	54 : "Macedonians",
+	55 : "Thracians",
 	56 : "Puru",
 	58: "Mapuche",
 	57: "Muisca",
 	59: "Tupi",
+	60 : "Saxons",
+	61 : "Varangians",
+	62 : "Danes",
 
 	65537: "Random",
 	65538: "Mirror",
@@ -344,10 +350,15 @@ const REVERSE_CIVS_TABLE = {
 	"Jurchens" : 52,
 	"Khitans" : 53,
 
+	"Macedonians" : 54,
+	"Thracians" : 55,
 	"Puru" : 56,
 	"Mapuche" : 58,
 	"Muisca" : 57,
 	"Tupi" : 59,
+	"Saxons" : 60,
+	"Varangians" : 61,
+	"Danes" : 62,
 
 	"Random" : 65537,
 	"Mirror" : 65538,
