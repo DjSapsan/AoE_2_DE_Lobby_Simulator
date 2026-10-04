@@ -549,9 +549,8 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Switch between open lobbies and ongoing matches
 
-(disabled because of technical reasons)"
+Enable autorefresh with right mouse button"
 focus_behavior_recursive = 1
-disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MainContainer/Sections/TopElements/LobbyOrSpec" unique_id=2086410376]
 visible = false

@@ -118,7 +118,17 @@ var loadingLevel := 0
 var sharingCode := ""
 
 # level 1 of loading
-func _init(source):
+func _init(source, isSpec := false):
+	if isSpec:	# for aoe2lobby, only the basics for now
+		id = int(source.matchid)
+		title = "👁 " + source.description
+		totalPlayers = int(source.slots_taken)
+		maxPlayers = int(source.slots_total)
+		map = source.map_name
+		password = source.password == true	# can be null
+		index = str(id) + title.to_lower()
+		isOngoging = true
+		return
 	id = source.id
 	steam_id = Storage.STEAM_IDS.get(int(id), "")
 	title = source.description

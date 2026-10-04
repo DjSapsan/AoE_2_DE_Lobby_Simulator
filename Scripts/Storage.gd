@@ -43,6 +43,13 @@ func LOBBIES_update(s:Dictionary):
 	var lobby = LOBBIES[s.id]
 	#CONTINUE
 
+# the source always has all ongoing matches
+func SPECS_refresh(source: Dictionary):
+	SPECS.clear()
+	for s in source.values():
+		var spec := LobbyClass.new(s, true)
+		SPECS[spec.id] = spec
+
 # Resets the PLAYERS dictionary
 func PLAYERS_reset():
 	PLAYERS.clear()
