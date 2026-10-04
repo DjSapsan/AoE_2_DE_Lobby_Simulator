@@ -25,6 +25,7 @@ func LOBBIES_add(source: Array):
 		if LOBBIES.has(id):
 			#this duplicates initialization
 			lobby = LOBBIES[id]
+			lobby.steam_id = STEAM_IDS.get(id, "")
 			lobby.title = "🌟 " + s.description if lobby.isModded else s.description
 			lobby.totalPlayers = s.matchmembers.size()
 			lobby.maxPlayers = s.maxplayers
@@ -41,6 +42,13 @@ func LOBBIES_add(source: Array):
 func LOBBIES_update(s:Dictionary):
 	var lobby = LOBBIES[s.id]
 	#CONTINUE
+
+# the source always has all ongoing matches
+func SPECS_refresh(source: Dictionary):
+	SPECS.clear()
+	for s in source.values():
+		var spec := LobbyClass.new(s, true)
+		SPECS[spec.id] = spec
 
 # Resets the PLAYERS dictionary
 func PLAYERS_reset():

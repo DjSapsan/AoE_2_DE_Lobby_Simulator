@@ -1,4 +1,4 @@
-extends Button
+extends MenuButton
 
 @onready var labelNode = $columns/Label
 @onready var imgNode:TextureRect = $columns/TextureRect
@@ -12,14 +12,33 @@ extends Button
 @onready var request_spec_node: Node = %WebSocket_spec
 @onready var find_button: Button = %FindButton
 @onready var balance_button: Button = %BalanceButton
+@onready var popup: PopupMenu = get_popup()
 
 var timeElapsed = 0
-var animationActive = false
-var specsLoading = false
+var animationActive = false	# also means auto-updating the spectate browser
+#var specsLoading = false
+var isAutorefresh: bool = true
+var autorefresh_time := 0.0
 
 func _ready():
 	Global.ACTIVE_BROWSER = $"%Browser/LobbiesListNode"
 	Global.ACTIVE_BROWSER_ID = 0
+	popup.id_pressed.connect(_on_popup_id_pressed)
+
+func _on_popup_id_pressed(_id:int) -> void:
+	isAutorefresh = !isAutorefresh
+	popup.set_item_checked(0, isAutorefresh)
+	autorefresh_time = 0.0
+	animationActive = isAutorefresh and Global.ACTIVE_BROWSER_ID == 1
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			show_popup()
+			accept_event()
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			accept_event()
+			_on_switch()
 
 func _on_switch ():
 	if Global.ACTIVE_BROWSER_ID == 0:
@@ -30,17 +49,18 @@ func _on_switch ():
 		Global.ACTIVE_BROWSER = browser.get_child(1)
 		browser.get_child(0).visible = false
 		browser.get_child(1).visible = true
-		browser.clearSpecList()
+		#browser.clearSpecList()
 		request_spec_node.connectToSpecSite()
-		specsLoading = true
-		animationActive = true
+		#specsLoading = true
+		animationActive = isAutorefresh
+		autorefresh_time = 0.0
 		find_button.disabled = true
 		balance_button.disabled = true
-		browser.populateSpecList()
-	elif specsLoading:
-		specsLoading = false
-		request_spec_node.disconnectFromSpecSite()
-		animationActive = false
+		#browser.populateSpecList()
+	#elif specsLoading:
+		#specsLoading = false
+		#request_spec_node.disconnectFromSpecSite()
+		#animationActive = false
 	else:
 		Global.ACTIVE_BROWSER_ID = 0
 		labelNode.text = "Lobbies"
@@ -53,8 +73,7 @@ func _on_switch ():
 		animationActive = false
 		find_button.disabled = false
 		balance_button.disabled = false
-		
-	status.showAmountOfLobbies()
+		status.showAmountOfLobbies()
 
 func _process(delta):
 	timeElapsed = timeElapsed + delta
@@ -68,3 +87,9 @@ func _process(delta):
 		timeElapsed = 0
 	elif not animationActive:
 		animBinocle.set_frame(0)
+
+	if animationActive:
+		autorefresh_time += delta
+		if autorefresh_time >= 15.0:
+			autorefresh_time = 0.0
+			request_spec_node.connectToSpecSite()

@@ -15,16 +15,7 @@ func _ready() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.alt_pressed:
-			var cmd: String = ""
-			#var joinOrSpec = Global.ACTIVE_BROWSER_ID
-			if Global.OStype == "Windows":
-				cmd = associatedLobby.getRegularURL()
-				#print("Attempting to open ",cmd)
-				OS.shell_open(cmd)
-			elif Global.OStype == "Linux/BSD":
-				cmd = "xdg-open " + associatedLobby.getSteamURL()
-				#print("Attempting to open ",cmd)
-				OS.execute("sh", ["-c", cmd], [], false)
+			associatedLobby.join()
 		else:
 			var node = get_node(lobbyTabPath)
 			node.openSelectedLobby(associatedLobby)

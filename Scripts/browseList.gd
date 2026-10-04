@@ -52,6 +52,18 @@ func ammendLobbiesList(source: Array = []):
 			lobbyItem.refreshUI()
 	applySort()
 
+func populateSpecList():
+	for l in specListNode.get_children():
+		l.free()
+	var lobbyItem: Control
+	for spec in Storage.SPECS.values():
+		lobbyItem = lobbyItemScene.instantiate()
+		specListNode.add_child(lobbyItem)
+		lobbyItem.associatedLobby = spec
+		spec.associatedNode = lobbyItem
+		lobbyItem.refreshUI()
+	applySort()
+
 func applyFilter():
 	searchField.applyFilter()
 

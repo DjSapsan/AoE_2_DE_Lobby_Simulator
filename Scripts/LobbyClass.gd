@@ -86,6 +86,10 @@ var totalPlayers: int = 1
 var isHideCivs: bool = false
 var server: String
 
+# map options decoded by decode_options: official game key (int) -> raw value string.
+# Kept for the whole lifetime of the lobby.
+var options: Dictionary = {}
+
 var slots: Array [CorePlayerClass] = [null,null,null,null,null,null,null,null]
 var teams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
 var realTeams: Array[int] = [0, 0, 0, 0, 0, 0, 0, 0]
@@ -114,8 +118,19 @@ var loadingLevel := 0
 var sharingCode := ""
 
 # level 1 of loading
-func _init(source):
+func _init(source, isSpec := false):
+	if isSpec:	# for aoe2lobby, only the basics for now
+		id = int(source.matchid)
+		title = "👁 " + source.description
+		totalPlayers = int(source.slots_taken)
+		maxPlayers = int(source.slots_total)
+		map = source.map_name
+		password = source.password == true	# can be null
+		index = str(id) + title.to_lower()
+		isOngoging = true
+		return
 	id = source.id
+	steam_id = Storage.STEAM_IDS.get(int(id), "")
 	title = source.description
 	totalPlayers = source.matchmembers.size()
 	maxPlayers = source.maxplayers
@@ -169,7 +184,6 @@ func loadBasicDetails():
 
 #level 3 of loading - for searching and filtering
 func loadAllDetails():
-	steam_id = Storage.STEAM_IDS.get(id,"")
 	server = sourceCache.relayserver_region
 	isVisible = sourceCache.visible > 0
 	isObservable = sourceCache.isobservable > 0
@@ -387,6 +401,15 @@ func decodeMetaData(data) -> PackedStringArray:
 	var result: PackedStringArray = printable_string.split("\t", false)
 	return result
 
+func join() -> void:
+	var url: String = ""
+	if Global.OStype == "Windows":
+		url = getRegularURL()
+	elif Global.OStype == "Linux/BSD":
+		url = getSteamURL()
+	if url != "":
+		OS.shell_open(url)
+
 func getRegularURL() -> String:
 	var type:int = 0
 	if isOngoging:
@@ -415,6 +438,7 @@ func parseOptionBytes(data: PackedByteArray):
 	#if title == "test":
 		#pass
 		
+	options.clear()
 	var i := 1
 
 	while i + 4 <= data.size():
@@ -438,7 +462,8 @@ func parseOptionBytes(data: PackedByteArray):
 		
 		# debugStringK += "%d, " % [key]
 		# debugStringV += val_str + ", "
-		
+
+		options[key] = val_str
 		if optionFunctions.has(key):
 			optionFunctions[key].call(self, val_str)
 		
@@ -580,7 +605,7 @@ static var optionFunctions: Dictionary = {
 		pass,
 
 	VICTORY_KEY: func(l:LobbyClass,v):
-		l.victory = Tables.LOBBY_VICTORY_TABLE.get(int(v), "?")
+		l.victory = Tables.LOBBY_VICTORY_TABLE.get(int(v), "-")
 		pass,
 
 	ANTIQUITY_KEY: func(l:LobbyClass,v):

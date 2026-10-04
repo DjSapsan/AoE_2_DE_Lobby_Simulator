@@ -4,8 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://dslgyi4ye4emx" path="res://img/icons8-an-encyclopedia-web-page-search-online-with-a-brief-details-96.png" id="2_bom5s"]
 [ext_resource type="Theme" uid="uid://dwpvf6cranlsf" path="res://styles/main_button_theme.tres" id="3_gpcsr"]
 
-[node name="LobbyOrSpec" type="Button" unique_id=253320804]
+[node name="LobbyOrSpec" type="MenuButton" unique_id=253320804]
 custom_minimum_size = Vector2(100, 90)
+toggle_mode = false
+flat = false
+item_count = 1
+popup/item_0/text = "Autorefresh"
+popup/item_0/checkable = 1
+popup/item_0/checked = true
+popup/item_0/id = 0
 script = ExtResource("1_4hkq5")
 
 [node name="columns" type="VBoxContainer" parent="." unique_id=446649305]
@@ -37,5 +44,3 @@ theme_override_constants/outline_size = 1
 text = "Lobbies"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="pressed" from="." to="." method="_on_switch"]

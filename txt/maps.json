@@ -1203,6 +1203,8 @@
          "script_filename": "CtR Pyramid Descent.rms2",
          "storage_id": 81,
          "style": "random",
+         "nomad": true,
+         "random_map": true,
          "capture_the_relic": true
       },
       {
@@ -1997,6 +1999,7 @@
          "storage_id": 123,
          "style": "random",
          "land": true,
+         "nomad": true,
          "open": true,
          "random_map": true,
          "regicide": true,
@@ -3827,6 +3830,28 @@
          "king_of_the_hill": true,
          "capture_the_relic": true,
          "sudden_death": true,
+         "wonder_race": true,
+         "empire_wars": true
+      },
+      {
+         "const_name": "Arabian Desert",
+         "data_name": "ARABIAN-DESERT-MAP",
+         "name_string_id": 11026,
+         "rollover_string_id": 30313,
+         "icon_reference": "IconArabianDesert",
+         "map_icon_filename": "rm_arabian_desert",
+         "script_filename": "Arabian Desert.rms",
+         "storage_id": 216,
+         "style": "random",
+         "land": true,
+         "open": true,
+         "random_map": true,
+         "death_match": true,
+         "regicide": true,
+         "king_of_the_hill": true,
+         "capture_the_relic": true,
+         "sudden_death": true,
+         "defend_the_wonder": true,
          "wonder_race": true,
          "empire_wars": true
       }

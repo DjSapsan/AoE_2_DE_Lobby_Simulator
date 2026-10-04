@@ -549,9 +549,8 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 tooltip_text = "Switch between open lobbies and ongoing matches
 
-(disabled because of technical reasons)"
+Enable autorefresh with right mouse button"
 focus_behavior_recursive = 1
-disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="MainContainer/Sections/TopElements/LobbyOrSpec" unique_id=2086410376]
 visible = false
@@ -1102,6 +1101,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="RealLobbyLabel" type="Label" parent="MainContainer/Sections/TabsNode/Check/VBoxContainer/CheckTitlesContainer" unique_id=688256572 groups=["REAL_ELEMENTS"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -1361,7 +1361,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_umjfb")
-text = "1234"
 label_settings = ExtResource("84_37hnv")
 horizontal_alignment = 1
 vertical_alignment = 1

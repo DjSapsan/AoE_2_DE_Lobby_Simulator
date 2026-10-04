@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cdav63nqbesn2"
-path="res://godot/imported/Bion-Book.otf-a5b88b8eeb4d09322269eb2dbfeb89fa.fontdata"
+uid="uid://bcpsxfhmmm8j4"
+path="res://godot/imported/NotoColorEmoji-subset.ttf-3af9687b940a436ba5525f076c728566.fontdata"
 
 [deps]
 
-source_file="res://fonts/Bion-Book.otf"
-dest_files=["res://godot/imported/Bion-Book.otf-a5b88b8eeb4d09322269eb2dbfeb89fa.fontdata"]
+source_file="res://fonts/NotoColorEmoji-subset.ttf"
+dest_files=["res://godot/imported/NotoColorEmoji-subset.ttf-3af9687b940a436ba5525f076c728566.fontdata"]
 
 [params]
 
@@ -22,12 +22,12 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
-subpixel_positioning=1
+hinting=3
+subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Resource("uid://bcpsxfhmmm8j4", "res://fonts/NotoColorEmoji-subset.ttf")]
+fallbacks=[]
 Compress=null
 compress=true
 preload=[]
