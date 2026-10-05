@@ -18,14 +18,19 @@ var hidePasswords := false
 func _ready():
 	pass
 
+# other tabs use the field to jump to a lobby, the filter keeps the browse text
 func _on_search_field_text_changed(_new_text: String):
+	if tabsNode.current_tab != 0:
+		return
 	lowerTextCache = _new_text.to_lower()
 	browser.applyFilter()
 
+# the password column is replaced by the time while spectating
 func filterLobby(lobby: LobbyClass) -> bool:
+	var passwordHidden := hidePasswords and lobby.password and not lobby.isOngoging
 	if lowerTextCache == "":
-		return not (hidePasswords and lobby.password)
-	return lobby.index.contains(lowerTextCache) and not (hidePasswords and lobby.password)
+		return not passwordHidden
+	return lobby.index.contains(lowerTextCache) and not passwordHidden
 
 func addArrowToTitle(label_text: String) -> String:
 	if sortDirection == SORT_NONE:
@@ -73,7 +78,8 @@ func onBrowseHeaderAction(header: Control):
 func applySort(sortBy: String = ""):
 	var active_browser = Global.ACTIVE_BROWSER
 
-	if not currentHeader:
+	# a hidden header (time in the lobbies mode) doesn't sort
+	if not currentHeader or not currentHeader.visible:
 		applyFilter()
 		return
 
@@ -95,6 +101,8 @@ func applySort(sortBy: String = ""):
 			newOrder.sort_custom(func(a, b): return sortByType(a, b, sortDirection))
 		"BrowseFilterMap":
 			newOrder.sort_custom(func(a, b): return sortByMap(a, b, sortDirection))
+		"BrowseFilterTime":
+			newOrder.sort_custom(func(a, b): return sortByTime(a, b, sortDirection))
 
 	for i in newOrder.size():
 		active_browser.move_child(newOrder[i], i)
@@ -113,11 +121,14 @@ static func sortByType(a, b, direction: int) -> bool:
 static func sortByMap(a, b, direction: int) -> bool:
 	return direction * (str(a.associatedLobby.map).casecmp_to(str(b.associatedLobby.map))) < 0
 
-func applyFilter():
-	if tabsNode.current_tab == 0:
-		var active_browser = Global.ACTIVE_BROWSER
-		if not active_browser:
-			return
+# by start time, so the order stays right while the shown times tick
+static func sortByTime(a, b, direction: int) -> bool:
+	return direction * (a.associatedLobby.startgametime - b.associatedLobby.startgametime) < 0
 
-		for lItem in active_browser.get_children():
-			lItem.visible = filterLobby(lItem.associatedLobby)
+func applyFilter():
+	var active_browser = Global.ACTIVE_BROWSER
+	if not active_browser:
+		return
+
+	for lItem in active_browser.get_children():
+		lItem.visible = filterLobby(lItem.associatedLobby)

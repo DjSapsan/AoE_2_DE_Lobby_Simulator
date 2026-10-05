@@ -11,9 +11,7 @@ func changeStatus(txt:String, code:int=0):
 	text = symbol + txt
 
 func showAmountOfLobbies():
-	var amount = Global.ACTIVE_BROWSER.get_child_count()
-	changeStatus(str(amount) + " lobbies loaded")
+	changeStatus(str(Storage.LOBBIES.size()) + " lobbies loaded")
 
 func showAmountOfSpecs():
-	var amount = Global.ACTIVE_BROWSER.get_child_count()
-	changeStatus(str(amount) + " ongoing matches loaded")
+	changeStatus(str(Storage.SPECS.size()) + " ongoing matches loaded")

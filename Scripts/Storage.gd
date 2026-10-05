@@ -2,8 +2,9 @@ extends Node
 
 var PLAYERS: Dictionary = {}
 
-var LOBBIES: Dictionary = {}
-var SPECS: Dictionary = {}
+var LOBBIES: Dictionary = {}	# open lobbies
+var SPECS: Dictionary = {}	# ongoing matches
+var GONE: Dictionary = {}	# lobbies that left the open list, until their match shows up as ongoing or they expire
 var STEAM_IDS: Dictionary = {}
 
 var OPENED_LOBBY: LobbyClass
@@ -21,10 +22,16 @@ func LOBBIES_add(source: Array):
 	var lobby: LobbyClass
 	for s in source:
 		id = int(s.id)
+		if SPECS.has(id):	# already started
+			continue
 
-		if LOBBIES.has(id):
+		lobby = LOBBIES.get(id, GONE.get(id))
+		if not lobby and OPENED_LOBBY and OPENED_LOBBY.id == id and not OPENED_LOBBY.isOngoging:
+			lobby = OPENED_LOBBY	# the opened lobby keeps its object even after it was dropped
+		if lobby:
 			#this duplicates initialization
-			lobby = LOBBIES[id]
+			GONE.erase(id)
+			LOBBIES[id] = lobby
 			lobby.steam_id = STEAM_IDS.get(id, "")
 			lobby.title = "🌟 " + s.description if lobby.isModded else s.description
 			lobby.totalPlayers = s.matchmembers.size()
@@ -42,13 +49,6 @@ func LOBBIES_add(source: Array):
 func LOBBIES_update(s:Dictionary):
 	var lobby = LOBBIES[s.id]
 	#CONTINUE
-
-# the source always has all ongoing matches
-func SPECS_refresh(source: Dictionary):
-	SPECS.clear()
-	for s in source.values():
-		var spec := LobbyClass.new(s, true)
-		SPECS[spec.id] = spec
 
 # Resets the PLAYERS dictionary
 func PLAYERS_reset():
@@ -87,7 +87,6 @@ func addAIPlayers():
 	var ai = {
 	"profile_id" : -1,
 	"alias" : "AI",
-	"name" : "",
 	"country" : "AI",
 	}
 	var new = Storage.PLAYERS_addOne(ai)

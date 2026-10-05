@@ -12,8 +12,10 @@ const SHADER_PARAM_SCROLL_OFFSET := "scroll_offset_px"
 
 @onready var lobbiesListNode = $LobbiesListNode
 @onready var specListNode = $SpecListNode
+@onready var passwordHeader = $"../BrowseHeaders/BrowseFilterPassword"
+@onready var timeHeader = $"../BrowseHeaders/BrowseFilterTime"
 
-
+const GONE_TIMEOUT := 120.0	# seconds a lobby that left the open list may take to show up as ongoing
 
 var toContinue := false
 var stripeMaterial: ShaderMaterial
@@ -28,6 +30,13 @@ func _ready() -> void:
 
 	resized.connect(_on_browser_resized)
 
+	var clock := Timer.new()
+	clock.timeout.connect(refreshSpecTimes)
+	add_child(clock)
+	clock.start(1.0)
+
+	searchField.onBrowseHeaderAction(timeHeader)	# ongoing matches sort by start, newest first, by default
+
 func clearAllLobbiesItems():
 	for l in lobbiesListNode.get_children():
 		l.queue_free()
@@ -36,33 +45,97 @@ func getLobbiesItems():
 	return lobbiesListNode.get_children()
 
 func ammendLobbiesList(source: Array = []):
-	var id: int
 	var lobby: LobbyClass
-	var lobbyItem: Control
 	for source_lobby in source:
-		id = int(source_lobby.id)
-		lobby = Storage.LOBBIES[id]
-		lobbyItem = lobby.associatedNode
-		if not lobbyItem:
-			lobbyItem = lobbyItemScene.instantiate()
-			lobbiesListNode.add_child(lobbyItem)
-			lobbyItem.associatedLobby = lobby
-			lobby.associatedNode = lobbyItem
-			Storage.LOBBIES[id] = lobby
-			lobbyItem.refreshUI()
+		lobby = Storage.LOBBIES.get(int(source_lobby.id))
+		if lobby and not lobby.associatedNode:	# started ones are skipped
+			addItem(lobby, lobbiesListNode)
 	applySort()
 
-func populateSpecList():
-	for l in specListNode.get_children():
-		l.free()
-	var lobbyItem: Control
-	for spec in Storage.SPECS.values():
-		lobbyItem = lobbyItemScene.instantiate()
-		specListNode.add_child(lobbyItem)
-		lobbyItem.associatedLobby = spec
-		spec.associatedNode = lobbyItem
-		lobbyItem.refreshUI()
+func addItem(lobby: LobbyClass, list: Control):
+	var lobbyItem := lobbyItemScene.instantiate()
+	list.add_child(lobbyItem)
+	lobbyItem.associatedLobby = lobby
+	lobby.associatedNode = lobbyItem
+	lobbyItem.refreshUI()
+
+func removeItem(lobby: LobbyClass):
+	if lobby.associatedNode:
+		lobby.associatedNode.free()
+		lobby.associatedNode = null
+
+# lobbies missing from the last refresh wait in GONE for their match to show up as ongoing
+func sweepLobbies():
+	var now := Time.get_unix_time_from_system()
+	var lobby: LobbyClass
+	for id in Storage.LOBBIES.keys():
+		lobby = Storage.LOBBIES[id]
+		if lobby.fresh:
+			continue
+		Storage.LOBBIES.erase(id)
+		removeItem(lobby)
+		if lobby.isObservable:	# others never show up as ongoing
+			lobby.goneTime = now
+			Storage.GONE[id] = lobby
+
+# the source always has all ongoing matches. Known ones stay as they are (only finished
+# ones are removed), new ones are added, open lobbies that started become ongoing.
+# Spectate items exist only while the spectate list is shown.
+func refreshSpecs(source: Dictionary):
+	var showItems: bool = specListNode.visible
+	var added := false
+	var lobby: LobbyClass
+	var id: int
+	for key in source:
+		id = int(key)
+		lobby = Storage.SPECS.get(id)
+		if lobby:
+			if lobby.loadingLevel < 4:
+				lobby.sourceCache = source[key]	# the next loading levels take the newest data
+			continue
+		lobby = Storage.LOBBIES.get(id, Storage.GONE.get(id))
+		if not lobby and Storage.OPENED_LOBBY and Storage.OPENED_LOBBY.id == id:
+			lobby = Storage.OPENED_LOBBY	# the opened lobby keeps its object even after it was dropped
+		if lobby:
+			Storage.LOBBIES.erase(id)
+			Storage.GONE.erase(id)
+			removeItem(lobby)
+			lobby.setSpecSource(source[key])
+		else:
+			lobby = LobbyClass.new(source[key], true)
+		Storage.SPECS[id] = lobby
+		if showItems:
+			addItem(lobby, specListNode)
+			added = true
+	for spec_id in Storage.SPECS.keys():
+		if not source.has(str(spec_id)):
+			removeItem(Storage.SPECS[spec_id])
+			Storage.SPECS.erase(spec_id)
+	var expired := Time.get_unix_time_from_system() - GONE_TIMEOUT
+	for gone_id in Storage.GONE.keys():
+		if Storage.GONE[gone_id].goneTime < expired:
+			Storage.GONE.erase(gone_id)
+	set_process(true)
+	if added:
+		applySort()
+
+func showSpecs(isSpec: bool):
+	lobbiesListNode.visible = not isSpec
+	specListNode.visible = isSpec
+	passwordHeader.visible = not isSpec
+	timeHeader.visible = isSpec
+	if isSpec:
+		for spec in Storage.SPECS.values():
+			if not spec.associatedNode:
+				addItem(spec, specListNode)
 	applySort()
+
+func refreshSpecTimes():
+	if not specListNode.is_visible_in_tree():
+		return
+	var now := int(Time.get_unix_time_from_system())
+	for lobbyItem in specListNode.get_children():
+		lobbyItem.refreshTime(now)
 
 func applyFilter():
 	searchField.applyFilter()
@@ -96,31 +169,25 @@ func _draw() -> void:
 
 #braindead solution to load details over several frames
 func _process(_delta: float) -> void:
-	var lobby: LobbyClass
 	var openedLobby: LobbyClass = Storage.OPENED_LOBBY
 	var refreshOpenedLobby := false
 	var refreshBrowseList := false
 	toContinue = false
-	for id in Storage.LOBBIES.keys():
-		lobby = Storage.LOBBIES[id]
-		if not lobby.fresh:
-			Storage.LOBBIES.erase(id)
-			lobby.associatedNode.queue_free()
-			refreshBrowseList = true
-		else:
+	for list in [Storage.LOBBIES, Storage.SPECS]:
+		for lobby: LobbyClass in list.values():
 			if lobby.loadingLevel == 1:
 				lobby.loadBasicDetails()
-				lobby.associatedNode.refreshUI()
-				refreshBrowseList = true
 				toContinue = true
-				continue
 			elif lobby.loadingLevel == 2:
 				lobby.loadAllDetails()
-				lobby.associatedNode.refreshUI()
-				refreshBrowseList = true
 				if openedLobby and lobby == openedLobby:
 					refreshOpenedLobby = true
+			else:
 				continue
+			# ongoing matches get every listed value in level 1
+			if lobby.associatedNode and not lobby.isOngoging:
+				lobby.associatedNode.refreshUI()
+				refreshBrowseList = true
 	if refreshOpenedLobby and Storage.OPENED_LOBBY == openedLobby:
 		findButton.refreshActiveTab()
 	if refreshBrowseList:

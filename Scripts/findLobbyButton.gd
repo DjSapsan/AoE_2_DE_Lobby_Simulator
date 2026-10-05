@@ -1,7 +1,6 @@
 extends MenuButton
 
 @onready var http_request_lobbies: HTTPRequest = $HTTPRequest_lobbies
-@onready var http_request_elo: HTTPRequest = $HTTPRequest_elo
 @onready var http_request_smurf: HTTPRequest = $HTTPRequest_smurf
 @onready var request_spec_node: Node = $WebSocket_spec
 
@@ -95,7 +94,7 @@ func requestLobbies():
 	var json_string: String
 	var json: Dictionary
 	Storage.STEAM_IDS = {}
-	status.changeStatus("Loading lobbies...", 0)
+	showStatus("Loading lobbies...")
 	for lobby in Storage.LOBBIES.values():
 		lobby.fresh = false
 
@@ -103,7 +102,7 @@ func requestLobbies():
 	while true:
 		rawResults = await request_advertisements(loop * 100)
 		if rawResults[1] != 200:
-			status.changeStatus("Error " + str(rawResults[1]), 1)
+			showStatus("Error " + str(rawResults[1]), 1)
 			#print("Error ", rawResults[1])
 			return
 
@@ -122,8 +121,16 @@ func requestLobbies():
 
 		loop += 1
 	#============== end loading loop ==============
+	browser.sweepLobbies()
 	browser.set_process(true)
-	status.showAmountOfLobbies()
+	if not Storage.GONE.is_empty():
+		request_spec_node.requestSpecs()	# lobbies that left may have started
+	showStatus(str(Storage.LOBBIES.size()) + " lobbies loaded")
+
+# the download runs in both modes, the status shows only in the lobbies mode
+func showStatus(txt: String, code: int = 0):
+	if Global.ACTIVE_BROWSER_ID == 0:
+		status.changeStatus(txt, code)
 	
 
 func extract_id_and_lobby(json_text: String) -> Dictionary:
@@ -141,7 +148,7 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 	var array = []
 	for p:CorePlayerClass in listOfPlayers:
 		if (p) and (isAll or p.isEloOutdated()) and not p.isAI:
-			array.append("\""+p.steamName+"\"")
+			array.append(str(p.id))
 
 	if array.size() == 0:
 		return
@@ -149,12 +156,17 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 	var players_list = "[%s]" % (",".join(array))
 	var full_url: String = Global.URL_HALF_ELO + players_list
 
+	# a busy HTTPRequest refuses a new request and the await would get the older lobby's answer
+	var http_request_elo := HTTPRequest.new()
+	http_request_elo.use_threads = true
+	add_child(http_request_elo)
 	http_request_elo.request(full_url)
 	var rawResults = await http_request_elo.request_completed
+	http_request_elo.queue_free()
 
-	if rawResults[1] == 200:
-		var jsonResults = JSON.parse_string(rawResults[3].get_string_from_utf8())
-
+	var jsonResults = JSON.parse_string(rawResults[3].get_string_from_utf8()) if rawResults[1] == 200 else null
+	# unknown players only: 200 with just {"result":{"code":3,"message":"UNREGISTERED_PROFILE_NAME"}}
+	if jsonResults is Dictionary and jsonResults.has("statGroups"):
 		var lookup:Dictionary = {}
 		for statGroup in jsonResults.statGroups:
 			var statgroup_id = int(statGroup.id)
@@ -171,8 +183,6 @@ func requestPlayersElo(listOfPlayers, isAll: bool = false, doRefresh: bool = tru
 
 		if doRefresh:
 			lobbyTab.on_elo_updated()
-	else:
-		status.changeStatus("! Error fetching Elo")
 
 # func requestPlayerSmurfs() -> void:
 # 	var lobby = Storage.OPENED_LOBBY
@@ -245,13 +255,14 @@ func openLobby(justRefresh: bool = true):
 		refreshActiveTab()
 		return
 
+	var list: Dictionary = Storage.SPECS if Global.ACTIVE_BROWSER_ID == 1 else Storage.LOBBIES
 	var lobby
 	match find_cases(txt):
 		"general":
-			lobby = Storage.LIST_findInIndex(txt, Storage.LOBBIES)
+			lobby = Storage.LIST_findInIndex(txt, list)
 		"lobby_id":
 			var id = int(Global.GetDigits(txt))
-			lobby = Storage.LOBBIES.get(id)
+			lobby = list.get(id)
 		_:
 			return
 
@@ -281,18 +292,24 @@ func onLeftClick() -> void:
 	if disabled:
 		return
 
-	disabled = true
-	await downloadAllLobbies()
-	disabled = false
+	# ongoing matches refresh by themselves, the button only jumps to one
+	if Global.ACTIVE_BROWSER_ID == 1:
+		if tabs_node.current_tab == TAB_BROWSE:
+			request_spec_node.requestSpecs()
+			return
+	else:
+		disabled = true
+		await downloadAllLobbies()
+		disabled = false
 
 	openLobby(tabs_node.current_tab == TAB_BROWSE)
 	if tabs_node.current_tab > TAB_BROWSE:
 		searchField.text = ""
-	status.showAmountOfLobbies()
+		searchField.text_changed.emit("")	# setting the text doesn't emit it, the tabs keep their own copy
 
 func _process(delta: float) -> void:
 	autorefresh_time += delta
-	if autorefresh_time >= 10.0:
+	if autorefresh_time >= 10.0 and Global.ACTIVE_BROWSER_ID == 0:
 		autorefresh_time = 0.0
 		onLeftClick()
 

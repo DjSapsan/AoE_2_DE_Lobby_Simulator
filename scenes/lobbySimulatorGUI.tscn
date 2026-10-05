@@ -304,7 +304,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("68_u361g")
 }],
-"loop": true,
+"loop": 1,
 "name": &"new_animation",
 "speed": 30.0
 }]
@@ -375,6 +375,11 @@ base_font = ExtResource("2_7cxyb")
 spacing_glyph = -1
 spacing_space = 1
 
+[sub_resource type="FontVariation" id="FontVariation_37hnv"]
+variation_embolden = 0.1
+spacing_glyph = 1
+spacing_bottom = -6
+
 [node name="Control" type="Control" unique_id=1944486479]
 layout_mode = 3
 anchors_preset = 15
@@ -411,6 +416,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_nl1kt")
 
 [node name="Sections" type="VBoxContainer" parent="MainContainer" unique_id=1534414561]
 layout_mode = 2
+theme_override_constants/separation = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainContainer/Sections" unique_id=1876240288]
 layout_mode = 2
@@ -418,8 +424,8 @@ size_flags_vertical = 0
 
 [node name="SearchField" type="LineEdit" parent="MainContainer/Sections/HBoxContainer" unique_id=401121549]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(600, 40)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -479,8 +485,8 @@ expand_icon = true
 script = ExtResource("8_qlva8")
 
 [node name="AboutButton" type="Button" parent="MainContainer/Sections/HBoxContainer" unique_id=1578113445]
-clip_contents = true
 custom_minimum_size = Vector2(40, 40)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -529,9 +535,6 @@ popup/item_0/id = 0
 script = ExtResource("10_wwqqj")
 
 [node name="HTTPRequest_lobbies" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=87466418]
-use_threads = true
-
-[node name="HTTPRequest_elo" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=589381202]
 use_threads = true
 
 [node name="HTTPRequest_smurf" type="HTTPRequest" parent="MainContainer/Sections/TopElements/FindButton" unique_id=2138983431]
@@ -599,8 +602,8 @@ script = ExtResource("12_s7mkd")
 
 [node name="UpdateButton" type="Button" parent="MainContainer/Sections/TopElements" unique_id=2033847711]
 visible = false
-clip_contents = true
 custom_minimum_size = Vector2(64, 64)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 0
@@ -715,6 +718,16 @@ theme_override_font_sizes/font_size = 15
 icon = ExtResource("16_wx1bx")
 icon_alignment = 1
 expand_icon = true
+
+[node name="BrowseFilterTime" type="Button" parent="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders" unique_id=1397108461]
+visible = false
+custom_minimum_size = Vector2(64, 30)
+layout_mode = 2
+size_flags_vertical = 0
+focus_behavior_recursive = 1
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_7cxyb")
+text = "Start"
 
 [node name="Browser" type="ScrollContainer" parent="MainContainer/Sections/TabsNode/Browse/Headers and List" unique_id=105580170]
 unique_name_in_owner = true
@@ -3014,13 +3027,17 @@ label_settings = ExtResource("91_umjfb")
 vertical_alignment = 1
 max_lines_visible = 1
 
-[node name="Status" type="Label" parent="MainContainer/Sections" unique_id=1654180626]
+[node name="Status" type="Label" parent="MainContainer" unique_id=1654180626]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 20)
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 11
-text = "🛈 "
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.78431374)
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = SubResource("FontVariation_37hnv")
+theme_override_font_sizes/font_size = 17
+text = "🛈 asdsad"
 vertical_alignment = 2
 clip_text = true
 script = ExtResource("24_lgocj")
@@ -3036,8 +3053,8 @@ theme_override_constants/separation = 0
 
 [node name="lobbyTips" type="Label" parent="FloatingContainer" unique_id=1051260373]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(10, 20)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_stretch_ratio = 0.01
@@ -3049,8 +3066,8 @@ max_lines_visible = 1
 
 [node name="CodeField" type="LineEdit" parent="FloatingContainer" unique_id=399248848]
 unique_name_in_owner = true
-clip_contents = true
 custom_minimum_size = Vector2(150, 0)
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 0
@@ -3111,6 +3128,7 @@ size_flags_vertical = 4
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterMap" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterType" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
 [connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterPassword" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
+[connection signal="pressed" from="MainContainer/Sections/TabsNode/Browse/Headers and List/BrowseHeaders/BrowseFilterTime" to="MainContainer/Sections/HBoxContainer/SearchField" method="onBrowseHeaderAction" flags=18]
 [connection signal="gui_input" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_gui_input"]
 [connection signal="mouse_entered" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" to="MainContainer/Sections/TabsNode/Lobby/LobbyAndBalance/LeftRightSplit/SpecificLobby/LobbyLabel" method="_on_mouse_exited"]

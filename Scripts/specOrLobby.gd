@@ -47,14 +47,12 @@ func _on_switch ():
 		imgNode.texture = null #for binocle animation
 		animBinocle.visible = true
 		Global.ACTIVE_BROWSER = browser.get_child(1)
-		browser.get_child(0).visible = false
-		browser.get_child(1).visible = true
+		browser.showSpecs(true)
 		#browser.clearSpecList()
-		request_spec_node.connectToSpecSite()
+		request_spec_node.requestSpecs()
 		#specsLoading = true
 		animationActive = isAutorefresh
 		autorefresh_time = 0.0
-		find_button.disabled = true
 		balance_button.disabled = true
 		#browser.populateSpecList()
 	#elif specsLoading:
@@ -67,13 +65,13 @@ func _on_switch ():
 		imgNode.texture = iconLobby
 		animBinocle.visible = false
 		Global.ACTIVE_BROWSER = browser.get_child(0)
-		browser.get_child(0).visible = true
-		browser.get_child(1).visible = false
-		request_spec_node.disconnectFromSpecSite()
+		browser.showSpecs(false)
 		animationActive = false
-		find_button.disabled = false
-		balance_button.disabled = false
-		status.showAmountOfLobbies()
+		balance_button.disabled = Storage.OPENED_LOBBY and Storage.OPENED_LOBBY.isOngoging
+		if find_button.disabled:	# still downloading
+			status.changeStatus("Loading lobbies...")
+		else:
+			status.showAmountOfLobbies()
 
 func _process(delta):
 	timeElapsed = timeElapsed + delta
@@ -92,4 +90,4 @@ func _process(delta):
 		autorefresh_time += delta
 		if autorefresh_time >= 15.0:
 			autorefresh_time = 0.0
-			request_spec_node.connectToSpecSite()
+			request_spec_node.requestSpecs()

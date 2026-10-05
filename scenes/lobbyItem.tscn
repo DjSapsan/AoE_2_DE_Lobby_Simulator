@@ -80,5 +80,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
+[node name="lobbyTime" type="Label" parent="lobbyColumns" unique_id=404706178]
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+label_settings = ExtResource("2_qv4ax")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
 [connection signal="mouse_entered" from="." to="." method="_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_mouse_exited"]

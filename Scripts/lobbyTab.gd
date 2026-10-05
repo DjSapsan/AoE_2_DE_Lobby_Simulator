@@ -18,25 +18,20 @@ func closeCurrentLobby():
 	main.removeTeamDisplay()
 	lobbyPlayersList.reset()
 
+# set before switching the tab, the tab change refreshes the opened lobby
 func openSelectedLobby(selected):
-	tabsNode.current_tab = 1
-	if Storage.OPENED_LOBBY == selected:
+	if Storage.OPENED_LOBBY != selected:
+		closeCurrentLobby()
+		Storage.OPENED_LOBBY = selected
+	if tabsNode.current_tab == 1:
 		refreshLobby()
-		return
-
-	closeCurrentLobby()
-	Storage.OPENED_LOBBY = selected
-	populateLobby()
-	if Global.ACTIVE_BROWSER_ID == 0:
-		balanceButton.startBalancing()
 	else:
-		main.removeTeamDisplay()
+		tabsNode.current_tab = 1
 
 func refreshLobby():
 	if Storage.OPENED_LOBBY and (tabsNode.current_tab > 0):
 		populateLobby()
-		if Global.ACTIVE_BROWSER_ID == 0:
-			balanceButton.startBalancing()
+		balanceButton.startBalancing()
 
 func populateLobby():
 	var lobby = Storage.OPENED_LOBBY

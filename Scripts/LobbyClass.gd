@@ -37,6 +37,29 @@ const IS_SD_KEY := 90
 const IS_REGICIDE_KEY := 91
 const ANTIQUITY_KEY := 100
 
+# aoe2lobby (ongoing matches) has its own value tables: field -> [property, text by value]
+const SPEC_TEXTS := {
+	"size": ["size", ["Tiny (2 p) [120]", "Small (3 p) [144]", "Medium (4 p) [168]", "Normal (6 p) [200]", "Large (8 p) [220]", "Huge [240]", "Ludicrous [480]"]],
+	"ai_difficulty": ["AI_difficulty", ["Easiest", "Moderate", "Hard", "Extreme", "Standard", "Hardest"]],
+	"resources": ["resources", ["Standard", "Low", "Medium", "High", "Ultra High", "Infinite", "Random"]],
+	"speed": ["speed", ["Slow", "Casual", "Normal", "Fast"]],
+	"reveal_map": ["mapReveal", ["Normal", "Explored", "All Visible"]],
+	"starting_age": ["startIn", ["Standard", "Dark Age", "Feudal Age", "Castle Age", "Imperial Age", "Post-Imperial Age"]],
+	"ending_age": ["endIn", ["Dark Age", "Imperial Age", "Standard", "Castle Age", "Feudal Age"]],
+	"victory": ["victory", ["Standard", "Conquest", "Time Limit", "Score", "Last Man Standing", "Custom"]],
+}
+const SPEC_MODES := ["Random Map", "Empire Wars", "Regicide", "King of the Hill", "Death Match", "Battle Royale", "Sudden Death", "Capture the Relic", "Defend the Wonder", "Wonder Race", "Scenario", "Co-Op Campaign"]
+const SPEC_SERVERS := ["brazilsouth", "australiasoutheast", "ukwest", "southeastasia", "westeurope", "westus3", "koreacentral", "centralindia", "eastus", "chilecentral", "southcentralus"]
+# aoe2lobby field -> property, for values taken as they are
+const SPEC_FLAGS := {
+	"cheats": "isCheats", "turbo_mode": "isTurbo", "full_tech_tree": "isFullTech", "ew_mode": "isEW",
+	"sudden_death_mode": "isSD", "regicide_mode": "isRegicide", "antiquity_mode": "isAntiquity",
+	"lock_teams": "isLockTeams", "lock_speed": "isLockSpeed", "team_together": "isTogether",
+	"team_positions": "isTeamPosition", "shared_exploration": "isSharedExploration", "hide_civilizations": "isHideCivs",
+}
+# aoe2lobby civilizations whose ids differ from the game ones (0 = hidden)
+const SPEC_CIVS := {0: -2, 65: 54, 67: 46, 68: 47, 69: 48, 70: 49, 71: 50, 72: 51, 73: 52, 74: 53, 75: 58, 76: 57, 77: 59}
+
 var id: int
 var steam_id: String
 var title: String = ""
@@ -45,6 +68,7 @@ var maxPlayers: int = 8
 
 var startgametime: int
 var fresh: bool = false
+var goneTime: float	# when the lobby left the open list
 
 var gameModeName: String
 var map: String = "-"
@@ -119,15 +143,9 @@ var sharingCode := ""
 
 # level 1 of loading
 func _init(source, isSpec := false):
-	if isSpec:	# for aoe2lobby, only the basics for now
+	if isSpec:
 		id = int(source.matchid)
-		title = "👁 " + source.description
-		totalPlayers = int(source.slots_taken)
-		maxPlayers = int(source.slots_total)
-		map = source.map_name
-		password = source.password == true	# can be null
-		index = str(id) + title.to_lower()
-		isOngoging = true
+		setSpecSource(source)
 		return
 	id = source.id
 	steam_id = Storage.STEAM_IDS.get(int(id), "")
@@ -138,52 +156,81 @@ func _init(source, isSpec := false):
 	index = str(source.id) + title.to_lower()
 	loadingLevel = 1
 
-# IMPLEMENT LATER FOR SPECTATORS API
-		#for aoe2lobby
-		#"spec":
-			#id = source.lobbyid
-			#title = "👁 " + source.description
-			#maxPlayers = source.maxplayers
-			#map = source.Map
-			#gameModeName = source.Game_Mode
-			#server = source.relayserver_region
-			##password = source.passwordprotected
-			#translateMembers(source.slot)
-			#startgametime = source.startgametime
-			#isOngoging = true
-
-		# # for aoe2recs.com
-		# "spec":
-		# 	id = source.id
-		# 	title = "👁 " + source.diplomacy
-		# 	maxPlayers = source.players.size()
-		# 	map = source.map
-		# 	gameModeName = source.game_type
-		# 	server = source.server
-		# 	#password = source.passwordprotected
-		# 	translateMembers(source.players)
-		# 	startgametime = source.start_timestamp
-
-		#"spec_update":
-			#id = source.id
-			#title = "👁 " + source.match_diplomacy
-			#maxPlayers = 8
-			#map = source.match_map
-			#gameModeName = source.game_type
-			#server = source.server
-			##password = source.passwordprotected
-			#translateMembers(source.players)
-			#startgametime = source.last_match
+# level 1 for an ongoing match (aoe2lobby), also turns an open lobby into an ongoing one.
+# Only the values the source provides override the old ones.
+func setSpecSource(source: Dictionary):
+	isOngoging = true
+	sourceCache = source
+	startgametime = int(source.start_time)
+	if source.steam_lobbyid:
+		steam_id = source.steam_lobbyid
+	if source.password != null:
+		password = source.password
+	if source.data_mod:
+		dataModName = source.data_mod
+		isModded = true
+	title = ("👁 🌟 " if isModded else "👁 ") + source.description
+	if source.mode != null and int(source.mode) >= 0 and int(source.mode) < SPEC_MODES.size():
+		gameModeName = SPEC_MODES[int(source.mode)]
+	if source.scenario:
+		map = source.scenario.trim_suffix(".aoe2scenario")
+	elif source.custom_map:
+		map = source.custom_map.trim_suffix(".rms")
+	elif int(source.mapid) < 0:	# maps missing in aoe2lobby's table come as their game id
+		map = Tables.MAPS_TABLE.get(-int(source.mapid), source.map_name)
+	else:
+		map = source.map_name
+	# slots_taken/slots_total skip AI and are sometimes 0, so the slots are counted
+	index = str(id) + title.to_lower()
+	totalPlayers = 0
+	for slot in source.slots.values():
+		if slot.status == 2 or slot.status == 3:	# AI or player
+			totalPlayers += 1
+			if slot.get("name"):
+				index += slot.name.to_lower()
+	maxPlayers = maxi(int(source.slots_total), totalPlayers)
+	loadingLevel = 1
 
 #level 2 of loading - for the list
 func loadBasicDetails():
-	parseOptionBytes(decode_options(sourceCache.options))
+	if isOngoging:
+		loadSpecSettings()
+	else:
+		parseOptionBytes(decode_options(sourceCache.options))
 	loadingLevel = 2
 	# if title == "test":
 	# 	pass
 
+func loadSpecSettings():
+	var i: int
+	for key in SPEC_TEXTS:
+		if sourceCache[key] != null:
+			i = int(sourceCache[key])
+			if i >= 0 and i < SPEC_TEXTS[key][1].size():
+				set(SPEC_TEXTS[key][0], SPEC_TEXTS[key][1][i])
+	for key in SPEC_FLAGS:
+		if sourceCache[key] != null:
+			set(SPEC_FLAGS[key], sourceCache[key])
+	if sourceCache.population != null:
+		maxPop = int(sourceCache.population)
+	if sourceCache.treaty_length != null:
+		treaty = str(int(sourceCache.treaty_length))
+	if sourceCache.victory_threshold != null:
+		victoryCondition = str(int(sourceCache.victory_threshold))
+	if gameModeName == "Scenario":
+		size = "-"
+
 #level 3 of loading - for searching and filtering
 func loadAllDetails():
+	if isOngoging:
+		if sourceCache.server != null and int(sourceCache.server) >= 0 and int(sourceCache.server) < SPEC_SERVERS.size():
+			server = SPEC_SERVERS[int(sourceCache.server)]
+		if sourceCache.observable != null:
+			isObservable = sourceCache.observable
+		if sourceCache.observer_delay != null:
+			observerDelay = int(sourceCache.observer_delay * 60)	# minutes in aoe2lobby
+		loadingLevel = 3
+		return
 	server = sourceCache.relayserver_region
 	isVisible = sourceCache.visible > 0
 	isObservable = sourceCache.isobservable > 0
@@ -200,8 +247,11 @@ func loadAllDetails():
 func loadInternalDetails():
 	if not sourceCache:
 		return
-	var slotinfo: Array = JSON.parse_string("["+decode_slots(sourceCache.slotinfo)+"]")[1]
-	putPlayersInSlotsWithInfo(slotinfo)
+	if isOngoging:
+		putSpecPlayersInSlots(sourceCache.slots)
+	else:
+		var slotinfo: Array = JSON.parse_string("["+decode_slots(sourceCache.slotinfo)+"]")[1]
+		putPlayersInSlotsWithInfo(slotinfo)
 	loadingLevel = 4
 	sourceCache = null
 
@@ -209,74 +259,40 @@ func loadInternalDetails():
 func loadSharingCode(code: String):
 	sharingCode = code
 
-# translates values from the spectators API source into the internal representation
-func translateMembers(source):
-	var player: CorePlayerClass
-	#var k
-	#var p_id: int
+# aoe2lobby slots are "s1".."s8"; status 2 = AI, 3 = player, others are open/closed.
+# Civs are not hidden: they are revealed once the game runs.
+func putSpecPlayersInSlots(source: Dictionary):
+	var s: Dictionary
 	var pos: int
-	#var groups
-	var p: CorePlayerClass
-	for positions in source:
-		var position = source[positions]
-		for player_index in position:
-			p = position[player_index]
-			player = translatePlayer(p)
-			pos = int(player_index[1]) - 1
-			slots[pos] = player
-			colors[pos] = int(p["color"])-1
-			teams[pos] = int(p["team"])
-			if Tables.REVERSE_CIVS_TABLE.has(p["civ"]):
-				civs[pos] = Tables.REVERSE_CIVS_TABLE[p["civ"]]
-			else:
-				civs[pos] = Tables.REVERSE_CIVS_TABLE["unknown"]
-			totalPlayers += 1
+	var t: int
+	slots.fill(null)
+	totalPlayers = 0
+	for key in source:
+		s = source[key]
+		pos = int(key.substr(1)) - 1
+		if pos < 0 or pos > 7 or (s.status != 2 and s.status != 3):
+			continue
+		totalPlayers += 1
+		slots[pos] = Storage.PLAYERS[-1] if s.status == 2 else getSpecPlayer(s)
+		civs[pos] = specCiv(int(s.civilization))
+		colors[pos] = int(s.color) if s.color != null else 4294967295
+		t = int(s.team) - 1 if s.team != null else 5	# aoe2lobby: 1 = no team, 2-5 = teams 1-4
+		realTeams[pos] = t if t >= 0 and t < 5 else 5
+		teams[pos] = realTeams[pos]
 
-#for aoe2lobby
-## translates values from the spectators API source into the internal representation
-#func translatePlayer(source):
-	#var p: CorePlayerClass
-	#if source.has("name") and source.name == "AI":
-		#p = Storage.PLAYERS[-1]
-	#elif Storage.PLAYERS.has(source.profile_id):
-		#p = Storage.PLAYERS[source.profile_id]
-	#else:
-		#var newP = {}
-		#newP["profile_id"] = source.profile_id
-		#newP["alias"] = source.name if source.has("name") else "unknown"
-		#newP["name"] = "" #source.steamprofile if source["steamprofile"] else ""
-		#newP["country"] = source.country if source["country"] else "NO"
-#
-		#var stat = {}
-		#
-		#index = index + newP["alias"]
-		#
-		#p = Storage.PLAYERS_addOne(newP)
-	#return p
+func getSpecPlayer(s: Dictionary) -> CorePlayerClass:
+	var country = s.get("country")
+	return Storage.PLAYERS_addOne({
+		"profile_id": int(s.profileid),
+		"alias": s.name if s.get("name") else str(int(s.profileid)),
+		"country": country if country and country.length() == 2 else "NO",
+	})
 
-
-# for aoe2recs.com
-# translates values from the spectators API source into the internal representation
-func translatePlayer(source):
-	var p: CorePlayerClass
-	if Storage.PLAYERS.has(source.profile_id):
-		p = Storage.PLAYERS[source.profile_id]
-	elif source.has("name") and source.name == "AI":
-		p = Storage.PLAYERS[0]
-	else:
-		var newP := {}
-		newP["profile_id"] = source.profile_id
-		newP["alias"] = source.name if source.has("name") else "<unknown>"
-		newP["name"] = "" #source.steamprofile if source["steamprofile"] else "" #not required yet
-		if source.has("country") and source.country:
-			newP["country"] = source.country
-		else:
-			newP["country"] = "NO"
-
-		index = index + newP["alias"]
-
-		p = Storage.PLAYERS_addOne(newP)
-	return p
+# civs missing in aoe2lobby's table come negative and off by one: -63 is the game's 62
+static func specCiv(c: int) -> int:
+	if c < 0:
+		return -c - 1
+	return SPEC_CIVS.get(c, c)
 
 func decode_options(input: String) -> PackedByteArray:
 	var decoded: PackedByteArray = Marshalls.base64_to_raw(input)
@@ -416,12 +432,11 @@ func getRegularURL() -> String:
 		type = 1
 	return "aoe2de://%d/%d" % [type, id]
 
+# joinlobby always joins, spectating needs the aoe2de:// link
 func getSteamURL() -> String:
-	#var type:int = 0
-	#if isOngoging:
-		#type = 1
-	var url := "steam://joinlobby/813780/" + steam_id
-	return url
+	if isOngoging:
+		return getRegularURL()
+	return "steam://joinlobby/813780/" + steam_id
 	
 func _read_u32_le(data: PackedByteArray, offset: int) -> int:
 	# little-endian: b0 + (b1<<8) + (b2<<16) + (b3<<24)

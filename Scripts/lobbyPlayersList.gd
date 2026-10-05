@@ -20,6 +20,7 @@ func changePlayersInSlots():
 		var player = lobby.slots[i]
 		var playerSlot = playerSlots[i]
 		playerSlot.changePlayer(player, 2)
+		playerSlot.freeze(lobby.isOngoging)
 
 func reset():
 	for i in range(8):

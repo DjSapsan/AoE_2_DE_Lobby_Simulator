@@ -5,6 +5,8 @@ static var lobbyTabPath = "/root/Control/MainContainer/Sections/TabsNode/Lobby"
 var associatedLobby: LobbyClass
 var panelStylebox: StyleBoxFlat
 
+@onready var timeLabel: Label = $lobbyColumns/lobbyTime
+
 func _ready() -> void:
 	# Use a per-instance stylebox so hover highlight does not affect all rows.
 	var stylebox := get_theme_stylebox("panel")
@@ -28,6 +30,20 @@ func refreshUI():
 	fields[2].text = lobby.map
 	fields[3].text = lobby.gameModeName
 	fields[4].text = "X" if lobby.password else ""
+	fields[4].visible = not lobby.isOngoging
+	timeLabel.visible = lobby.isOngoging
+	if lobby.isOngoging:
+		refreshTime(int(Time.get_unix_time_from_system()))
+
+# how long the match runs: "now" under a minute, then minutes, then hours
+func refreshTime(now: int):
+	var seconds := now - associatedLobby.startgametime
+	if seconds < 60:
+		timeLabel.text = "now"
+	elif seconds < 3600:
+		timeLabel.text = "%d m" % int(seconds / 60.0)
+	else:
+		timeLabel.text = "%d h" % int(seconds / 3600.0)
 
 func _mouse_entered() -> void:
 	panelStylebox.draw_center = true

@@ -5,7 +5,6 @@ var alias: String = ""
 var shortAlias: String = ""
 var shortestAlias: String = ""
 
-var steamName: String = ""
 var country: String = "NO"
 var flag: String = "🌐" #flag if possible
 var AKA: PackedStringArray
@@ -66,7 +65,6 @@ func hasSmurfs() -> bool:
 func _init(source):
 	id = int(source.profile_id)
 	alias = source.alias
-	steamName = source.name
 	country = source.country
 	flag = getFlagCode(source.country)
 

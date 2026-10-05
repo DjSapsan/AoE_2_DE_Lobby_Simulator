@@ -358,7 +358,7 @@ func changeVictoryConditions(victory:String, condition:int = 0):
 	var enabled := victory == "Time Limit" or victory == "Score"
 
 	if victory == "Time Limit":
-		setText(conditions, Tables.LOBBY_CONDITION_TIME_TABLE[condition])
+		setText(conditions, Tables.LOBBY_CONDITION_TIME_TABLE.get(condition, condition))
 	elif victory == "Score":
 		setText(conditions, condition)
 	else:

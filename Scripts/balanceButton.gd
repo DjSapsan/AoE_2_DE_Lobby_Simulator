@@ -7,6 +7,7 @@ extends Button
 @onready var lobbyPlayersList = %LobbyPlayersList
 @onready var rebalance_button: Button = %RebalanceButton
 @onready var balance_alg_setts: OptionButton = %BalanceAlgSetts
+@onready var number_of_teams_setts: OptionButton = %NumberOfTeamsSetts
 
 const template = "\t\t\t[u][b]TEAM {team} ({elo})[/b][/u]\n{players}"
 
@@ -24,6 +25,16 @@ func _ready():
 	teamsRegex.compile("^.*\n")
 
 func startBalancing():
+	var frozen: bool = Storage.OPENED_LOBBY and Storage.OPENED_LOBBY.isOngoging	# teams of a running match are set
+	balance_alg_setts.disabled = frozen
+	number_of_teams_setts.disabled = frozen
+	if frozen:	# shows the actual teams
+		rebalance_button.visible = false
+		cant = false
+		teams_from_buttons()
+		refresh_team_display()
+		disabled = true
+		return
 	if Global.ACTIVE_BROWSER_ID == 1:
 		return
 	disabled = true
@@ -67,6 +78,10 @@ func refresh_team_display():
 
 func manual_refresh_teams():
 	rebalance_button.visible = true
+	teams_from_buttons()
+	refresh_team_display()
+
+func teams_from_buttons():
 	var playerNodes = lobbyPlayersList.get_children().filter(func(slot): return slot.associatedPlayer != null)
 	current_teams.clear()
 	for p in playerNodes:
@@ -76,7 +91,6 @@ func manual_refresh_teams():
 			current_teams[team_key] = []
 		if p not in current_teams[team_key]:
 			current_teams[team_key].push_back(p)
-	refresh_team_display()
 
 # ---------- helpers ----------
 

@@ -7,8 +7,15 @@ extends Node
 #	"Origin: https://aoe2lobby.com",
 #])
 
+const SUBSCRIBE := '{"action":"subscribe","type":"matches","context":"spectate"}'
+const TIMEOUT_MSEC := 15000
+
 var socket: WebSocketPeer
 var subscribed := false  # track one-time subscribe
+var waiting := false  # a snapshot is requested and hasn't arrived yet
+var requestTime := 0
+var parseTask := -1
+var parsed := []	# filled by the parse task
 
 #@onready var find_button: Button = %FindButton
 
@@ -18,24 +25,34 @@ var subscribed := false  # track one-time subscribe
 func _ready():
 	set_process(false)
 
-# aoe2lobby sends all ongoing matches once after subscribing and no updates after that
-func connectToSpecSite():
-	if is_processing():
+# aoe2lobby sends no updates after the snapshot, but answers every subscribe with all ongoing
+# matches, so the socket stays open and a refresh is one small message instead of a new connection
+func requestSpecs():
+	if Global.ACTIVE_BROWSER_ID == 1:
+		status.changeStatus("Loading ongoing matches...")
+	if waiting and Time.get_ticks_msec() - requestTime < TIMEOUT_MSEC:
 		return
+	var reuse := not waiting and socket != null and socket.get_ready_state() == WebSocketPeer.STATE_OPEN
+	waiting = true
+	requestTime = Time.get_ticks_msec()
+	if reuse:
+		socket.send_text(SUBSCRIBE)
+		return
+	# first request, a lost connection or an unanswered request
 	socket = WebSocketPeer.new()
 	socket.inbound_buffer_size = 1 << 23  # all matches come in one ~3MB message
+	socket.heartbeat_interval = 30.0  # keeps the idle connection alive between refreshes
 	subscribed = false
 	var error = socket.connect_to_url(Global.URL_SPEC_WSS)
 	if error != OK:
-		status.changeStatus("Error " + str(error), 1)
+		waiting = false
+		showError("Error " + str(error))
 		return
-	status.changeStatus("Loading ongoing matches...")
 	set_process(true)
 
-func disconnectFromSpecSite():
-	if socket:
-		socket.close()
-	set_process(false)
+func showError(txt: String):
+	if Global.ACTIVE_BROWSER_ID == 1:
+		status.changeStatus(txt, 1)
 
 func _process(_delta):
 	socket.poll()
@@ -43,19 +60,32 @@ func _process(_delta):
 	match socket.get_ready_state():
 		WebSocketPeer.STATE_OPEN:
 			if not subscribed:
-				socket.send_text('{"action":"subscribe","type":"matches","context":"spectate"}')
+				socket.send_text(SUBSCRIBE)
 				subscribed = true
-			elif socket.get_available_packet_count() > 0:
-				var jsonData = JSON.parse_string(socket.get_packet().get_string_from_utf8())
-				if jsonData and jsonData.has("spectate_match_all"):
-					disconnectFromSpecSite()
-					Storage.SPECS_refresh(jsonData.spectate_match_all)
-					browser.populateSpecList()
-					status.showAmountOfSpecs()
+			elif parseTask == -1 and socket.get_available_packet_count() > 0:
+				var packet := socket.get_packet()
+				var result := []
+				parsed = result
+				# parsing the ~3MB of matches takes ~60 ms, too long for the main thread
+				parseTask = WorkerThreadPool.add_task(func(): result.append(JSON.parse_string(packet.get_string_from_utf8())))
 
 		WebSocketPeer.STATE_CLOSED:
-			status.changeStatus("Error loading ongoing matches " + str(socket.get_close_code()), 1)
-			set_process(false)
+			if parseTask == -1:
+				set_process(false)
+				if waiting:
+					waiting = false
+					showError("Error loading ongoing matches " + str(socket.get_close_code()))
+
+	if parseTask != -1 and WorkerThreadPool.is_task_completed(parseTask):
+		WorkerThreadPool.wait_for_task_completion(parseTask)
+		parseTask = -1
+		var jsonData = parsed[0]
+		parsed = []
+		if jsonData is Dictionary and jsonData.has("spectate_match_all"):
+			waiting = false
+			browser.refreshSpecs(jsonData.spectate_match_all)
+			if Global.ACTIVE_BROWSER_ID == 1:
+				status.showAmountOfSpecs()
 
 # raw TCP/TLS websocket with permessage-deflate, not needed: the server works without compression
 #enum {CLOSED, RESOLVING, CONNECTING, HANDSHAKING, UPGRADING, OPEN}

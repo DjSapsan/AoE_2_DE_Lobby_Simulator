@@ -1,5 +1,6 @@
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://sukvx3vqyo3a"]
 
 [resource]
+content_margin_bottom = 20.0
 draw_center = false
 border_color = Color(0, 0, 0, 0.12549)

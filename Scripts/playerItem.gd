@@ -100,6 +100,11 @@ func showDetails(level:int = 0):
 			#showSmurf()
 			showElo()
 
+# a running match shows its real teams and Elo, they can't be changed
+func freeze(frozen: bool):
+	lockTeam = lockTeam or frozen
+	eloField.mouse_filter = Control.MOUSE_FILTER_IGNORE if frozen else Control.MOUSE_FILTER_STOP
+
 func change_color(index: int):
 	if Global.ColorIndex.has(index):
 		colorSquare.color = Global.ColorIndex[index]
